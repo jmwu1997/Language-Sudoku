@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Sudoku</string>
+    <string name="background_image_desc">Background image of Sudoku board</string>
 </resources>
