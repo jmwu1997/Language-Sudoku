@@ -64,10 +64,10 @@ public class Puzzle {
             mRow[i] = Integer.valueOf(mPuzzle[row][i]);
         }
         if( !Arrays.asList(mRow).containsAll(Arrays.asList(mRange)) ){ //mRow and mRange have to be Integer[]
+            //checks if mRow contains 1-9
             System.out.print("row ");
             System.out.print(row);
             System.out.println(" unsolved");
-            System.out.println(mPuzzle[row]);
             return false;
         }
         return true;
@@ -80,6 +80,7 @@ public class Puzzle {
             mCol[i] = Integer.valueOf(mPuzzle[i][col]);
         }
         if( !Arrays.asList(mCol).containsAll(Arrays.asList(mRange)) ){
+            //checks if mCol contains 1-9
             System.out.print("col ");
             System.out.print(col);
             System.out.println(" unsolved");
@@ -101,6 +102,7 @@ public class Puzzle {
             }
         }
         if( !Arrays.asList(mSub).containsAll(Arrays.asList(mRange)) ){
+            //checks if mSub contains 1-9
             System.out.print("sub ");
             System.out.print(sub);
             System.out.println(" unsolved");
