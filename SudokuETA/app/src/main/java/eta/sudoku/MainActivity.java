@@ -13,8 +13,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     // 1 indexed
     private Button[] selectionButtons = new Button[10];
-    private String selected;
-    // 0 or 1 to select language for selection Buttons
+    // 0 or 1 to select language for selection Buttons, board language will be opposite
     private int langIndex = 1;
 
     //Test variables for puzzle.java and vocab.java
@@ -125,7 +124,11 @@ public class MainActivity extends AppCompatActivity {
         else {
             chosenLang = 0;
         }
-        int[][] randomPositions = mTestPuzzle.genRandomPuzzle(mVocabs, chosenLang, mTableLayout);
+        //int[][] randomPositions = mTestPuzzle.genRandomPuzzle(mVocabs, chosenLang, mTableLayout);
+
+
+        mTestPuzzle.genFullPuzzle(mVocabs, chosenLang, mTableLayout);
+        Log.d(TAG, "Result: " + mTestPuzzle.isSolved() );
 
         //System.out.println(mTestPuzzle.isSolved())
         // TODO: add check mTestPuzzle.isSolved() when user is done with puzzle

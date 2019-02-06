@@ -70,7 +70,9 @@ public class Puzzle {
                 mButtonLayoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, r.getDisplayMetrics()); //not dp, should check the factor later
                 mButtonLayoutParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, r.getDisplayMetrics());
                 ViewGroup.MarginLayoutParams mButtonMarginLayoutParams = (ViewGroup.MarginLayoutParams) mButton.getLayoutParams();
-                mButtonMarginLayoutParams.setMargins(7,7,7,7);
+
+                int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, r.getDisplayMetrics());
+                mButtonMarginLayoutParams.setMargins(margin,margin,margin,margin);
                 mButton.setLayoutParams(mButtonMarginLayoutParams);
 
                 mButton.setOnClickListener(new View.OnClickListener() {
