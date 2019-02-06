@@ -20,7 +20,7 @@
             app:srcCompat="@drawable/sudokuboard" />
 
         <TableLayout
-            android:id="@+id/tableLayout"
+            android:id="@+id/boardTable"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -40,7 +40,10 @@
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
                     android:textColor="@android:color/black"
-                    android:textColorLink="@color/colorPrimary" />
+                    android:textColorLink="@color/colorPrimary"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="100sp"
+                    android:autoSizeStepGranularity="2sp"/>
 
                 <Button
                     android:id="@+id/button90"
@@ -908,6 +911,7 @@
         android:layout_height="150dp">
 
         <TableLayout
+            android:id="@+id/selectionTable"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center">

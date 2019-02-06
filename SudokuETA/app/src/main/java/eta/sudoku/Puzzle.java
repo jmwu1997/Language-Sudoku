@@ -7,7 +7,7 @@ import android.widget.TableRow;
 
 
 import java.util.Arrays;
-
+import java.util.Random;
 
 
 public class Puzzle {
@@ -15,6 +15,10 @@ public class Puzzle {
     private int[][] mPuzzle;
     //private int[] mRange = {1,2,3,4,5,6,7,8,9};
     private Integer[] mRange = {1,2,3,4,5,6,7,8,9};
+
+    // Difficulty: randomly select number of given numbers in range min and max
+    private int max = 35;
+    private int min = 26;
 
     public Puzzle(int[][] savedPuzzle){//construct with a pre-generated puzzle
         createPuzzle(savedPuzzle);
@@ -37,14 +41,37 @@ public class Puzzle {
         mPuzzle[row][col] = wordIndex;
     }
 
-    public void genPuzzle(Vocab[] vocabs, int initLang, TableLayout table){//gen test puzzle
+    public void genFullPuzzle(Vocab[] vocabs, int initLang, TableLayout table){//gen test puzzle
         for(int i=0;i<9;i++){
             TableRow mTblRow = (TableRow)table.getChildAt(i); //get table row element
             for(int j=0;j<9;j++) {
                 Button mButton = (Button)mTblRow.getChildAt(j); //get button view
-                mButton.setText(vocabs[mPuzzle[i][j]].getWord(initLang)); //write word on the button at position(i,j) from vocabs in "initial" language used for the puzzle
+                mButton.setText(vocabs[mPuzzle[i][j] - 1].getWord(initLang)); //write word on the button at position(i,j) from vocabs in "initial" language used for the puzzle
             }
         }
+    }
+
+    // TODO: Can be more efficient?
+    public int[][] genRandomPuzzle(Vocab[] vocabs, int initLang, TableLayout table){//generate puzzle from random difficulty with bounds defined in this class
+        Button[][] boardButtons = new Button[9][9];
+        for(int i=0;i<9;i++){
+            TableRow mTblRow = (TableRow)table.getChildAt(i); //get table row element
+            for(int j=0;j<9;j++) {
+                Button mButton = (Button)mTblRow.getChildAt(j); //get button view
+                boardButtons[i][j] = mButton;
+            }
+        }
+        Random r = new Random();
+        // pick random difficulty
+        int difficulty = r.nextInt(max-min) + min;
+        // pick random positions
+        int[][] randomPositions = new int[difficulty][2];
+        for(int i = 0; i<difficulty; i++) {
+            int x = randomPositions[i][0] = r.nextInt(9);
+            int y = randomPositions[i][1] = r.nextInt(9);
+            boardButtons[x][y].setText(vocabs[mPuzzle[x][y] - 1].getWord(initLang));
+        }
+        return randomPositions;
     }
 
     public boolean isCompleted(){ //check if all the cells are filled
