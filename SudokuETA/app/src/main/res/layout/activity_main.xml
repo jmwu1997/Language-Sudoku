@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -15,9 +15,9 @@
             android:id="@+id/board"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:adjustViewBounds="true"
             android:contentDescription="@string/background_image_desc"
             android:scaleType="fitXY"
-            android:adjustViewBounds="true"
             app:srcCompat="@drawable/sudokuboard" />
 
         <TableLayout
@@ -25,8 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:orientation="horizontal">
-        </TableLayout>
+            android:orientation="horizontal"></TableLayout>
 
     </FrameLayout>
 
