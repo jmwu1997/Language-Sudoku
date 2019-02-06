@@ -124,13 +124,12 @@ public class MainActivity extends AppCompatActivity {
         else {
             chosenLang = 0;
         }
-        //int[][] randomPositions = mTestPuzzle.genRandomPuzzle(mVocabs, chosenLang, mTableLayout);
+        int[][] randomPositions = mTestPuzzle.genRandomPuzzle(mVocabs, chosenLang, mTableLayout);
 
+        // isSolved() test
+//        mTestPuzzle.genFullPuzzle(mVocabs, chosenLang, mTableLayout);
+//        Log.d(TAG, "Result: " + mTestPuzzle.isSolved() );
 
-        mTestPuzzle.genFullPuzzle(mVocabs, chosenLang, mTableLayout);
-        Log.d(TAG, "Result: " + mTestPuzzle.isSolved() );
-
-        //System.out.println(mTestPuzzle.isSolved())
         // TODO: add check mTestPuzzle.isSolved() when user is done with puzzle
     }
 }
