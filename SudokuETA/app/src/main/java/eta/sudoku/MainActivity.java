@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Find index of 1d array
     private int findIndex(Button[] buttonArray, Button button) {
-        for (int i = 0 ; i < 9; i++) {
+        for (int i = 0 ; i < 10; i++) {
             if (buttonArray[i] == button) {
                 return i;
             }
