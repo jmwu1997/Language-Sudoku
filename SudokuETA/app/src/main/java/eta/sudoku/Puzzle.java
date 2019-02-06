@@ -74,6 +74,7 @@ public class Puzzle {
                 int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, r.getDisplayMetrics());
                 mButtonMarginLayoutParams.setMargins(margin,margin,margin,margin);
                 mButton.setLayoutParams(mButtonMarginLayoutParams);
+                mButton.setTransformationMethod(null);//decapitalize button text
 
                 mButton.setOnClickListener(new View.OnClickListener() {
                     @Override

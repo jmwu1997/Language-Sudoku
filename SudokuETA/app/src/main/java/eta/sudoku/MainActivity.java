@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 Button button = (Button) row.getChildAt(j);
                 button.setText(mVocabs[counter].getWord(langIndex));
                 selectionButtons[counter] = button;
+                button.setTransformationMethod(null);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
