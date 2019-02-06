@@ -5,22 +5,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private Button[] selectionButtons = new Button[9];
+    // 1 indexed
+    private Button[] selectionButtons = new Button[10];
     private String selected;
     // 0 or 1 to select language for selection Buttons
     private int langIndex = 1;
 
     //Test variables for puzzle.java and vocab.java
     private String[][] mVocabLib = {
+            {" "," "},
             {"1","a"},
             {"2","b"},
             {"3","c"},
@@ -42,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
             new Vocab(mVocabLib[6]),
             new Vocab(mVocabLib[7]),
             new Vocab(mVocabLib[8]),
+            new Vocab(mVocabLib[9]),
     };
     private int[][] mPuzzle = {
             {6,8,2,9,4,7,5,1,3},
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             {4,2,8,5,7,9,1,3,6},
             {5,3,1,4,6,8,2,7,9}
     };
-    private Puzzle mTestPuzzle = new Puzzle(mPuzzle);
+    private Puzzle mTestPuzzle;
     //Test variables end
 
     @Override
@@ -62,27 +62,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Set listeners for all buttons on board
-        TableLayout boardLayout = (TableLayout)findViewById(R.id.boardTable);
-        for(int i=0;i<9;i++)
-        {
-            TableRow row = (TableRow)boardLayout.getChildAt(i);
-            for(int j=0;j<9;j++){
-                Button button = (Button)row.getChildAt(j); // get child index on particular row
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Button button = (Button) v;
-                        setPosition(button);
-                    }
-                });
-            }
-        }
+        TableLayout tblLayout = (TableLayout)findViewById(R.id.boardTable);
+
+        mTestPuzzle = new Puzzle(mPuzzle, mVocabs, tblLayout, this);
 
         // Set listeners for all buttons in selection then store in selectionButton[]
         // TODO: Bug: text set for button is always capitalized for some reason
         TableLayout selectionLayout = (TableLayout)findViewById(R.id.selectionTable);
-        int counter = 0;
+        int counter = 1;
         for(int i=0;i<3; i++) {
             TableRow row = (TableRow) selectionLayout.getChildAt(i);
             for(int j=0;j<3;j++) {
@@ -101,24 +88,16 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        MichaelTestProgram();
+        generatePuzzle();
         //test vocab and puzzle ends here
     }
 
     // set global variable selected Position for position for selection
     private void selectNumber(int pos) {
-        selected = (String) selectionButtons[pos].getText();
+        mTestPuzzle.setSelected((String) selectionButtons[pos].getText());
         //Log.d(TAG, "selectNumber() with selected: " + selected + " called");
     }
 
-    // set button text to selected
-    private void setPosition(Button button) {
-        if(selected != null) {
-            button.setText(selected);
-        }
-        //Log.d(TAG, "selectPosition() with selected: " + selected + " called");
-        return;
-    }
 
     // Find index of 1d array
     private int findIndex(Button[] buttonArray, Button button) {
@@ -132,9 +111,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    public void MichaelTestProgram(){
-        //test vocab and puzzle starts here
+    public void generatePuzzle(){
 
         //getting buttons from layout and set words
         TableLayout mTableLayout = (TableLayout)findViewById(R.id.boardTable);

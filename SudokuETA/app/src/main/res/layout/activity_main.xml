@@ -8,15 +8,16 @@
     android:orientation="vertical" >
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="440dp">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/board"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/background_image_desc"
-            android:scaleType="centerInside"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
             app:srcCompat="@drawable/sudokuboard" />
 
         <TableLayout
@@ -25,7 +26,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="horizontal">
-
+            <!--
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -40,10 +41,7 @@
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
                     android:textColor="@android:color/black"
-                    android:textColorLink="@color/colorPrimary"
-                    android:autoSizeMinTextSize="12sp"
-                    android:autoSizeMaxTextSize="100sp"
-                    android:autoSizeStepGranularity="2sp"/>
+                    android:textColorLink="@color/colorPrimary" />
 
                 <Button
                     android:id="@+id/button90"
@@ -901,14 +899,15 @@
                     android:textColor="@android:color/black"
                     android:textColorLink="@color/colorPrimary" />
             </TableRow>
-
+ -->
         </TableLayout>
 
     </FrameLayout>
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
 
         <TableLayout
             android:id="@+id/selectionTable"
@@ -993,3 +992,4 @@
     </FrameLayout>
 
 </LinearLayout>
+

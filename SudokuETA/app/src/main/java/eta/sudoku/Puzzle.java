@@ -1,6 +1,11 @@
 package eta.sudoku;
 
-
+import android.content.Context;
+import android.content.res.Resources;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -13,15 +18,24 @@ import java.util.Random;
 public class Puzzle {
     // 1-9 for words, 0 for blank
     private int[][] mPuzzle;
+    private int mPuzzleLang = 0;
     //private int[] mRange = {1,2,3,4,5,6,7,8,9};
     private Integer[] mRange = {1,2,3,4,5,6,7,8,9};
+    private Vocab[] mVocabs;
 
-    // Difficulty: randomly select number of given numbers in range min and max
-    private int max = 35;
+    // Not needed in current implementation
+    //private Button mButtonArray[][] = new Button[9][9];
+
+    // difficulty
     private int min = 26;
+    private int max = 35;
 
-    public Puzzle(int[][] savedPuzzle){//construct with a pre-generated puzzle
+    private String selected;
+
+    public Puzzle(int[][] savedPuzzle, Vocab[] vocab, TableLayout table, Context context){//construct with a pre-generated puzzle
         createPuzzle(savedPuzzle);
+        mVocabs = vocab;
+        createButton(mPuzzleLang, table, context);
     }
     public Puzzle(){
         mPuzzle = new int[9][9];
@@ -29,6 +43,63 @@ public class Puzzle {
 
     public void createPuzzle(int[][] savedPuzzle){//create puzzle with a pre-generated puzzle(number ranging from 1-9, 0 for blank
         mPuzzle = savedPuzzle;
+    }
+
+    public void createButton(int initLang, TableLayout table, Context context){
+        //programmatically create buttons in the table(layout)
+        Resources r = context.getResources();
+        //converting dp to pixel
+        float mDp2Px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, r.getDisplayMetrics());
+
+        for(int i=0;i<9;i++) {
+            TableRow mTblRow = new TableRow(context);
+            mTblRow.setGravity(Gravity.CENTER); //set gravity:center
+            table.addView(mTblRow);
+            ViewGroup.MarginLayoutParams mTRParams = (ViewGroup.MarginLayoutParams) mTblRow.getLayoutParams();
+
+            //mTRParams.setMargins(0,0,0,0);
+
+            for(int j=0;j<9;j++){
+                Button mButton = new Button(context);
+
+                // This will be done in genRandomPuzzle
+                //mButton.setText(mVocabs[mPuzzle[i][j]].getWord(initLang));//place word onto the button
+
+                mTblRow.addView(mButton);
+                ViewGroup.LayoutParams mButtonLayoutParams = mButton.getLayoutParams();
+                mButtonLayoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, r.getDisplayMetrics()); //not dp, should check the factor later
+                mButtonLayoutParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, r.getDisplayMetrics());
+                ViewGroup.MarginLayoutParams mButtonMarginLayoutParams = (ViewGroup.MarginLayoutParams) mButton.getLayoutParams();
+                //mButtonMarginLayoutParams.setMargins(0,0,0,0);
+                mButton.setLayoutParams(mButtonMarginLayoutParams);
+
+                mButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Button button = (Button) v;
+                        setPosition(button);
+                    }
+                });
+
+                // Not needed in current implementation
+                //mButtonArray[i][j] = mButton;
+
+            }
+        }
+
+    }
+
+    // set button text to selected
+    private void setPosition(Button button) {
+        if(selected != null) {
+            button.setText(selected);
+        }
+        //Log.d(TAG, "selectPosition() with selected: " + selected + " called");
+        return;
+    }
+
+    public void setSelected(String word) {
+        selected = word;
     }
 
     public boolean isBoxEmpty(int row, int col){//check if (row,col) box is blank
@@ -41,12 +112,13 @@ public class Puzzle {
         mPuzzle[row][col] = wordIndex;
     }
 
+    // For testing only
     public void genFullPuzzle(Vocab[] vocabs, int initLang, TableLayout table){//gen test puzzle
         for(int i=0;i<9;i++){
             TableRow mTblRow = (TableRow)table.getChildAt(i); //get table row element
             for(int j=0;j<9;j++) {
                 Button mButton = (Button)mTblRow.getChildAt(j); //get button view
-                mButton.setText(vocabs[mPuzzle[i][j] - 1].getWord(initLang)); //write word on the button at position(i,j) from vocabs in "initial" language used for the puzzle
+                mButton.setText(vocabs[mPuzzle[i][j]].getWord(initLang)); //write word on the button at position(i,j) from vocabs in "initial" language used for the puzzle
             }
         }
     }
@@ -69,7 +141,7 @@ public class Puzzle {
         for(int i = 0; i<difficulty; i++) {
             int x = randomPositions[i][0] = r.nextInt(9);
             int y = randomPositions[i][1] = r.nextInt(9);
-            boardButtons[x][y].setText(vocabs[mPuzzle[x][y] - 1].getWord(initLang));
+            boardButtons[x][y].setText(vocabs[mPuzzle[x][y]].getWord(initLang));
         }
         return randomPositions;
     }
