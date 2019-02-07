@@ -3,6 +3,7 @@ package eta.sudoku;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -156,10 +157,13 @@ public class Puzzle {
             int y = mRandomPositions[i][1] = r.nextInt(9);
 
             mPuzzle[x][y] = 0;
-            mButtonArray[x][y].setText(vocabs[mPuzzle[x][y]].getWord(initLang));
+            Button button = mButtonArray[x][y];
+
+            button.setText(vocabs[mPuzzle[x][y]].getWord(initLang));
+            button.setTextColor(Color.BLUE);
 
             //set empty array to be clickable
-            mButtonArray[x][y].setClickable(true);
+            button.setClickable(true);
         }
 
 

@@ -22,15 +22,15 @@ public class MainActivity extends AppCompatActivity {
     //Test variables for puzzle.java and vocab.java
     private String[][] mVocabLib = {
             {" "," "},
-            {"A","a"},
-            {"B","b"},
-            {"C","c"},
-            {"D","d"},
-            {"E","e"},
-            {"F","f"},
-            {"G","g"},
-            {"H","h"},
-            {"I","i"},
+            {"1","一"},
+            {"2","二"},
+            {"3","三"},
+            {"4","四"},
+            {"5","六"},
+            {"6","七"},
+            {"7","八"},
+            {"8","九"},
+            {"9","十"},
     };
     //String[] a = getResources().getStringArray(R.array.EngAlpha);
     private Vocab mVocabs[] = new Vocab[]{
