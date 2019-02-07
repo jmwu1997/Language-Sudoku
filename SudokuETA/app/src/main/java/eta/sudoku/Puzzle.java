@@ -83,7 +83,7 @@ public class Puzzle {
 
                 //all puzzle buttons not clickable
                 mButton.setClickable(false);
-                mButton.setBackgroundColor(Color.WHITE);
+                mButton.setBackgroundColor(Color.alpha(0));
 
                 mButtonArray[i][j] = mButton;
             }
