@@ -101,7 +101,12 @@ public class Puzzle {
             //TableRow mTblRow = (TableRow) puzzleTable.getChildAt(i); //get table row element
             for (int j = 0; j < 9; j++) {
                 //Button mButton = (Button) mTblRow.getChildAt(j); //get button view
-                mButtonArray[i][j].setText(mVocabs[mPuzzle[i][j]].getWord(mPuzzleLang)); //write word on the button at position(i,j) from vocabs in "initial" language used for the puzzle
+                if(mButtonArray[i][j].getText()==mVocabs[mPuzzle[i][j]].getWord(mChosenLang)) {
+                    mButtonArray[i][j].setText(mVocabs[mPuzzle[i][j]].getWord(mPuzzleLang));
+                }
+                else{
+                    mButtonArray[i][j].setText(mVocabs[mPuzzle[i][j]].getWord(mChosenLang));//write word on the button at position(i,j) from vocabs in "initial" language used for the puzzle
+                }
             }
         }
 
