@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.Toast;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,20 +16,21 @@ public class MainActivity extends AppCompatActivity {
     // 1 indexed
     private Button[] selectionButtons = new Button[10];
     // 0 or 1 to select language for selection Buttons, board language will be opposite
-    private int langIndex = 1;
+    private int langIndex = 0;
+    private int selLangIndex = 1;
 
     //Test variables for puzzle.java and vocab.java
     private String[][] mVocabLib = {
             {" "," "},
-            {"1","a"},
-            {"2","b"},
-            {"3","c"},
-            {"4","d"},
-            {"5","e"},
-            {"6","f"},
-            {"7","g"},
-            {"8","h"},
-            {"9","i"},
+            {"A","a"},
+            {"B","b"},
+            {"C","c"},
+            {"D","d"},
+            {"E","e"},
+            {"F","f"},
+            {"G","g"},
+            {"H","h"},
+            {"I","i"},
     };
     //String[] a = getResources().getStringArray(R.array.EngAlpha);
     private Vocab mVocabs[] = new Vocab[]{
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             {5,3,1,4,6,8,2,7,9}
     };
     private Puzzle mTestPuzzle;
+
     //Test variables end
 
     @Override
@@ -66,14 +70,13 @@ public class MainActivity extends AppCompatActivity {
         mTestPuzzle = new Puzzle(mPuzzle, mVocabs, tblLayout, this);
 
         // Set listeners for all buttons in selection then store in selectionButton[]
-        // TODO: Bug: text set for button is always capitalized for some reason
         TableLayout selectionLayout = (TableLayout)findViewById(R.id.selectionTable);
         int counter = 1;
         for(int i=0;i<3; i++) {
             TableRow row = (TableRow) selectionLayout.getChildAt(i);
             for(int j=0;j<3;j++) {
                 Button button = (Button) row.getChildAt(j);
-                button.setText(mVocabs[counter].getWord(langIndex));
+                button.setText(mVocabs[counter].getWord(selLangIndex));
                 selectionButtons[counter] = button;
                 button.setTransformationMethod(null);
                 button.setOnClickListener(new View.OnClickListener() {
@@ -89,13 +92,65 @@ public class MainActivity extends AppCompatActivity {
         }
 
         generatePuzzle();
-        //test vocab and puzzle ends here
+
+
+
+        Button mSubmitButton = (Button) findViewById(R.id.Submit);
+        mSubmitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submit();
+            }
+        });
+
+        Button mDeleteButton = (Button) findViewById(R.id.Delete);
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteWord();
+            }
+        });
+
+        Button mSwitchButton = (Button) findViewById(R.id.SwitchLanguage);
+        mSwitchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchLang();
+            }
+        });
+
+    }
+
+    public void submit(){
+        if(mTestPuzzle.isSolved()){
+            Toast.makeText(this, "solved", Toast.LENGTH_LONG).show();
+
+        }else{
+            Toast.makeText(this, "incorrect", Toast.LENGTH_LONG).show();
+        }
+    }
+    private void deleteWord() {
+        mTestPuzzle.setSelected(0);
+    }
+
+    private void switchLang(){
+        TableLayout mSelectionLayout = (TableLayout)findViewById(R.id.selectionTable);
+        if(langIndex == 1){
+            langIndex = 0;
+            selLangIndex = 1;
+            mTestPuzzle.switchLang(mSelectionLayout, langIndex, selLangIndex);
+
+        }else{
+            langIndex = 1;
+            selLangIndex = 0;
+            mTestPuzzle.switchLang(mSelectionLayout, langIndex, selLangIndex);
+        }
+
     }
 
     // set global variable selected Position for position for selection
     private void selectNumber(int pos) {
-        mTestPuzzle.setSelected((String) selectionButtons[pos].getText());
-        //Log.d(TAG, "selectNumber() with selected: " + selected + " called");
+        mTestPuzzle.setSelected(pos);
     }
 
 
@@ -116,21 +171,7 @@ public class MainActivity extends AppCompatActivity {
         //getting buttons from layout and set words
         TableLayout mTableLayout = (TableLayout)findViewById(R.id.boardTable);
 
-        // TODO: Disable ability to edit chosen random positions
-        // flip chosen language to be different from selection buttons
-        int chosenLang;
-        if (langIndex == 0) {
-            chosenLang = 1;
-        }
-        else {
-            chosenLang = 0;
-        }
-        int[][] randomPositions = mTestPuzzle.genRandomPuzzle(mVocabs, chosenLang, mTableLayout);
+        mTestPuzzle.genRandomPuzzle(mVocabs, langIndex, mTableLayout);
 
-        // isSolved() test
-//        mTestPuzzle.genFullPuzzle(mVocabs, chosenLang, mTableLayout);
-//        Log.d(TAG, "Result: " + mTestPuzzle.isSolved() );
-
-        // TODO: add check mTestPuzzle.isSolved() when user is done with puzzle
     }
 }
