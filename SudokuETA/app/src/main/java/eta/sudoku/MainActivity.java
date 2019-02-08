@@ -26,11 +26,11 @@ public class MainActivity extends AppCompatActivity {
             {"2","二"},
             {"3","三"},
             {"4","四"},
-            {"5","六"},
-            {"6","七"},
-            {"7","八"},
-            {"8","九"},
-            {"9","十"},
+            {"5","五"},
+            {"6","六"},
+            {"7","七"},
+            {"8","八"},
+            {"9","九"},
     };
     //String[] a = getResources().getStringArray(R.array.EngAlpha);
     private Vocab mVocabs[] = new Vocab[]{
