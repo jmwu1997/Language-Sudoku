@@ -2,7 +2,7 @@
 
 ### Initial Goal
 As a student, I want to be able to learn Chinese by playing a Sudoku style game. I want to get familiar with the words by playing this game.
-Example: The game will have two mode, student can choose the mode they like to play the game. It can help the student to get familiar with the languages they want.
+Example: The game will have two modes, students can choose the mode they like to play the game. It can help the student to get familiar with the languages they want.
 
 ### Puzzle End
 As a student, I need to know when I have the correct solution to learn the language properly.  
