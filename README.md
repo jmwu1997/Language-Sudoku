@@ -4,7 +4,7 @@
 As a student, I want to be able to learn Chinese by playing a Sudoku style game. I want to get familiar with the words by playing this game.
 Example: The game will have two modes, students can choose the mode they like to play the game. It can help the student to get familiar with the languages they want.
 
-### first game
+### First Game
 As a language learner, I would like to start with the numbers at first. I want to learn 1 - 9 in Chinese.
 Example: User will input numerical number into a Chinese puzzle, and input Chinese numbers into a regular puzzle to play.
 
