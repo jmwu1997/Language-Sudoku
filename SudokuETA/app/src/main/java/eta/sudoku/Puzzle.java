@@ -98,9 +98,7 @@ public class Puzzle {
         mChosenLang = newSelLang;
         mPuzzleLang = newPuzzleLang;
         for (int i = 0; i < 9; i++) {
-            //TableRow mTblRow = (TableRow) puzzleTable.getChildAt(i); //get table row element
             for (int j = 0; j < 9; j++) {
-                //Button mButton = (Button) mTblRow.getChildAt(j); //get button view
                 if(mButtonArray[i][j].getText()==mVocabs[mPuzzle[i][j]].getWord(mChosenLang)) {
                     mButtonArray[i][j].setText(mVocabs[mPuzzle[i][j]].getWord(mPuzzleLang));
                 }

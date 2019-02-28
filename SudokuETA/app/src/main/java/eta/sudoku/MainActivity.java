@@ -120,7 +120,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    public void generatePuzzle(){
 
+        //getting buttons from layout and set words
+        TableLayout mTableLayout = (TableLayout)findViewById(R.id.boardTable);
+
+        mTestPuzzle.genRandomPuzzle(mVocabs, langIndex, mTableLayout);
+
+    }
     public void submit(){
         if(mTestPuzzle.isSolved()){
             Toast.makeText(this, "solved", Toast.LENGTH_LONG).show();
@@ -159,12 +166,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void generatePuzzle(){
 
-        //getting buttons from layout and set words
-        TableLayout mTableLayout = (TableLayout)findViewById(R.id.boardTable);
-
-        mTestPuzzle.genRandomPuzzle(mVocabs, langIndex, mTableLayout);
-
-    }
 }

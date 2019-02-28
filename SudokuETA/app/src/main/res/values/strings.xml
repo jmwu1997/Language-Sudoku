@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Sudoku</string>
+    <string name="button_delete">Delete</string>
+    <string name="button_submit">Submit</string>
+    <string name="button_switch">Switch</string>
     <string name="background_image_desc">Background image of Sudoku board</string>
 </resources>
