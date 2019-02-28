@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Button button = (Button) v;
                         int pos = findIndex(selectionButtons, button);
-                        selectNumber(pos);
+                        mTestPuzzle.setSelected(pos);// set global variable selected Position for position for selection
                     }
                 });
                 counter++;
@@ -147,13 +147,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-    // set global variable selected Position for position for selection
-    private void selectNumber(int pos) {
-        mTestPuzzle.setSelected(pos);
-    }
-
-
     // Find index of 1d array
     private int findIndex(Button[] buttonArray, Button button) {
         for (int i = 0 ; i < 10; i++) {
