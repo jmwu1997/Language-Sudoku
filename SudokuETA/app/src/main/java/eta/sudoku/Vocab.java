@@ -1,5 +1,5 @@
 package eta.sudoku;
-
+//model class
 public class Vocab {
     //Class of words in different languages with same meaning
     private int mNumLang=2; //# of languages

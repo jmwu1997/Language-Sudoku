@@ -1,20 +1,21 @@
 package eta.sudoku;
-
+//model class
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
 
 import java.util.Arrays;
 import java.util.Random;
+
 
 
 public class Puzzle {
@@ -36,42 +37,49 @@ public class Puzzle {
 
     private int selectedInd = -1;
 
-    public Puzzle(int[][] savedPuzzle, Vocab[] vocab, TableLayout table, Context context) {//construct with a pre-generated puzzle
+    public Puzzle(int[][] savedPuzzle, Vocab[] vocab, GridLayout grid, Context context) {//construct with a pre-generated puzzle
         createPuzzle(savedPuzzle);
         mVocabs = vocab;
-        createButton(mPuzzleLang, table, context);
+        createButton(mPuzzleLang, grid, context);
     }
 
     public void createPuzzle(int[][] savedPuzzle) {//create puzzle with a pre-generated puzzle(number ranging from 1-9, 0 for blank
         mPuzzle = savedPuzzle;
     }
 
-    public void createButton(int initLang, TableLayout table, Context context) {
+
+
+
+    public void createButton(int initLang, GridLayout grid, final Context context) {
         //programmatically create buttons in the table(layout)
         Resources r = context.getResources();
         //converting dp to pixel
         float mDp2Px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, r.getDisplayMetrics());
-
         for (int i = 0; i < 9; i++) {
-            TableRow mTblRow = new TableRow(context);
-            mTblRow.setGravity(Gravity.CENTER); //set gravity:center
-            table.addView(mTblRow);
+            //TableRow mTblRow = new TableRow(context);
+            //mTblRow.setGravity(Gravity.CENTER); //set gravity:center
+            //grid.addView(mTblRow);
 
             for (int j = 0; j < 9; j++) {
                 final int row = i;
                 final int col = j;
-                Button mButton = new Button(context);
+                final Button mButton = new Button(context);
                 mButton.setText(mVocabs[mPuzzle[i][j]].getWord(initLang));
 
-                mTblRow.addView(mButton);
+                grid.addView(mButton);
                 //set layout height and width for puzzle buttons
                 ViewGroup.LayoutParams mButtonLayoutParams = mButton.getLayoutParams();
                 mButtonLayoutParams.height = (int) (40 * mDp2Px); //android:layout_height="40dp"
                 mButtonLayoutParams.width = (int) (40 * mDp2Px); //android:layout_width="40dp"
                 //set layout margin for puzzle buttons
                 ViewGroup.MarginLayoutParams mButtonMarginLayoutParams = (ViewGroup.MarginLayoutParams) mButton.getLayoutParams();
-                mButtonMarginLayoutParams.setMargins((int) (3 * mDp2Px), (int) (3 * mDp2Px), (int) (3 * mDp2Px), (int) (3 * mDp2Px));
-                mButton.setLayoutParams(mButtonMarginLayoutParams);
+                //mButtonMarginLayoutParams.setMargins((int) (3 * mDp2Px), (int) (3 * mDp2Px), (int) (3 * mDp2Px), (int) (3 * mDp2Px));
+                mButtonMarginLayoutParams.setMargins(8,8,7,7);
+                mButton.setGravity(Gravity.CENTER);
+                mButton.setShadowLayer(0,0,0, Color.alpha(0));
+                //mButton.setLayoutParams(mButtonMarginLayoutParams);
+
+                mButton.setPadding(0,0,0,0);
                 //decapitalize button text
                 mButton.setTransformationMethod(null);
 
@@ -91,7 +99,6 @@ public class Puzzle {
         }
 
     }
-
 
 
     public void switchLang(TableLayout selectionTable , int newPuzzleLang, int newSelLang){
@@ -148,7 +155,7 @@ public class Puzzle {
     }
 
     // TODO: Can be more efficient? (positions generated might overlap)
-    public void genRandomPuzzle(Vocab[] vocabs, int initLang, TableLayout table) {//generate puzzle from random difficulty with bounds defined in this class
+    public void genRandomPuzzle(Vocab[] vocabs, int initLang) {//generate puzzle from random difficulty with bounds defined in this class
         Random r = new Random();
         // pick random difficulty(relating the # of blank cells)
         int difficulty = r.nextInt(max-min) + min;

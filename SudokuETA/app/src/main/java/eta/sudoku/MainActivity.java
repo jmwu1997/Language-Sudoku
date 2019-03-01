@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
@@ -65,9 +66,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TableLayout tblLayout = (TableLayout)findViewById(R.id.boardTable);
 
-        mTestPuzzle = new Puzzle(mPuzzle, mVocabs, tblLayout, this);
+        GridLayout puzzleBoardGrid = (GridLayout) findViewById(R.id.boardTable2);
+
+        mTestPuzzle = new Puzzle(mPuzzle, mVocabs, puzzleBoardGrid, this);
 
         // Set listeners for all buttons in selection then store in selectionButton[]
         TableLayout selectionLayout = (TableLayout)findViewById(R.id.selectionTable);
@@ -123,9 +125,7 @@ public class MainActivity extends AppCompatActivity {
     public void generatePuzzle(){
 
         //getting buttons from layout and set words
-        TableLayout mTableLayout = (TableLayout)findViewById(R.id.boardTable);
-
-        mTestPuzzle.genRandomPuzzle(mVocabs, langIndex, mTableLayout);
+        mTestPuzzle.genRandomPuzzle(mVocabs, langIndex);
 
     }
     public void submit(){

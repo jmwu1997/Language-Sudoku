@@ -20,12 +20,18 @@
             android:scaleType="fitXY"
             app:srcCompat="@drawable/sudokuboard" />
 
-        <TableLayout
-            android:id="@+id/boardTable"
+        <GridLayout
+            android:id="@+id/boardTable2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal"></TableLayout>
+            android:layout_margin="0dp"
+            android:columnCount="9"
+            android:orientation="horizontal"
+            android:padding="0dp"
+            android:rowCount="9">
+
+        </GridLayout>
+
 
     </FrameLayout>
     <LinearLayout
