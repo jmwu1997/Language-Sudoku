@@ -53,7 +53,7 @@ public class Puzzle {
 
 
 
-    public void createButton(int initLang, GridLayout grid, final Context context, boolean isLand, int screenWidth, int screenHeight) {
+    public void createButton(int initLang, GridLayout grid, final Context context) {
         //programmatically create buttons in the table(layout)
         Resources r = context.getResources();
         //convert dp to pixel
@@ -75,7 +75,7 @@ public class Puzzle {
                 mButton.setText(mVocabs[mPuzzle[i][j]].getWord(initLang));
 
                 grid.addView(mButton);
-                
+
                 //set adaptable width and height
                 ViewGroup.LayoutParams mButtonLayoutParams = mButton.getLayoutParams();
                 mButtonLayoutParams.height = (int) (0 * mDp2Px);

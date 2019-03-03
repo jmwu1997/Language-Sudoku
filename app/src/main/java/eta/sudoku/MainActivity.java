@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private int langIndex = 0;
     private int selLangIndex = 1;
 
-    private boolean isLandscape;
+    private boolean isLandscape; //useful?
 
     //Test variables for puzzle.java and vocab.java
     private String[][] mVocabLib = {
@@ -86,14 +86,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        ImageView boardImg = (ImageView) findViewById(R.id.board);
+
 
 
 
         final GridLayout puzzleBoardGrid = (GridLayout) findViewById(R.id.boardTable2);
         final Context ctx = this;
 
-        mTestPuzzle.createButton(langIndex, puzzleBoardGrid, this, isLandscape, boardImg.getMeasuredWidth(), boardImg.getMeasuredHeight());
+        mTestPuzzle.createButton(langIndex, puzzleBoardGrid, this);
 
         // Set listeners for all buttons in selection then store in selectionButton[]
         TableLayout selectionLayout = (TableLayout)findViewById(R.id.selectionTable);
