@@ -8,9 +8,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.Toast;
 
 
 import java.util.Arrays;
@@ -37,10 +40,10 @@ public class Puzzle {
 
     private int selectedInd = -1;
 
-    public Puzzle(int[][] savedPuzzle, Vocab[] vocab, GridLayout grid, Context context) {//construct with a pre-generated puzzle
+    public Puzzle(int[][] savedPuzzle, Vocab[] vocab) {//construct with a pre-generated puzzle
         createPuzzle(savedPuzzle);
         mVocabs = vocab;
-        createButton(mPuzzleLang, grid, context);
+
     }
 
     public void createPuzzle(int[][] savedPuzzle) {//create puzzle with a pre-generated puzzle(number ranging from 1-9, 0 for blank
@@ -50,11 +53,16 @@ public class Puzzle {
 
 
 
-    public void createButton(int initLang, GridLayout grid, final Context context) {
+    public void createButton(int initLang, GridLayout grid, final Context context, boolean isLand, int screenWidth, int screenHeight) {
         //programmatically create buttons in the table(layout)
         Resources r = context.getResources();
-        //converting dp to pixel
+        //convert dp to pixel
         float mDp2Px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, r.getDisplayMetrics());
+        int height;
+        int width;
+
+
+
         for (int i = 0; i < 9; i++) {
             //TableRow mTblRow = new TableRow(context);
             //mTblRow.setGravity(Gravity.CENTER); //set gravity:center
@@ -67,17 +75,18 @@ public class Puzzle {
                 mButton.setText(mVocabs[mPuzzle[i][j]].getWord(initLang));
 
                 grid.addView(mButton);
-                //set layout height and width for puzzle buttons
+                
+                //set adaptable width and height
                 ViewGroup.LayoutParams mButtonLayoutParams = mButton.getLayoutParams();
-                mButtonLayoutParams.height = (int) (40 * mDp2Px); //android:layout_height="40dp"
-                mButtonLayoutParams.width = (int) (40 * mDp2Px); //android:layout_width="40dp"
-                //set layout margin for puzzle buttons
-                ViewGroup.MarginLayoutParams mButtonMarginLayoutParams = (ViewGroup.MarginLayoutParams) mButton.getLayoutParams();
-                //mButtonMarginLayoutParams.setMargins((int) (3 * mDp2Px), (int) (3 * mDp2Px), (int) (3 * mDp2Px), (int) (3 * mDp2Px));
-                mButtonMarginLayoutParams.setMargins(8,8,7,7);
+                mButtonLayoutParams.height = (int) (0 * mDp2Px);
+                mButtonLayoutParams.width = (int) (0 * mDp2Px);
+                ((GridLayout.LayoutParams) mButton.getLayoutParams()).columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
+                ((GridLayout.LayoutParams) mButton.getLayoutParams()).rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
+
+
                 mButton.setGravity(Gravity.CENTER);
                 mButton.setShadowLayer(0,0,0, Color.alpha(0));
-                //mButton.setLayoutParams(mButtonMarginLayoutParams);
+
 
                 mButton.setPadding(0,0,0,0);
                 //decapitalize button text
@@ -92,7 +101,7 @@ public class Puzzle {
 
                 //all puzzle buttons not clickable
                 mButton.setClickable(false);
-                mButton.setBackgroundColor(Color.alpha(0));
+                //mButton.setBackgroundColor(Color.alpha(0));
 
                 mButtonArray[i][j] = mButton;
             }

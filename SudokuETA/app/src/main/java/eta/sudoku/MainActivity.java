@@ -1,11 +1,15 @@
 package eta.sudoku;
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
@@ -14,11 +18,15 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    private static final String KEY_LANG_INDEX = "langIndex";
+    private static final String KEY_SEL_LANG_INDEX = "selLangIndex";
     // 1 indexed
     private Button[] selectionButtons = new Button[10];
     // 0 or 1 to select language for selection Buttons, board language will be opposite
     private int langIndex = 0;
     private int selLangIndex = 1;
+
+    private boolean isLandscape;
 
     //Test variables for puzzle.java and vocab.java
     private String[][] mVocabLib = {
@@ -57,8 +65,7 @@ public class MainActivity extends AppCompatActivity {
             {4,2,8,5,7,9,1,3,6},
             {5,3,1,4,6,8,2,7,9}
     };
-    private Puzzle mTestPuzzle;
-
+    private Puzzle mTestPuzzle = new Puzzle(mPuzzle, mVocabs);
     //Test variables end
 
     @Override
@@ -67,9 +74,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        GridLayout puzzleBoardGrid = (GridLayout) findViewById(R.id.boardTable2);
+        if(savedInstanceState != null){
+            langIndex = savedInstanceState.getInt(KEY_LANG_INDEX);
+            selLangIndex = savedInstanceState.getInt(KEY_SEL_LANG_INDEX);
+        }
+        Configuration config = new Configuration();
+        if(config.orientation == Configuration.ORIENTATION_PORTRAIT){
+            isLandscape = false;
+        }else if(config.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            isLandscape = true;
+        }
 
-        mTestPuzzle = new Puzzle(mPuzzle, mVocabs, puzzleBoardGrid, this);
+
+        ImageView boardImg = (ImageView) findViewById(R.id.board);
+
+
+
+        final GridLayout puzzleBoardGrid = (GridLayout) findViewById(R.id.boardTable2);
+        final Context ctx = this;
+
+        mTestPuzzle.createButton(langIndex, puzzleBoardGrid, this, isLandscape, boardImg.getMeasuredWidth(), boardImg.getMeasuredHeight());
 
         // Set listeners for all buttons in selection then store in selectionButton[]
         TableLayout selectionLayout = (TableLayout)findViewById(R.id.selectionTable);
@@ -86,7 +110,10 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Button button = (Button) v;
                         int pos = findIndex(selectionButtons, button);
+
                         mTestPuzzle.setSelected(pos);// set global variable selected Position for position for selection
+                        Integer h = new Integer(puzzleBoardGrid.getMeasuredHeight()/9);
+                        Toast.makeText(ctx, h.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
                 counter++;
@@ -122,6 +149,26 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+        Log.i(TAG,"onSaveInstantState()");
+        savedInstanceState.putInt(KEY_LANG_INDEX, langIndex);
+        savedInstanceState.putInt(KEY_SEL_LANG_INDEX, selLangIndex);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig){
+        super.onConfigurationChanged(newConfig);
+        if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            isLandscape = true;
+        }else if(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            isLandscape = false;
+        }
+    }
+
+
+
     public void generatePuzzle(){
 
         //getting buttons from layout and set words
