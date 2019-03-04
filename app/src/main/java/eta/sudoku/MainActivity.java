@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if(savedInstanceState == null) {
+        if(savedInstanceState == null) {//only generate random puzzle once
             //generatePuzzle();
             mTestPuzzle.genRandomPuzzle(mVocabs, langIndex);
         }
@@ -169,12 +169,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void generatePuzzle(){
 
-        //getting buttons from layout and set words
-        mTestPuzzle.genRandomPuzzle(mVocabs, langIndex);
-
-    }
     public void submit(){
         if(mTestPuzzle.isSolved()){
             Toast.makeText(this, "solved", Toast.LENGTH_LONG).show();
