@@ -34,7 +34,7 @@ public class Puzzle implements Serializable {
     //private int[] mRange = {1,2,3,4,5,6,7,8,9};
     private Integer[] mRange = {1, 2, 3, 4, 5, 6, 7, 8, 9};
     private Vocab[] mVocabs;
-    private int[][] mRandomPositions;
+    //private int[][] mRandomPositions;
 
 
     // Not needed in current implementation
@@ -64,7 +64,12 @@ public class Puzzle implements Serializable {
     public int[][] getPrefilledPuzzle(){
         return mPrefilledPuzzle;
     }
-
+    public int[][] getCurrentPuzzle(){
+        return mCurrentPuzzle;
+    }
+    public int[][] getFilledPuzzle() {
+        return mFilledPuzzle;
+    }
     public void createButton(int initLang, GridLayout grid, final Context context) {
         //programmatically create buttons in the table(layout)
         Resources r = context.getResources();
@@ -81,8 +86,8 @@ public class Puzzle implements Serializable {
 
                 if(mPrefilledPuzzle[i][j] == 0){
                     if(mFilledPuzzle[i][j] > 0){
-                    mButton.setTextColor(Color.BLUE);
-                    mButton.setText(mVocabs[mFilledPuzzle[i][j]].getWord(mChosenLang));
+                        mButton.setTextColor(Color.BLUE);
+                        mButton.setText(mVocabs[mFilledPuzzle[i][j]].getWord(mChosenLang));
                     }else{
 
                     }
@@ -221,10 +226,10 @@ public class Puzzle implements Serializable {
         int difficulty = r.nextInt(max-min) + min;
 
         // pick random positions
-        mRandomPositions = new int[difficulty][2];
+        //mRandomPositions = new int[difficulty][2];
         for (int i = 0; i < difficulty; i++) {
-            int x = mRandomPositions[i][0] = r.nextInt(9);
-            int y = mRandomPositions[i][1] = r.nextInt(9);
+            int x = /*mRandomPositions[i][0] =*/ r.nextInt(9);
+            int y = /*mRandomPositions[i][1] =*/ r.nextInt(9);
 
             mPrefilledPuzzle[x][y] = 0;
             mCurrentPuzzle[x][y] = 0;
@@ -232,11 +237,7 @@ public class Puzzle implements Serializable {
 
             button.setText(vocabs[mPrefilledPuzzle[x][y]].getWord(initLang));
 
-
-            //set empty cell to be clickable
-            //button.setClickable(true);
         }
-        //return randomPositions;
     }
 
     public boolean isCompleted() { //check if all the cells are filled
