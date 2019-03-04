@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final String KEY_LANG_INDEX = "langIndex";
     private static final String KEY_SEL_LANG_INDEX = "selLangIndex";
+    private static final String KEY_PUZZLE = "testPuzzle";
     // 1 indexed
     private Button[] selectionButtons = new Button[10];
     // 0 or 1 to select language for selection Buttons, board language will be opposite
@@ -110,10 +111,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Button button = (Button) v;
                         int pos = findIndex(selectionButtons, button);
-
                         mTestPuzzle.setSelected(pos);// set global variable selected Position for position for selection
-                        Integer h = new Integer(puzzleBoardGrid.getMeasuredHeight()/9);
-                        Toast.makeText(ctx, h.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
                 counter++;
@@ -155,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG,"onSaveInstantState()");
         savedInstanceState.putInt(KEY_LANG_INDEX, langIndex);
         savedInstanceState.putInt(KEY_SEL_LANG_INDEX, selLangIndex);
+        savedInstanceState.putSerializable(KEY_PUZZLE, mTestPuzzle);
     }
 
     @Override
