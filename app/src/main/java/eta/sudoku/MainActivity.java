@@ -78,21 +78,19 @@ public class MainActivity extends AppCompatActivity {
         if(savedInstanceState != null){
             langIndex = savedInstanceState.getInt(KEY_LANG_INDEX);
             selLangIndex = savedInstanceState.getInt(KEY_SEL_LANG_INDEX);
+            mTestPuzzle = (Puzzle)savedInstanceState.getSerializable(KEY_PUZZLE);
         }
+        /* //currently not useful
         Configuration config = new Configuration();
         if(config.orientation == Configuration.ORIENTATION_PORTRAIT){
             isLandscape = false;
         }else if(config.orientation == Configuration.ORIENTATION_LANDSCAPE){
             isLandscape = true;
-        }
-
-
-
-
+        }*/
 
 
         final GridLayout puzzleBoardGrid = (GridLayout) findViewById(R.id.boardTable2);
-        final Context ctx = this;
+        final Context ctx = this; //for testing with TOAST
 
         mTestPuzzle.createButton(langIndex, puzzleBoardGrid, this);
 
@@ -118,8 +116,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        generatePuzzle();
-
+        if(savedInstanceState == null) {
+            //generatePuzzle();
+            mTestPuzzle.genRandomPuzzle(mVocabs, langIndex);
+        }
+        mTestPuzzle.setSelectable();
 
 
         Button mSubmitButton = (Button) findViewById(R.id.Submit);
