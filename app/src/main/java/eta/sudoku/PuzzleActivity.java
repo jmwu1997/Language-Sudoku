@@ -55,18 +55,7 @@ public class PuzzleActivity extends AppCompatActivity {
     //String[] a = getResources().getStringArray(R.array.EngAlpha);
     private ArrayList<Vocab> mVocabs = new ArrayList<>(10);
     private Button[][] mButtonArray = new Button[9][9];
-    /*
-    mVocabs.add(Vocab(mVocabLib[0]));
-            new Vocab(mVocabLib[1]),
-            new Vocab(mVocabLib[2]),
-            new Vocab(mVocabLib[3]),
-            new Vocab(mVocabLib[4]),
-            new Vocab(mVocabLib[5]),
-            new Vocab(mVocabLib[6]),
-            new Vocab(mVocabLib[7]),
-            new Vocab(mVocabLib[8]),
-            new Vocab(mVocabLib[9]),
-*/
+
     private int[][] mPuzzle = {
             {6,8,2,9,4,7,5,1,3},
             {3,1,4,6,2,5,7,9,8},
@@ -243,7 +232,6 @@ public class PuzzleActivity extends AppCompatActivity {
                 if(prefilledPuzzle[i][j] == 0){
                     if(filledPuzzle[i][j] > 0){
                         mButton.setTextColor(Color.BLUE);
-                        //mButton.setText(this.mVocabs[this.mFilledPuzzle[i][j]].getWord(this.mChosenLang));
                         mButton.setText(this.mVocabs.get(filledPuzzle[i][j]).getWord(selLangIndex));
                     }else{
 
@@ -252,7 +240,6 @@ public class PuzzleActivity extends AppCompatActivity {
                 }else if(prefilledPuzzle[i][j] > 0){
                     if(filledPuzzle[i][j] == 0){
                         mButton.setTextColor(Color.BLACK);
-                        //mButton.setText(this.mVocabs[this.mPrefilledPuzzle[i][j]].getWord(this.mPuzzleLang));
                         mButton.setText(this.mVocabs.get(prefilledPuzzle[i][j]).getWord(langIndex));
                     }else{
                         //error
@@ -288,7 +275,6 @@ public class PuzzleActivity extends AppCompatActivity {
                 mButton.setClickable(false);
                 mButton.setBackgroundColor(Color.alpha(0));
                 mButtonArray[i][j] = mButton;
-                //mTestPuzzle.setButton(mButton,i,j);
             }
         }
 
@@ -319,22 +305,12 @@ public class PuzzleActivity extends AppCompatActivity {
             selLangIndex = 0;
         }
         mTestPuzzle.switchLang();
-        //mTestPuzzle.switchLang(mSelectionLayout, langIndex, selLangIndex);
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-
-                /*
-                if(mButtonArray[i][j].getText()==mVocabs[mPrefilledPuzzle[i][j]].getWord(mChosenLang)) {
-                    mButtonArray[i][j].setText(mVocabs[mPrefilledPuzzle[i][j]].getWord(mPuzzleLang));
-                }
-                else{
-                    mButtonArray[i][j].setText(mVocabs[mPrefilledPuzzle[i][j]].getWord(mChosenLang));//write word on the button at position(i,j) from vocabs in "initial" language used for the puzzle
-                }*/
 
                 if(mTestPuzzle.getPrefilledCell(i,j) == 0){
                     if(mTestPuzzle.getFilledCell(i,j) > 0){
                         mButtonArray[i][j].setTextColor(Color.BLUE);
-                        //this.mButtonArray[i][j].setText(this.mVocabs[this.mFilledPuzzle[i][j]].getWord(this.mChosenLang));
                         mButtonArray[i][j].setText(mTestPuzzle.getVocab(mTestPuzzle.getFilledCell(i,j),selLangIndex));
                     }else{
 
@@ -343,7 +319,6 @@ public class PuzzleActivity extends AppCompatActivity {
                 }else if(mTestPuzzle.getPrefilledCell(i,j) > 0){
                     if(mTestPuzzle.getFilledCell(i,j) == 0){
                         mButtonArray[i][j].setTextColor(Color.BLACK);
-                        //this.mButtonArray[i][j].setText(this.mVocabs[this.mPrefilledPuzzle[i][j]].getWord(this.mPuzzleLang));
                         mButtonArray[i][j].setText(mTestPuzzle.getVocab(mTestPuzzle.getPrefilledCell(i,j),langIndex));
                     }else{
                         //error
