@@ -2,6 +2,7 @@ package eta.sudoku;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;

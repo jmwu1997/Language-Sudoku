@@ -47,7 +47,7 @@ public class Puzzle implements Serializable {
 
     public Puzzle(int[][] savedPuzzle, Vocab[] vocab) {//construct with a pre-generated puzzle
         createPuzzle(savedPuzzle);
-        mVocabs = vocab;
+        this.mVocabs = vocab;
 
     }
 
@@ -55,20 +55,20 @@ public class Puzzle implements Serializable {
 
     public void createPuzzle(int[][] savedPuzzle) {//create puzzle with a pre-generated puzzle(number ranging from 1-9, 0 for blank
         for(int i=0; i<9; i++) {
-            mPrefilledPuzzle[i] = savedPuzzle[i].clone(); //copy by value
-            mCurrentPuzzle[i] = savedPuzzle[i].clone();
+            this.mPrefilledPuzzle[i] = savedPuzzle[i].clone(); //copy by value
+            this.mCurrentPuzzle[i] = savedPuzzle[i].clone();
         }
     }
 
 
     public int[][] getPrefilledPuzzle(){
-        return mPrefilledPuzzle;
+        return this.mPrefilledPuzzle;
     }
     public int[][] getCurrentPuzzle(){
-        return mCurrentPuzzle;
+        return this.mCurrentPuzzle;
     }
     public int[][] getFilledPuzzle() {
-        return mFilledPuzzle;
+        return this.mFilledPuzzle;
     }
     public void createButton(int initLang, GridLayout grid, final Context context) {
         //programmatically create buttons in the table(layout)
@@ -84,18 +84,18 @@ public class Puzzle implements Serializable {
                 final int col = j;
                 final Button mButton = new Button(context);
 
-                if(mPrefilledPuzzle[i][j] == 0){
-                    if(mFilledPuzzle[i][j] > 0){
+                if(this.mPrefilledPuzzle[i][j] == 0){
+                    if(this.mFilledPuzzle[i][j] > 0){
                         mButton.setTextColor(Color.BLUE);
-                        mButton.setText(mVocabs[mFilledPuzzle[i][j]].getWord(mChosenLang));
+                        mButton.setText(this.mVocabs[this.mFilledPuzzle[i][j]].getWord(this.mChosenLang));
                     }else{
 
                     }
 
                 }else if(mPrefilledPuzzle[i][j] > 0){
-                    if(mFilledPuzzle[i][j] == 0){
+                    if(this.mFilledPuzzle[i][j] == 0){
                         mButton.setTextColor(Color.BLACK);
-                        mButton.setText(mVocabs[mPrefilledPuzzle[i][j]].getWord(mPuzzleLang));
+                        mButton.setText(this.mVocabs[this.mPrefilledPuzzle[i][j]].getWord(this.mPuzzleLang));
                     }else{
                         //error
                     }
@@ -128,18 +128,18 @@ public class Puzzle implements Serializable {
 
                 //all puzzle buttons not clickable
                 mButton.setClickable(false);
-                //mButton.setBackgroundColor(Color.alpha(0));
+                mButton.setBackgroundColor(Color.alpha(0));
 
-                mButtonArray[i][j] = mButton;
+                this.mButtonArray[i][j] = mButton;
             }
         }
 
     }
 
 
-    public void switchLang(TableLayout selectionTable , int newPuzzleLang, int newSelLang){//TODO: refactor
-        mChosenLang = newSelLang;
-        mPuzzleLang = newPuzzleLang;
+    public void switchLang(TableLayout selectionTable , int newPuzzleLang, int newSelLang){
+        this.mChosenLang = newSelLang;
+        this.mPuzzleLang = newPuzzleLang;
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
 
@@ -151,18 +151,18 @@ public class Puzzle implements Serializable {
                     mButtonArray[i][j].setText(mVocabs[mPrefilledPuzzle[i][j]].getWord(mChosenLang));//write word on the button at position(i,j) from vocabs in "initial" language used for the puzzle
                 }*/
 
-                if(mPrefilledPuzzle[i][j] == 0){
-                    if(mFilledPuzzle[i][j] > 0){
-                        mButtonArray[i][j].setTextColor(Color.BLUE);
-                        mButtonArray[i][j].setText(mVocabs[mFilledPuzzle[i][j]].getWord(mChosenLang));
+                if(this.mPrefilledPuzzle[i][j] == 0){
+                    if(this.mFilledPuzzle[i][j] > 0){
+                        this.mButtonArray[i][j].setTextColor(Color.BLUE);
+                        this.mButtonArray[i][j].setText(this.mVocabs[this.mFilledPuzzle[i][j]].getWord(this.mChosenLang));
                     }else{
 
                     }
 
-                }else if(mPrefilledPuzzle[i][j] > 0){
-                    if(mFilledPuzzle[i][j] == 0){
-                        mButtonArray[i][j].setTextColor(Color.BLACK);
-                        mButtonArray[i][j].setText(mVocabs[mPrefilledPuzzle[i][j]].getWord(mPuzzleLang));
+                }else if(this.mPrefilledPuzzle[i][j] > 0){
+                    if(this.mFilledPuzzle[i][j] == 0){
+                        this.mButtonArray[i][j].setTextColor(Color.BLACK);
+                        this.mButtonArray[i][j].setText(this.mVocabs[this.mPrefilledPuzzle[i][j]].getWord(this.mPuzzleLang));
                     }else{
                         //error
                     }
@@ -175,35 +175,34 @@ public class Puzzle implements Serializable {
             TableRow mTblRow = (TableRow) selectionTable.getChildAt(i); //get table row element
             for (int j = 0; j < 3; j++) {
                 Button mButton = (Button) mTblRow.getChildAt(j); //get button view
-                mButton.setText(mVocabs[i*3+j+1].getWord(mChosenLang)); //write word on the button at position(i,j) from vocabs in "initial" language used for the puzzle
+                mButton.setText(this.mVocabs[i*3+j+1].getWord(this.mChosenLang)); //write word on the button at position(i,j) from vocabs in "initial" language used for the puzzle
             }
         }
     }
 
     // set button text to selected
     private void setPosition(int row, int col) {
-        if (selectedInd != -1) {
-            mCurrentPuzzle[row][col] = selectedInd;
-            mFilledPuzzle[row][col] = selectedInd;
-            mButtonArray[row][col].setText(mVocabs[selectedInd].getWord(mChosenLang));
+        if (this.selectedInd != -1) {
+            this.mCurrentPuzzle[row][col] = this.selectedInd;
+            this.mFilledPuzzle[row][col] = this.selectedInd;
+            this.mButtonArray[row][col].setText(this.mVocabs[this.selectedInd].getWord(this.mChosenLang));
         }
     }
 
     public void setSelected(int wordInd) {
-        selectedInd = wordInd;
+        this.selectedInd = wordInd;
     }
 
     public boolean isBoxEmpty(int row, int col) {//check if (row,col) box is blank
-        if (mCurrentPuzzle[row][col] == 0) return true;
-        else return false;
+        return this.mCurrentPuzzle[row][col] == 0;
     }
 
     public void setSelectable(){
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if(mPrefilledPuzzle[i][j] == 0){
-                    mButtonArray[i][j].setClickable(true);
-                    mButtonArray[i][j].setTextColor(Color.BLUE);
+                if(this.mPrefilledPuzzle[i][j] == 0){
+                    this.mButtonArray[i][j].setClickable(true);
+                    this.mButtonArray[i][j].setTextColor(Color.BLUE);
                 }
             }
         }
@@ -214,7 +213,7 @@ public class Puzzle implements Serializable {
             TableRow mTblRow = (TableRow) table.getChildAt(i); //get table row element
             for (int j = 0; j < 9; j++) {
                 Button mButton = (Button) mTblRow.getChildAt(j); //get button view
-                mButton.setText(vocabs[mCurrentPuzzle[i][j]].getWord(initLang)); //write word on the button at position(i,j) from vocabs in "initial" language used for the puzzle
+                mButton.setText(vocabs[this.mCurrentPuzzle[i][j]].getWord(initLang)); //write word on the button at position(i,j) from vocabs in "initial" language used for the puzzle
             }
         }
     }
@@ -223,7 +222,7 @@ public class Puzzle implements Serializable {
     public void genRandomPuzzle(Vocab[] vocabs, int initLang) {//generate puzzle from random difficulty with bounds defined in this class
         Random r = new Random();
         // pick random difficulty(relating the # of blank cells)
-        int difficulty = r.nextInt(max-min) + min;
+        int difficulty = r.nextInt(this.max-this.min) + this.min;
 
         // pick random positions
         //mRandomPositions = new int[difficulty][2];
@@ -231,11 +230,11 @@ public class Puzzle implements Serializable {
             int x = /*mRandomPositions[i][0] =*/ r.nextInt(9);
             int y = /*mRandomPositions[i][1] =*/ r.nextInt(9);
 
-            mPrefilledPuzzle[x][y] = 0;
-            mCurrentPuzzle[x][y] = 0;
-            Button button = mButtonArray[x][y];
+            this.mPrefilledPuzzle[x][y] = 0;
+            this.mCurrentPuzzle[x][y] = 0;
+            Button button = this.mButtonArray[x][y];
 
-            button.setText(vocabs[mPrefilledPuzzle[x][y]].getWord(initLang));
+            button.setText(vocabs[this.mPrefilledPuzzle[x][y]].getWord(initLang));
 
         }
     }
@@ -254,7 +253,7 @@ public class Puzzle implements Serializable {
         //convert int[] to Integer[]
         Integer[] mRow = new Integer[9];
         for (int i = 0; i < 9; i++) {
-            mRow[i] = Integer.valueOf(mCurrentPuzzle[row][i]);
+            mRow[i] = Integer.valueOf(this.mCurrentPuzzle[row][i]);
         }
         if (!Arrays.asList(mRow).containsAll(Arrays.asList(mRange))) { //mRow and mRange have to be Integer[]
             //checks if mRow contains 1-9
@@ -271,7 +270,7 @@ public class Puzzle implements Serializable {
 
         Integer[] mCol = new Integer[9];
         for (int i = 0; i < 9; i++) {
-            mCol[i] = Integer.valueOf(mCurrentPuzzle[i][col]);
+            mCol[i] = Integer.valueOf(this.mCurrentPuzzle[i][col]);
         }
         if (!Arrays.asList(mCol).containsAll(Arrays.asList(mRange))) {
             //checks if mCol contains 1-9
@@ -293,7 +292,7 @@ public class Puzzle implements Serializable {
         Integer[] mSub = new Integer[9];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                mSub[i * 3 + j] = Integer.valueOf(mCurrentPuzzle[(sub / 3) * 3 + i][(sub % 3) * 3 + j]);
+                mSub[i * 3 + j] = Integer.valueOf(this.mCurrentPuzzle[(sub / 3) * 3 + i][(sub % 3) * 3 + j]);
             }
         }
         if (!Arrays.asList(mSub).containsAll(Arrays.asList(mRange))) {
