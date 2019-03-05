@@ -2,23 +2,20 @@ package eta.sudoku;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
 
 
-public class MainActivity extends AppCompatActivity {
+public class PuzzleActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "PuzzleActivity";
     private static final String KEY_LANG_INDEX = "langIndex";
     private static final String KEY_SEL_LANG_INDEX = "selLangIndex";
     private static final String KEY_PUZZLE = "testPuzzle";
@@ -69,11 +66,11 @@ public class MainActivity extends AppCompatActivity {
     };
     private Puzzle mTestPuzzle = new Puzzle(mPuzzle, mVocabs);
     //Test variables end
-
+    public transient Context ctx = this; //for testing with TOAST
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_puzzle);
 
 
         if(savedInstanceState != null){
@@ -90,13 +87,13 @@ public class MainActivity extends AppCompatActivity {
         }*/
 
 
-        final GridLayout puzzleBoardGrid = (GridLayout) findViewById(R.id.boardTable2);
-        final Context ctx = this; //for testing with TOAST
+        final GridLayout puzzleBoardGrid = (GridLayout) findViewById(R.id.puzzle_board_grid);
 
-        mTestPuzzle.createButton(langIndex, puzzleBoardGrid, this);
+
+        mTestPuzzle.createButton(langIndex, puzzleBoardGrid, ctx);
 
         // Set listeners for all buttons in selection then store in selectionButton[]
-        TableLayout selectionLayout = (TableLayout)findViewById(R.id.selectionTable);
+        TableLayout selectionLayout = (TableLayout)findViewById(R.id.puzzle_selectionTable);
         int counter = 1;
         for(int i=0;i<3; i++) {
             TableRow row = (TableRow) selectionLayout.getChildAt(i);
@@ -124,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         mTestPuzzle.setSelectable();
 
 
-        Button mSubmitButton = (Button) findViewById(R.id.Submit);
+        Button mSubmitButton = (Button) findViewById(R.id.puzzle_Submit);
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button mDeleteButton = (Button) findViewById(R.id.Delete);
+        Button mDeleteButton = (Button) findViewById(R.id.puzzle_Delete);
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button mSwitchButton = (Button) findViewById(R.id.SwitchLanguage);
+        Button mSwitchButton = (Button) findViewById(R.id.puzzle_SwitchLanguage);
         mSwitchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,10 +170,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void submit(){
         if(mTestPuzzle.isSolved()){
-            Toast.makeText(this, "solved", Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, "solved", Toast.LENGTH_LONG).show();
 
         }else{
-            Toast.makeText(this, "incorrect", Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, "incorrect", Toast.LENGTH_LONG).show();
         }
     }
     private void deleteWord() {
@@ -184,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void switchLang(){
-        TableLayout mSelectionLayout = (TableLayout)findViewById(R.id.selectionTable);
+        TableLayout mSelectionLayout = (TableLayout)findViewById(R.id.puzzle_selectionTable);
         if(langIndex == 1){
             langIndex = 0;
             selLangIndex = 1;
