@@ -1,6 +1,9 @@
 package eta.sudoku;
+
+import java.io.Serializable;
+
 //model class
-public class Vocab {
+public class Vocab implements Serializable {
     //Class of words in different languages with same meaning
     private int mNumLang=2; //# of languages
     private String mWords[] = new String[mNumLang]; //an array of words w/ same meaning
