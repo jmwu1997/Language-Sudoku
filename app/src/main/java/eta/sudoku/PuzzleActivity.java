@@ -105,6 +105,11 @@ public class PuzzleActivity extends AppCompatActivity {
         final GridLayout puzzleBoardGrid = (GridLayout) findViewById(R.id.puzzle_board_grid);
 
 
+        if(savedInstanceState == null) {//only generate random puzzle once
+
+            mTestPuzzle.genRandomPuzzle();
+        }
+
         createButton(mTestPuzzle, puzzleBoardGrid, ctx);
 
         // Set listeners for all buttons in selection then store in selectionButton[]
@@ -129,11 +134,8 @@ public class PuzzleActivity extends AppCompatActivity {
             }
         }
 
-        if(savedInstanceState == null) {//only generate random puzzle once
-            //generatePuzzle();
-            mTestPuzzle.genRandomPuzzle(mVocabs, mButtonArray, langIndex);
-        }
-        mTestPuzzle.setSelectable(mButtonArray);
+
+
 
 
         Button mSubmitButton = (Button) findViewById(R.id.puzzle_Submit);
@@ -230,17 +232,27 @@ public class PuzzleActivity extends AppCompatActivity {
                 final Button mButton = new Button(context);
 
                 if(prefilledPuzzle[i][j] == 0){
-                    if(filledPuzzle[i][j] > 0){
-                        mButton.setTextColor(Color.BLUE);
-                        mButton.setText(this.mVocabs.get(filledPuzzle[i][j]).getWord(selLangIndex));
-                    }else{
 
-                    }
+                    mButton.setTextColor(Color.BLUE);
+                    mButton.setText(mVocabs.get(filledPuzzle[i][j]).getWord(selLangIndex));
+                    mButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            setPosition(row, col);
+                        }
+                    });
+
 
                 }else if(prefilledPuzzle[i][j] > 0){
                     if(filledPuzzle[i][j] == 0){
                         mButton.setTextColor(Color.BLACK);
-                        mButton.setText(this.mVocabs.get(prefilledPuzzle[i][j]).getWord(langIndex));
+                        mButton.setText(mVocabs.get(prefilledPuzzle[i][j]).getWord(langIndex));
+                        mButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hint(row,col);
+                            }
+                        });
                     }else{
                         //error
                     }
@@ -264,20 +276,17 @@ public class PuzzleActivity extends AppCompatActivity {
                 //decapitalize button text
                 mButton.setTransformationMethod(null);
 
-                mButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                       setPosition(row, col);
-                    }
-                });
-
-                //all puzzle buttons not clickable
-                mButton.setClickable(false);
                 mButton.setBackgroundColor(Color.alpha(0));
                 mButtonArray[i][j] = mButton;
             }
         }
 
+    }
+
+
+    public void hint(int row, int col){
+        int wordIndex = mTestPuzzle.getPrefilledCell(row,col);
+        Toast.makeText(getContext(), mTestPuzzle.getVocab(wordIndex, langIndex), Toast.LENGTH_LONG).show();
     }
     public void setPosition(int row, int col){
         mTestPuzzle.setPosition(mButtonArray,row,col);
@@ -324,7 +333,6 @@ public class PuzzleActivity extends AppCompatActivity {
                         //error
                     }
                 }
-
             }
         }
 

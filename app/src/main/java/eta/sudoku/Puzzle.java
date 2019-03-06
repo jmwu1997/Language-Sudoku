@@ -1,22 +1,10 @@
 package eta.sudoku;
 //model class
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
+
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.GridLayout;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.Toast;
+
 
 
 import java.io.Serializable;
@@ -134,16 +122,7 @@ public class Puzzle implements Serializable{
         return this.mCurrentPuzzle[row][col] == 0;
     }
 
-    public void setSelectable(Button[][] ButtonArray){
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if(this.mPrefilledPuzzle[i][j] == 0){
-                    ButtonArray[i][j].setClickable(true);
-                    ButtonArray[i][j].setTextColor(Color.BLUE);
-                }
-            }
-        }
-    }
+
     // For testing only
     public void genFullPuzzle(Vocab[] vocabs, int initLang, TableLayout table) {//gen test puzzle
         for (int i = 0; i < 9; i++) {
@@ -156,7 +135,8 @@ public class Puzzle implements Serializable{
     }
 
     // TODO: Can be more efficient? (positions generated might overlap)
-    public void genRandomPuzzle(List<Vocab> vocabs, Button[][] buttonArray, int initLang) {//generate puzzle from random difficulty with bounds defined in this class
+
+    public void genRandomPuzzle() {//generate puzzle from random difficulty with bounds defined in this class
         Random r = new Random();
         // pick random difficulty(relating the # of blank cells)
         int difficulty = r.nextInt(this.max-this.min) + this.min;
@@ -169,9 +149,7 @@ public class Puzzle implements Serializable{
 
             this.mPrefilledPuzzle[x][y] = 0;
             this.mCurrentPuzzle[x][y] = 0;
-            Button button = buttonArray[x][y];
 
-            button.setText(vocabs.get(this.mPrefilledPuzzle[x][y]).getWord(initLang));
 
         }
     }
