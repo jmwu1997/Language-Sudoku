@@ -106,8 +106,7 @@ public class PuzzleActivity extends AppCompatActivity {
 
 
         if(savedInstanceState == null) {//only generate random puzzle once
-            //generatePuzzle();
-            //mTestPuzzle.genRandomPuzzle(mVocabs, mButtonArray, langIndex);
+
             mTestPuzzle.genRandomPuzzle();
         }
 

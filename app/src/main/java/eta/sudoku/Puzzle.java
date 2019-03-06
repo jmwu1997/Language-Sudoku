@@ -135,25 +135,7 @@ public class Puzzle implements Serializable{
     }
 
     // TODO: Can be more efficient? (positions generated might overlap)
-    public void genRandomPuzzle(List<Vocab> vocabs, Button[][] buttonArray, int initLang) {//generate puzzle from random difficulty with bounds defined in this class
-        Random r = new Random();
-        // pick random difficulty(relating the # of blank cells)
-        int difficulty = r.nextInt(this.max-this.min) + this.min;
 
-        // pick random positions
-        //mRandomPositions = new int[difficulty][2];
-        for (int i = 0; i < difficulty; i++) {
-            int x = /*mRandomPositions[i][0] =*/ r.nextInt(9);
-            int y = /*mRandomPositions[i][1] =*/ r.nextInt(9);
-
-            this.mPrefilledPuzzle[x][y] = 0;
-            this.mCurrentPuzzle[x][y] = 0;
-            Button button = buttonArray[x][y];
-
-            button.setText(vocabs.get(this.mPrefilledPuzzle[x][y]).getWord(initLang));
-
-        }
-    }
     public void genRandomPuzzle() {//generate puzzle from random difficulty with bounds defined in this class
         Random r = new Random();
         // pick random difficulty(relating the # of blank cells)
