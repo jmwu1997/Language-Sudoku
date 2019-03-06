@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -148,6 +149,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        final ImageButton mComprehension = (ImageButton) findViewById(R.id.Comprehension);
+        mComprehension.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Playsound();
+            }
+        });
+
     }
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState){
@@ -187,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
         mTestPuzzle.setSelected(0);
     }
 
+
     private void switchLang(){
         TableLayout mSelectionLayout = (TableLayout)findViewById(R.id.selectionTable);
         if(langIndex == 1){
@@ -198,6 +208,20 @@ public class MainActivity extends AppCompatActivity {
             langIndex = 1;
             selLangIndex = 0;
             mTestPuzzle.switchLang(mSelectionLayout, langIndex, selLangIndex);
+        }
+
+    }
+    private void Playsound(){
+        TableLayout mSelectionLayout = (TableLayout)findViewById(R.id.selectionTable);
+        if(langIndex == 1){
+            langIndex = 0;
+            selLangIndex = 1;
+            mTestPuzzle.Playsound(mSelectionLayout, langIndex, selLangIndex);
+
+        }else{
+            langIndex = 1;
+            selLangIndex = 0;
+            mTestPuzzle.Playsound(mSelectionLayout, langIndex, selLangIndex);
         }
 
     }
