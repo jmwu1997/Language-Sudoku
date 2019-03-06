@@ -96,6 +96,12 @@ public class Puzzle implements Serializable{
         mPuzzleLang = temp;
     }
 
+    public void playsound(){
+        int temp = mChosenLang;
+        mChosenLang = mPuzzleLang;
+        mPuzzleLang = temp;
+    }
+
     public int getPrefilledCell(int row, int col){
         return mPrefilledPuzzle[row][col];
     }
