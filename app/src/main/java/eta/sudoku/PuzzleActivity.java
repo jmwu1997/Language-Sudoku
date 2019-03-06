@@ -1,14 +1,17 @@
 package eta.sudoku;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -161,6 +164,42 @@ public class PuzzleActivity extends AppCompatActivity {
                 switchLang();
             }
         });
+
+        Button mMenuButton = (Button) findViewById(R.id.puzzle_menu);
+        mMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(PuzzleActivity.this)
+                        .setMessage(R.string.menu_alert_message)
+                        .setTitle(R.string.menu_alert_title)
+                        .setPositiveButton(R.string.menu_alert_pos, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        })
+                        .setNegativeButton(R.string.menu_alert_neg, null)
+                        .show();
+            }
+        });
+
+    }
+
+
+    @Override
+    public void onBackPressed(){
+
+        new AlertDialog.Builder(PuzzleActivity.this)
+                .setMessage(R.string.menu_alert_message)
+                .setTitle(R.string.menu_alert_title)
+                .setPositiveButton(R.string.menu_alert_pos, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton(R.string.menu_alert_neg, null)
+                .show();
 
     }
     @Override
