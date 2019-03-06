@@ -11,5 +11,8 @@
 <string name="title_dashboard">Dashboard</string>
 <string name="title_notifications">Notifications</string>
 <string name="background_image_desc">Background image of Sudoku board</string>
-
+<string name="menu_alert_message">You will lose the current game.</string>
+    <string name="menu_alert_title">Back to Menu</string>
+    <string name="menu_alert_pos">Sure</string>
+    <string name="menu_alert_neg">Cancel</string>
 </resources>
