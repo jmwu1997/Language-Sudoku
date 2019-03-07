@@ -1,7 +1,18 @@
 <resources>
-    <string name="app_name">Sudoku</string>
-    <string name="button_delete">Delete</string>
-    <string name="button_submit">Submit</string>
-    <string name="button_switch">Switch</string>
-    <string name="background_image_desc">Background image of Sudoku board</string>
+<string name="app_name">Sudoku(Product Name)</string>
+<string name="button_delete">Delete</string>
+<string name="button_submit">Submit</string>
+<string name="button_switch">Switch</string>
+<string name="button_start_game">Start Game</string>
+<string name="button_vocab">Vocabulary</string>
+    <string name="button_menu">Menu</string>
+<string name="title_activity_main2">Main2Activity</string>
+<string name="title_home">Home</string>
+<string name="title_dashboard">Dashboard</string>
+<string name="title_notifications">Notifications</string>
+<string name="background_image_desc">Background image of Sudoku board</string>
+<string name="menu_alert_message">You will lose the current game.</string>
+    <string name="menu_alert_title">Back to Menu</string>
+    <string name="menu_alert_pos">Sure</string>
+    <string name="menu_alert_neg">Cancel</string>
 </resources>

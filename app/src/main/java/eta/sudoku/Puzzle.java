@@ -1,189 +1,131 @@
 package eta.sudoku;
 //model class
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.media.MediaPlayer;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
+
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.GridLayout;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.Toast;
+
 
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
-import static android.support.v4.content.ContextCompat.startActivity;
 
 
-public class Puzzle implements Serializable {
+public class Puzzle implements Serializable{
     // 1-9 for words, 0 for blank
-    private int[][] mPrefilledPuzzle;
-    private int[][] mCurrentPuzzle;
+    private int[][] mPrefilledPuzzle = new int[9][9];
+    private int[][] mCurrentPuzzle = new int[9][9];
     private int[][] mFilledPuzzle = new int[9][9];
     private int mPuzzleLang = 0;
     private int mChosenLang = 1;
-    //private int[] mRange = {1,2,3,4,5,6,7,8,9};
     private Integer[] mRange = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-    private Vocab[] mVocabs;
-    private int[][] mRandomPositions;
-    // Not needed in current implementation
-    private Button mButtonArray[][] = new Button[9][9];
+    private ArrayList<Vocab> mVocabs;
     // difficulty
     private int min = 26; // for difficulty
     private int max = 35;
 
     private int selectedInd = -1;
 
-
-    public Puzzle(int[][] savedPuzzle, Vocab[] vocab) {//construct with a pre-generated puzzle
+    public Puzzle(int[][] savedPuzzle, ArrayList<Vocab> vocab) {//construct with a pre-generated puzzle
         createPuzzle(savedPuzzle);
-        mVocabs = vocab;
+        this.mVocabs = vocab;
 
+    }
+/*
+
+    protected Puzzle(Parcel in){
+        in.readList(mVocabs, getClass().getClassLoader());
+    }
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeList(mVocabs);
     }
 
 
 
+
+
+    public static final Parcelable.Creator<Puzzle> CREATOR = new Parcelable.Creator<Puzzle>(){
+        @Override
+        public Puzzle createFromParcel(Parcel source) {
+            return new Puzzle(source);
+        }
+
+        @Override
+        public Puzzle[] newArray(int size) {
+            return new Puzzle[0];
+        }
+    };*/
+
+
+
+
+    public String getVocab(int index, int lang){
+        return mVocabs.get(index).getWord(lang);
+    }
     public void createPuzzle(int[][] savedPuzzle) {//create puzzle with a pre-generated puzzle(number ranging from 1-9, 0 for blank
-        mPrefilledPuzzle = savedPuzzle;
-        mCurrentPuzzle = savedPuzzle;
+        for(int i=0; i<9; i++) {
+            this.mPrefilledPuzzle[i] = savedPuzzle[i].clone(); //copy by value
+            this.mCurrentPuzzle[i] = savedPuzzle[i].clone();
+        }
     }
 
 
     public int[][] getPrefilledPuzzle(){
-        return mPrefilledPuzzle;
+        return this.mPrefilledPuzzle;
+    }
+    public int[][] getCurrentPuzzle(){
+        return this.mCurrentPuzzle;
+    }
+    public int[][] getFilledPuzzle() {
+        return this.mFilledPuzzle;
     }
 
-    public void createButton(int initLang, GridLayout grid, final Context context) {
-        //programmatically create buttons in the table(layout)
-        Resources r = context.getResources();
-        //convert dp to pixel
-        float mDp2Px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, r.getDisplayMetrics());
-        int height;
-        int width;
-
-
-
-        for (int i = 0; i < 9; i++) {
-            //TableRow mTblRow = new TableRow(context);
-            //mTblRow.setGravity(Gravity.CENTER); //set gravity:center
-            //grid.addView(mTblRow);
-
-            for (int j = 0; j < 9; j++) {
-                final int row = i;
-                final int col = j;
-                final Button mButton = new Button(context);
-                mButton.setText(mVocabs[mPrefilledPuzzle[i][j]].getWord(initLang));
-
-                grid.addView(mButton);
-
-                //set adaptable width and height
-                ViewGroup.LayoutParams mButtonLayoutParams = mButton.getLayoutParams();
-                mButtonLayoutParams.height = (int) (0 * mDp2Px);
-                mButtonLayoutParams.width = (int) (0 * mDp2Px);
-                ((GridLayout.LayoutParams) mButton.getLayoutParams()).columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
-                ((GridLayout.LayoutParams) mButton.getLayoutParams()).rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
-
-
-                mButton.setGravity(Gravity.CENTER);
-                mButton.setShadowLayer(0,0,0, Color.alpha(0));
-
-
-                mButton.setPadding(0,0,0,0);
-                //decapitalize button text
-                mButton.setTransformationMethod(null);
-
-                mButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setPosition(row, col);
-                    }
-                });
-
-                //all puzzle buttons not clickable
-                mButton.setClickable(false);
-                //mButton.setBackgroundColor(Color.alpha(0));
-
-                mButtonArray[i][j] = mButton;
-            }
-        }
-
+    public void switchLang(){
+        int temp = mChosenLang;
+        mChosenLang = mPuzzleLang;
+        mPuzzleLang = temp;
     }
 
-
-    public void switchLang(TableLayout selectionTable , int newPuzzleLang, int newSelLang){
-        mChosenLang = newSelLang;
-        mPuzzleLang = newPuzzleLang;
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if(mButtonArray[i][j].getText()==mVocabs[mPrefilledPuzzle[i][j]].getWord(mChosenLang)) {
-                    mButtonArray[i][j].setText(mVocabs[mPrefilledPuzzle[i][j]].getWord(mPuzzleLang));
-                }
-                else{
-                    mButtonArray[i][j].setText(mVocabs[mPrefilledPuzzle[i][j]].getWord(mChosenLang));//write word on the button at position(i,j) from vocabs in "initial" language used for the puzzle
-                }
-            }
-        }
-
-        for (int i = 0; i < 3; i++) {
-            TableRow mTblRow = (TableRow) selectionTable.getChildAt(i); //get table row element
-            for (int j = 0; j < 3; j++) {
-                Button mButton = (Button) mTblRow.getChildAt(j); //get button view
-                mButton.setText(mVocabs[i*3+j+1].getWord(mChosenLang)); //write word on the button at position(i,j) from vocabs in "initial" language used for the puzzle
-            }
-        }
+    public void playsound(){
+        int temp = mChosenLang;
+        mChosenLang = mPuzzleLang;
+        mPuzzleLang = temp;
     }
 
-    public void Playsound(TableLayout selectionTable , int newPuzzleLang, int newSelLang){
-        mChosenLang = newSelLang;
-        mPuzzleLang = newPuzzleLang;
-        for (int i = 0; i < 9; i++)
-            for (int j = 0; j < 9; j++)
-                if (mButtonArray[i][j].getText() == mVocabs[mPrefilledPuzzle[i][j]].getWord(mChosenLang)) {
-                    mButtonArray[i][j].setClickable(false);
-                    final Button t1 = (Button) this.mButtonArray[i][j];
-                    MediaPlayer mp = (MediaPlayer) MediaPlayer.create(Puzzle.this, R.raw.one);
-                    t1.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View view) {
-                            t1.setClickable(true);
-                            mp.start();
-
-                        }
-                    });
-
-                }
+    public int getPrefilledCell(int row, int col){
+        return mPrefilledPuzzle[row][col];
+    }
+    public int getFilledCell(int row, int col){
+        return mFilledPuzzle[row][col];
+    }
+    public int getCurrentCell(int row, int col){
+        return mCurrentPuzzle[row][col];
     }
 
-    // set button text to selected
-    private void setPosition(int row, int col) {
-        if (selectedInd != -1) {
-            mCurrentPuzzle[row][col] = selectedInd;
-            mFilledPuzzle[row][col] = selectedInd;
-            mButtonArray[row][col].setText(mVocabs[selectedInd].getWord(mChosenLang)); //TODO: refactor
+    public void setPosition(Button[][] ButtonArray, int row, int col) {
+        if (this.selectedInd != -1) {
+            this.mCurrentPuzzle[row][col] = this.selectedInd;
+            this.mFilledPuzzle[row][col] = this.selectedInd;
+            ButtonArray[row][col].setText(this.mVocabs.get(this.selectedInd).getWord(this.mChosenLang));
         }
-        return;
     }
 
     public void setSelected(int wordInd) {
-        selectedInd = wordInd;
+        this.selectedInd = wordInd;
     }
 
     public boolean isBoxEmpty(int row, int col) {//check if (row,col) box is blank
-        if (mCurrentPuzzle[row][col] == 0) return true;
-        else return false;
+        return this.mCurrentPuzzle[row][col] == 0;
     }
 
 
@@ -193,36 +135,27 @@ public class Puzzle implements Serializable {
             TableRow mTblRow = (TableRow) table.getChildAt(i); //get table row element
             for (int j = 0; j < 9; j++) {
                 Button mButton = (Button) mTblRow.getChildAt(j); //get button view
-                mButton.setText(vocabs[mCurrentPuzzle[i][j]].getWord(initLang)); //write word on the button at position(i,j) from vocabs in "initial" language used for the puzzle
+                mButton.setText(vocabs[this.mCurrentPuzzle[i][j]].getWord(initLang)); //write word on the button at position(i,j) from vocabs in "initial" language used for the puzzle
             }
         }
     }
 
     // TODO: Can be more efficient? (positions generated might overlap)
-    public void genRandomPuzzle(Vocab[] vocabs, int initLang) {//generate puzzle from random difficulty with bounds defined in this class
+
+    public void genRandomPuzzle() {//generate puzzle from random difficulty with bounds defined in this class
         Random r = new Random();
         // pick random difficulty(relating the # of blank cells)
-        int difficulty = r.nextInt(max-min) + min;
+        int difficulty = r.nextInt(this.max-this.min) + this.min;
 
         // pick random positions
-        mRandomPositions = new int[difficulty][2];
+        //mRandomPositions = new int[difficulty][2];
         for (int i = 0; i < difficulty; i++) {
-            int x = mRandomPositions[i][0] = r.nextInt(9);
-            int y = mRandomPositions[i][1] = r.nextInt(9);
+            int x = /*mRandomPositions[i][0] =*/ r.nextInt(9);
+            int y = /*mRandomPositions[i][1] =*/ r.nextInt(9);
 
-            mPrefilledPuzzle[x][y] = 0;
-            mCurrentPuzzle[x][y] = 0;
-            Button button = mButtonArray[x][y];
-
-            button.setText(vocabs[mPrefilledPuzzle[x][y]].getWord(initLang));
-            button.setTextColor(Color.BLUE);
-
-            //set empty cell to be clickable
-            button.setClickable(true);
+            this.mPrefilledPuzzle[x][y] = 0;
+            this.mCurrentPuzzle[x][y] = 0;
         }
-
-
-        //return randomPositions;
     }
 
     public boolean isCompleted() { //check if all the cells are filled
@@ -239,7 +172,7 @@ public class Puzzle implements Serializable {
         //convert int[] to Integer[]
         Integer[] mRow = new Integer[9];
         for (int i = 0; i < 9; i++) {
-            mRow[i] = Integer.valueOf(mCurrentPuzzle[row][i]);
+            mRow[i] = Integer.valueOf(this.mCurrentPuzzle[row][i]);
         }
         if (!Arrays.asList(mRow).containsAll(Arrays.asList(mRange))) { //mRow and mRange have to be Integer[]
             //checks if mRow contains 1-9
@@ -256,7 +189,7 @@ public class Puzzle implements Serializable {
 
         Integer[] mCol = new Integer[9];
         for (int i = 0; i < 9; i++) {
-            mCol[i] = Integer.valueOf(mCurrentPuzzle[i][col]);
+            mCol[i] = Integer.valueOf(this.mCurrentPuzzle[i][col]);
         }
         if (!Arrays.asList(mCol).containsAll(Arrays.asList(mRange))) {
             //checks if mCol contains 1-9
@@ -278,7 +211,7 @@ public class Puzzle implements Serializable {
         Integer[] mSub = new Integer[9];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                mSub[i * 3 + j] = Integer.valueOf(mCurrentPuzzle[(sub / 3) * 3 + i][(sub % 3) * 3 + j]);
+                mSub[i * 3 + j] = Integer.valueOf(this.mCurrentPuzzle[(sub / 3) * 3 + i][(sub % 3) * 3 + j]);
             }
         }
         if (!Arrays.asList(mSub).containsAll(Arrays.asList(mRange))) {
@@ -298,8 +231,6 @@ public class Puzzle implements Serializable {
         }
         return true;
     }
-
-
 
 
 
