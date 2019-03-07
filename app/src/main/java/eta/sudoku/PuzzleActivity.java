@@ -45,6 +45,14 @@ public class PuzzleActivity extends AppCompatActivity {
     public boolean onStartFlag = false;
     private boolean isLandscape; //useful?
     private boolean isCompMode = false;
+    public int lastInsert[][]=new int[100][100];
+    public int count = 0;
+    // if you get at least 5 wrong, word is difficult for you
+    public int maxError=5;
+    public int[] array = new int[] {0,0,0,0,0,0,0,0,0};
+
+
+
     //Test variables for puzzle.java and vocab.java
        //private String[][] mVocabLib = SudokuApplication.getInstance().getVocabList().getRandomVocabs(9);
     //String[] a = getResources().getStringArray(R.array.EngAlpha);
@@ -261,6 +269,61 @@ public class PuzzleActivity extends AppCompatActivity {
         }
     }
 
+    public void setLastInsert(int row, int col) {
+        if(lastInsert[0][0]==0){
+            lastInsert[0][0]=row;
+            lastInsert[0][1]=col;
+            count++;
+        }
+        if(lastInsert[count][0]==0){
+            lastInsert[count][0]=row;
+            lastInsert[count][1]=col;
+            count++;
+        }
+    }
+
+    public void check(int row,int col) {
+        int rowcount=0;
+        int colcount=0;
+        for(int i=0;i<9;i++) {
+            if(mTestPuzzle.mCurrentPuzzle[i][col]==0) {
+                colcount=1;
+            }
+            if(mTestPuzzle.mCurrentPuzzle[row][i]==0) {
+                rowcount=1;
+            }
+        }
+        if(!mTestPuzzle.isRowSolved(row)&rowcount==0&!mTestPuzzle.isColSolved(col)&colcount==0){
+            array[mTestPuzzle.getFilledCell(row,col)-1]+=1;
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Row and Col is wrong", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 150);
+            toast.show();
+        }
+        else if (!mTestPuzzle.isColSolved(col)&colcount==0) {
+            array[mTestPuzzle.getFilledCell(row,col)-1]+=1;
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Col is wrong", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 100);
+            toast.show();
+
+        }
+        else if (!mTestPuzzle.isRowSolved(row)&rowcount==0) {
+            //mVocabs.get(mTestPuzzle.getFilledCell(row,col));
+            array[mTestPuzzle.getFilledCell(row,col)-1]+=1;
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Row is wrong", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 150);
+            toast.show();
+        }
+
+        for(int i=0; i<9; i++){
+                if(array[i] > maxError){
+                    SudokuApplication.getInstance().setVocabDifficult(mVocabs.get(array[i]).getmIndex());
+                }
+        }
+    }
+
 
     public void createButton(Puzzle puzzle, GridLayout grid, final Context context) {
         //programmatically create buttons in the table(layout)
@@ -287,7 +350,7 @@ public class PuzzleActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             setPosition(row, col);
-
+                            check(row,col);
                         }
                     });
 
@@ -300,6 +363,7 @@ public class PuzzleActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 hint(row, col);
+
                             }
                         });
                     } else {

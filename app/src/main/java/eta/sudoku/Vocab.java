@@ -9,19 +9,17 @@ public class Vocab implements Serializable {
     private String mWords[] = new String[mNumLang]; //an array of words w/ same meaning
     private boolean isDifficult = false;
     private int mIndex;
-
     private int soundFile = 0;
 
     public Vocab(String[] words, int soundFile){ setWords(words);} //construct the class with a complete tuple of same meaning words
     public Vocab(String[] words){ setWords(words);} //construct the class with a complete tuple of same meaning words
 
     public Vocab() {} //or set words later
-
+    public void setDifficult(boolean difficult) {
+        if(difficult)isDifficult = difficult;
+    }
     public boolean isDifficult() {
         return isDifficult;
-    }
-    public void setDifficult(boolean difficult) {
-        isDifficult = difficult;
     }
     public int getSoundFile() {
         return this.soundFile;
@@ -30,7 +28,13 @@ public class Vocab implements Serializable {
         this.soundFile = soundFile;
     }
     public String[] getWords() { return this.mWords; } //get the tuple as a whole
+    public int getmIndex() {
+        return mIndex;
+    }
 
+    public void setmIndex(int mIndex) {
+        this.mIndex = mIndex;
+    }
     public void setWords(String[] words) {
         mWords = words;
 
