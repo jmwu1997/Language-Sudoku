@@ -47,16 +47,27 @@ public class PuzzleActivity extends AppCompatActivity {
 
     //Test variables for puzzle.java and vocab.java
     private String[][] mVocabLib = {
-            {" ", " "},
-            {"1", "一"},
-            {"2", "二"},
-            {"3", "三"},
-            {"4", "四"},
-            {"5", "五"},
-            {"6", "六"},
-            {"7", "七"},
-            {"8", "八"},
-            {"9", "九"},
+            {"",""},
+            {"Apple", "苹果"},
+            {"Pear", "梨"},
+            {"Banana", "香蕉"},
+            {"Peach", "桃子"},
+            {"Grape", "葡萄"},
+            {"Haw", "山楂"},
+            {"Guava", "番石榴"},
+            {"Papaya", "木瓜"},
+            {"Lemon", "柠檬"},
+            {"Orange", "橙子"},
+            {"Mango", "芒果"},
+            {"Fig", "无花果"},
+            {"Coconut", "椰子"},
+            {"Berry", "浆果"},
+            {"Almond", "杏仁"},
+            {"Tomato", "番茄"},
+            {"Date", "枣子"},
+            {"Durian", "榴莲"},
+            {"Longan", "龙眼"},
+            {"Melon", "香瓜"},
     };
     //String[] a = getResources().getStringArray(R.array.EngAlpha);
     private ArrayList<Vocab> mVocabs = new ArrayList<>(10);
@@ -343,17 +354,35 @@ public class PuzzleActivity extends AppCompatActivity {
     }
 
     public void loadVocab(){
-        mVocabs.add(new Vocab(mVocabLib[0]));
-        mVocabs.add(new Vocab(mVocabLib[1],R.raw.one));
-        mVocabs.add(new Vocab(mVocabLib[2],R.raw.two));
-        mVocabs.add(new Vocab(mVocabLib[3],R.raw.three));
-        mVocabs.add(new Vocab(mVocabLib[4],R.raw.four));
-        mVocabs.add(new Vocab(mVocabLib[5],R.raw.five));
-        mVocabs.add(new Vocab(mVocabLib[6],R.raw.six));
-        mVocabs.add(new Vocab(mVocabLib[7],R.raw.seven));
-        mVocabs.add(new Vocab(mVocabLib[8],R.raw.eight));
-        mVocabs.add(new Vocab(mVocabLib[9],R.raw.nine));
-        final int[] clips= { R.raw.one, R.raw.two, R.raw.three, R.raw.four, R.raw.five, R.raw.six, R.raw.seven,R.raw.eight,R.raw.nine};
+        /*
+         {"Apple", "苹果"},
+            {"Pear", "梨"},
+            {"Banana", "香蕉"},
+            {"Peach", "桃子"},
+            {"Grape", "葡萄"},
+            {"Haw", "山楂"},
+            {"Guava", "番石榴"},
+            {"Papaya", "木瓜"},
+            {"Lemon", "柠檬"},
+            {"Orange", "橙子"},
+            {"Mango", "芒果"},
+            {"Fig", "无花果"},
+            {"Coconut", "椰子"},
+            {"Berry", "浆果"},
+            {"Almond", "杏仁"},
+            {"Tomato", "番茄"},
+            {"Date", "枣子"},
+            {"Durian", "榴莲"},
+            {"Longan", "龙眼"},
+            {"Melon", "香瓜"},
+         */
+        for(int i=0; i<20; i++) {
+            mVocabs.add(new Vocab(mVocabLib[i]));
+        }
+        final int[] clips= { R.raw.apple, R.raw.pear, R.raw.banana, R.raw.peach, R.raw.grape, R.raw.haw, R.raw.guava,
+                R.raw.papaya,R.raw.lemon, R.raw.orange, R.raw.mango, R.raw.fig, R.raw.coconut, R.raw.berry, R.raw.almond,
+                R.raw.tomato, R.raw.date, R.raw.durian, R.raw.longan, R.raw.melon };
+
         for(int i=0; i<9; i++){
             mVocabs.get(i+1).setSoundFile(clips[i]);
 
@@ -361,7 +390,7 @@ public class PuzzleActivity extends AppCompatActivity {
     }
     public void hint(int row, int col) {
         int wordIndex = mTestPuzzle.getPrefilledCell(row, col);
-        Toast.makeText(getContext(), mTestPuzzle.getVocab(wordIndex, langIndex), Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), mTestPuzzle.getVocab(wordIndex, selLangIndex), Toast.LENGTH_LONG).show();
     }
 
     public void setPosition(int row, int col) {
