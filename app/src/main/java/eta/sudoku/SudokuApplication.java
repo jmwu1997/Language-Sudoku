@@ -23,7 +23,6 @@ public class SudokuApplication extends Application {
     private VocabLibrary mVocabList = new VocabLibrary();
     private ArrayList<VocabLibrary> mVocabWeeks = new ArrayList<>(2);
     private String[][] mVocabLib = {
-            {"",""},
             {"Apple", "苹果"},
             {"Pear", "梨"},
             {"Banana", "香蕉"},
@@ -59,11 +58,12 @@ public class SudokuApplication extends Application {
     public SudokuApplication(){
         for(int i=0;i<mVocabLib.length;i++){
             mVocabList.add(new Vocab(mVocabLib[i]));
-        }
-        for(int i=0; i<9; i++){
             mVocabList.get(i+1).setSoundFile(clips[i]);
-
         }
+        //for(int i=0; i<mVocabLib.length; i++){
+         //   mVocabList.get(i+1).setSoundFile(clips[i]);
+
+        //}
 
     }
 }
