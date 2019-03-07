@@ -43,20 +43,9 @@ public class PuzzleActivity extends AppCompatActivity {
     private boolean isLandscape; //useful?
 
     //Test variables for puzzle.java and vocab.java
-    private String[][] mVocabLib = {
-            {" "," "},
-            {"1","一"},
-            {"2","二"},
-            {"3","三"},
-            {"4","四"},
-            {"5","五"},
-            {"6","六"},
-            {"7","七"},
-            {"8","八"},
-            {"9","九"},
-    };
+       //private String[][] mVocabLib = SudokuApplication.getInstance().getVocabList().getRandomVocabs(9);
     //String[] a = getResources().getStringArray(R.array.EngAlpha);
-    private ArrayList<Vocab> mVocabs = new ArrayList<>(10);
+    private VocabLibrary mVocabs = SudokuApplication.getInstance().getVocabList().getRandomVocabs(9);
     private Button[][] mButtonArray = new Button[9][9];
 
     private int[][] mPuzzle = {
@@ -98,10 +87,12 @@ public class PuzzleActivity extends AppCompatActivity {
             isLandscape = true;
         }*/
 
+
+        /*
         mVocabs.add(new Vocab(mVocabLib[0]));
         for(int i=0;i<9;i++){
             mVocabs.add(new Vocab(mVocabLib[i+1]));
-        }
+        }*/
 
 
 

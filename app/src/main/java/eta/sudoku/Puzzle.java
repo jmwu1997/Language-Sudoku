@@ -149,8 +149,6 @@ public class Puzzle implements Serializable{
 
             this.mPrefilledPuzzle[x][y] = 0;
             this.mCurrentPuzzle[x][y] = 0;
-
-
         }
     }
 
