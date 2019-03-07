@@ -46,31 +46,9 @@ public class PuzzleActivity extends AppCompatActivity {
     private boolean isCompMode = false;
 
     //Test variables for puzzle.java and vocab.java
-    private String[][] mVocabLib = {
-            {"",""},
-            {"Apple", "苹果"},
-            {"Pear", "梨"},
-            {"Banana", "香蕉"},
-            {"Peach", "桃子"},
-            {"Grape", "葡萄"},
-            {"Haw", "山楂"},
-            {"Guava", "番石榴"},
-            {"Papaya", "木瓜"},
-            {"Lemon", "柠檬"},
-            {"Orange", "橙子"},
-            {"Mango", "芒果"},
-            {"Fig", "无花果"},
-            {"Coconut", "椰子"},
-            {"Berry", "浆果"},
-            {"Almond", "杏仁"},
-            {"Tomato", "番茄"},
-            {"Date", "枣子"},
-            {"Durian", "榴莲"},
-            {"Longan", "龙眼"},
-            {"Melon", "香瓜"},
-    };
+       //private String[][] mVocabLib = SudokuApplication.getInstance().getVocabList().getRandomVocabs(9);
     //String[] a = getResources().getStringArray(R.array.EngAlpha);
-    private ArrayList<Vocab> mVocabs = new ArrayList<>(10);
+    private VocabLibrary mVocabs = SudokuApplication.getInstance().getVocabList().getRandomVocabs(9);
     private Button[][] mButtonArray = new Button[9][9];
 
     private int[][] mPuzzle = {
