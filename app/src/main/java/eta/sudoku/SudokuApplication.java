@@ -52,7 +52,9 @@ public class SudokuApplication extends Application {
 
         return ourInstance;
     }
-
+    public void setVocabDifficult(int index){
+        mVocabList.get(index).setDifficult(true);
+    }
 
 
     public SudokuApplication(){

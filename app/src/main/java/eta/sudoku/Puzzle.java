@@ -1,10 +1,11 @@
 package eta.sudoku;
 //model class
 
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-
+import android.widget.Toast;
 
 
 import java.io.Serializable;
@@ -18,7 +19,7 @@ import java.util.Random;
 public class Puzzle implements Serializable{
     // 1-9 for words, 0 for blank
     private int[][] mPrefilledPuzzle = new int[9][9];
-    private int[][] mCurrentPuzzle = new int[9][9];
+    public int[][] mCurrentPuzzle = new int[9][9];
     private int[][] mFilledPuzzle = new int[9][9];
     private int mPuzzleLang = 0;
     private int mChosenLang = 1;
@@ -167,7 +168,7 @@ public class Puzzle implements Serializable{
         return true;
     }
 
-    private boolean isRowSolved(int row) {
+    public boolean isRowSolved(int row) {
         assert row >= 0 & row < 9;
         //convert int[] to Integer[]
         Integer[] mRow = new Integer[9];
@@ -184,7 +185,7 @@ public class Puzzle implements Serializable{
         return true;
     }
 
-    private boolean isColSolved(int col) {
+    public boolean isColSolved(int col) {
         assert col >= 0 & col < 9;
 
         Integer[] mCol = new Integer[9];
@@ -201,7 +202,7 @@ public class Puzzle implements Serializable{
         return true;
     }
 
-    private boolean isSubSolved(int sub) {
+    public boolean isSubSolved(int sub) {
         //sub index:
         //0 1 2
         //3 4 5
