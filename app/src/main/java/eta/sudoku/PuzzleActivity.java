@@ -162,13 +162,24 @@ public class PuzzleActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton mComprehensionButton = (ImageButton) findViewById(R.id.puzzle_Comprehension);
+        final ImageButton mComprehensionButton = (ImageButton) findViewById(R.id.puzzle_Comprehension);
         mComprehensionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(isCompMode==false){
                 playSound();
-                Toast.makeText(getBaseContext(), "Comprehension Mode" , Toast.LENGTH_SHORT ).show();
+                mComprehensionButton.setImageResource(R.drawable.nosoundicon);
+                Toast.makeText(getBaseContext(), "Comprehension Mode On" , Toast.LENGTH_SHORT ).show();
+                isCompMode=true;
+                }
+                else{
+                    mComprehensionButton.setImageResource(R.drawable.soundicon);
+                    playnoSound();
+                    Toast.makeText(getBaseContext(), "Comprehension Mode Off" , Toast.LENGTH_SHORT ).show();
+                    isCompMode=false;
+                }
             }
+
         });
 
         Button mMenuButton = (Button) findViewById(R.id.puzzle_menu);
@@ -345,6 +356,7 @@ public class PuzzleActivity extends AppCompatActivity {
         final int[] clips= { R.raw.one, R.raw.two, R.raw.three, R.raw.four, R.raw.five, R.raw.six, R.raw.seven,R.raw.eight,R.raw.nine};
         for(int i=0; i<9; i++){
             mVocabs.get(i+1).setSoundFile(clips[i]);
+
         }
     }
     public void hint(int row, int col) {
@@ -421,6 +433,7 @@ public class PuzzleActivity extends AppCompatActivity {
         return 0;
     }
 
+    //play sound on comprehension mode
     private void playSound() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -436,7 +449,25 @@ public class PuzzleActivity extends AppCompatActivity {
 
             }
         }
-
-
     }
+
+    //switch back to hint mode
+    private void playnoSound(){
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                final int finalI = i;
+                final int finalJ = j;
+                final int word = mTestPuzzle.getPrefilledCell(i,j);
+                if(word != 0) {
+                    mButtonArray[i][j].setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            hint(finalI, finalJ);
+                        }
+                    });
+                }
+            }
+        }
+    }
+
 }
