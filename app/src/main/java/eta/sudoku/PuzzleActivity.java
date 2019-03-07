@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -163,7 +164,7 @@ public class PuzzleActivity extends AppCompatActivity {
                 }
                 else{
                     mComprehensionButton.setImageResource(R.drawable.soundicon);
-                    playnoSound();
+                    playSound();
                     Toast.makeText(getBaseContext(), "Comprehension Mode Off" , Toast.LENGTH_SHORT ).show();
                     isCompMode=false;
                 }
@@ -418,37 +419,28 @@ public class PuzzleActivity extends AppCompatActivity {
                 final int word = mTestPuzzle.getPrefilledCell(i,j);
                 final Vocab w = mVocabs.get(word);
                 if(word != 0){
-
-                    mButtonArray[i][j].setOnClickListener(new View.OnClickListener() {
-                        MediaPlayer mp = MediaPlayer.create(PuzzleActivity.this, w.getSoundFile());
-
-                        public void onClick(View v) {
-                            mp.start();
-                        }
-                    });
-                }
-
-            }
-        }
-    }
-
-    //switch back to hint mode
-    private void playnoSound(){
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                final int finalI = i;
-                final int finalJ = j;
-                final int word = mTestPuzzle.getPrefilledCell(i,j);
-                if(word != 0) {
-                    mButtonArray[i][j].setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            hint(finalI, finalJ);
-                        }
-                    });
+                    if(isCompMode==false){
+                        mButtonArray[i][j].setOnClickListener(new View.OnClickListener() {
+                             MediaPlayer mp = MediaPlayer.create(PuzzleActivity.this, w.getSoundFile());
+                             public void onClick(View v) {
+                                 mp.start();
+                             }
+                        });
+                    }
+                    if(isCompMode==true){
+                        final int finalJ = j;
+                        final int finalI = i;
+                        mButtonArray[i][j].setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hint(finalI, finalJ);
+                            }
+                        });
+                    }
                 }
             }
         }
     }
+
 
 }
