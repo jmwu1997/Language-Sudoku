@@ -411,9 +411,12 @@ public class PuzzleActivity extends AppCompatActivity {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 final int word = mTestPuzzle.getPrefilledCell(i,j);
+                final Vocab w = mVocabs.get(word);
                 if(word != 0){
+
                     mButtonArray[i][j].setOnClickListener(new View.OnClickListener() {
-                        MediaPlayer mp = MediaPlayer.create(PuzzleActivity.this, mVocabs.get(word).getSoundFile());
+                        MediaPlayer mp = MediaPlayer.create(PuzzleActivity.this, w.getSoundFile());
+
                         public void onClick(View v) {
                             mp.start();
                         }
