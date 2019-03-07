@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="eta.sudoku.VocabWeekListActivity">
+    <item
+        android:id="@+id/weekList_add_word"
+        android:orderInCategory="100"
+        android:title="Add Word"
+        app:showAsAction="collapseActionView"
+        app:actionViewClass="android.support.v7.widget.ActionMenuView"/>
+</menu>
