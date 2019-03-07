@@ -172,6 +172,7 @@
         <ImageButton
             android:id="@+id/puzzle_Comprehension"
             style="?android:attr/borderlessButtonStyle"
+            android:contentDescription="@string/comprehension_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
