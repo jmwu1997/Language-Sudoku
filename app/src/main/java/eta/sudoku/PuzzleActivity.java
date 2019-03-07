@@ -43,6 +43,7 @@ public class PuzzleActivity extends AppCompatActivity {
     private int selLangIndex = 1;
     public boolean onStartFlag = false;
     private boolean isLandscape; //useful?
+    private boolean isCompMode = false;
 
     //Test variables for puzzle.java and vocab.java
     private String[][] mVocabLib = {
@@ -101,19 +102,7 @@ public class PuzzleActivity extends AppCompatActivity {
         }else if(config.orientation == Configuration.ORIENTATION_LANDSCAPE){
             isLandscape = true;
         }*/
-
-        mVocabs.add(new Vocab(mVocabLib[0]));
-        mVocabs.add(new Vocab(mVocabLib[1],R.raw.one));
-        mVocabs.add(new Vocab(mVocabLib[2],R.raw.two));
-        mVocabs.add(new Vocab(mVocabLib[3],R.raw.three));
-        mVocabs.add(new Vocab(mVocabLib[4],R.raw.four));
-        mVocabs.add(new Vocab(mVocabLib[5],R.raw.five));
-        mVocabs.add(new Vocab(mVocabLib[6],R.raw.six));
-        mVocabs.add(new Vocab(mVocabLib[7],R.raw.seven));
-        mVocabs.add(new Vocab(mVocabLib[8],R.raw.eight));
-        mVocabs.add(new Vocab(mVocabLib[9],R.raw.nine));
-
-
+        loadVocab();
 
 
         final GridLayout puzzleBoardGrid = (GridLayout) findViewById(R.id.puzzle_board_grid);
@@ -177,7 +166,7 @@ public class PuzzleActivity extends AppCompatActivity {
         mComprehensionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playsound();
+                playSound();
                 Toast.makeText(getBaseContext(), "Comprehension Mode" , Toast.LENGTH_SHORT ).show();
             }
         });
@@ -342,7 +331,22 @@ public class PuzzleActivity extends AppCompatActivity {
 
     }
 
-
+    public void loadVocab(){
+        mVocabs.add(new Vocab(mVocabLib[0]));
+        mVocabs.add(new Vocab(mVocabLib[1],R.raw.one));
+        mVocabs.add(new Vocab(mVocabLib[2],R.raw.two));
+        mVocabs.add(new Vocab(mVocabLib[3],R.raw.three));
+        mVocabs.add(new Vocab(mVocabLib[4],R.raw.four));
+        mVocabs.add(new Vocab(mVocabLib[5],R.raw.five));
+        mVocabs.add(new Vocab(mVocabLib[6],R.raw.six));
+        mVocabs.add(new Vocab(mVocabLib[7],R.raw.seven));
+        mVocabs.add(new Vocab(mVocabLib[8],R.raw.eight));
+        mVocabs.add(new Vocab(mVocabLib[9],R.raw.nine));
+        final int[] clips= { R.raw.one, R.raw.two, R.raw.three, R.raw.four, R.raw.five, R.raw.six, R.raw.seven,R.raw.eight,R.raw.nine};
+        for(int i=0; i<9; i++){
+            mVocabs.get(i+1).setSoundFile(clips[i]);
+        }
+    }
     public void hint(int row, int col) {
         int wordIndex = mTestPuzzle.getPrefilledCell(row, col);
         Toast.makeText(getContext(), mTestPuzzle.getVocab(wordIndex, langIndex), Toast.LENGTH_LONG).show();
@@ -417,23 +421,19 @@ public class PuzzleActivity extends AppCompatActivity {
         return 0;
     }
 
-    private void playsound() {
-        switchLang();
-        final int[] clips= { R.raw.one, R.raw.two, R.raw.three, R.raw.four, R.raw.five, R.raw.six, R.raw.seven,R.raw.eight,R.raw.nine};
+    private void playSound() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                for(int k=0;k<9;k++) {
-
-                    if ((mTestPuzzle.getPrefilledCell(i, j) == k)& (mTestPuzzle.getPrefilledCell(i, j)>0)){
-                        final int finalK = k;
-                        mButtonArray[i][j].setOnClickListener(new View.OnClickListener() {
-                            MediaPlayer mp = MediaPlayer.create(PuzzleActivity.this, clips[finalK]);
-                            public void onClick(View v) {
-                                mp.start();
-                            }
-                        });
-                    }
+                final int word = mTestPuzzle.getPrefilledCell(i,j);
+                if(word != 0){
+                    mButtonArray[i][j].setOnClickListener(new View.OnClickListener() {
+                        MediaPlayer mp = MediaPlayer.create(PuzzleActivity.this, mVocabs.get(word).getSoundFile());
+                        public void onClick(View v) {
+                            mp.start();
+                        }
+                    });
                 }
+
             }
         }
 
