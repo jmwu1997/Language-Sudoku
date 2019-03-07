@@ -91,7 +91,7 @@ public class PuzzleActivity extends AppCompatActivity {
         }else if(config.orientation == Configuration.ORIENTATION_LANDSCAPE){
             isLandscape = true;
         }*/
-        loadVocab();
+
 
 
         final GridLayout puzzleBoardGrid = (GridLayout) findViewById(R.id.puzzle_board_grid);
@@ -331,41 +331,7 @@ public class PuzzleActivity extends AppCompatActivity {
 
     }
 
-    public void loadVocab(){
-        /*
-         {"Apple", "苹果"},
-            {"Pear", "梨"},
-            {"Banana", "香蕉"},
-            {"Peach", "桃子"},
-            {"Grape", "葡萄"},
-            {"Haw", "山楂"},
-            {"Guava", "番石榴"},
-            {"Papaya", "木瓜"},
-            {"Lemon", "柠檬"},
-            {"Orange", "橙子"},
-            {"Mango", "芒果"},
-            {"Fig", "无花果"},
-            {"Coconut", "椰子"},
-            {"Berry", "浆果"},
-            {"Almond", "杏仁"},
-            {"Tomato", "番茄"},
-            {"Date", "枣子"},
-            {"Durian", "榴莲"},
-            {"Longan", "龙眼"},
-            {"Melon", "香瓜"},
-         */
-        for(int i=0; i<20; i++) {
-            mVocabs.add(new Vocab(mVocabLib[i]));
-        }
-        final int[] clips= { R.raw.apple, R.raw.pear, R.raw.banana, R.raw.peach, R.raw.grape, R.raw.haw, R.raw.guava,
-                R.raw.papaya,R.raw.lemon, R.raw.orange, R.raw.mango, R.raw.fig, R.raw.coconut, R.raw.berry, R.raw.almond,
-                R.raw.tomato, R.raw.date, R.raw.durian, R.raw.longan, R.raw.melon };
 
-        for(int i=0; i<9; i++){
-            mVocabs.get(i+1).setSoundFile(clips[i]);
-
-        }
-    }
     public void hint(int row, int col) {
         int wordIndex = mTestPuzzle.getPrefilledCell(row, col);
         Toast.makeText(getContext(), mTestPuzzle.getVocab(wordIndex, selLangIndex), Toast.LENGTH_LONG).show();
