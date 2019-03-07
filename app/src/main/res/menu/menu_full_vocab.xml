@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="eta.sudoku.VocabFullActivity">
+    <item
+        android:id="@+id/fullVocab_add_word"
+        android:orderInCategory="100"
+        android:title="Add Word"
+        app:actionViewClass="android.support.v7.widget.ActionMenuView"
+        app:showAsAction="never" />
+</menu>

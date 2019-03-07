@@ -45,7 +45,6 @@ public class PuzzleActivity extends AppCompatActivity {
     public boolean onStartFlag = false;
     private boolean isLandscape; //useful?
     private boolean isCompMode = false;
-
     //Test variables for puzzle.java and vocab.java
        //private String[][] mVocabLib = SudokuApplication.getInstance().getVocabList().getRandomVocabs(9);
     //String[] a = getResources().getStringArray(R.array.EngAlpha);
@@ -288,6 +287,7 @@ public class PuzzleActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             setPosition(row, col);
+
                         }
                     });
 
