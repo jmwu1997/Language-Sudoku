@@ -103,15 +103,16 @@ public class PuzzleActivity extends AppCompatActivity {
         }*/
 
         mVocabs.add(new Vocab(mVocabLib[0]));
-        mVocabs.add(new Vocab(mVocabLib[1]));
-        mVocabs.add(new Vocab(mVocabLib[2]));
-        mVocabs.add(new Vocab(mVocabLib[3]));
-        mVocabs.add(new Vocab(mVocabLib[4]));
-        mVocabs.add(new Vocab(mVocabLib[5]));
-        mVocabs.add(new Vocab(mVocabLib[6]));
-        mVocabs.add(new Vocab(mVocabLib[7]));
-        mVocabs.add(new Vocab(mVocabLib[8]));
-        mVocabs.add(new Vocab(mVocabLib[9]));
+        mVocabs.add(new Vocab(mVocabLib[1],R.raw.one));
+        mVocabs.add(new Vocab(mVocabLib[2],R.raw.two));
+        mVocabs.add(new Vocab(mVocabLib[3],R.raw.three));
+        mVocabs.add(new Vocab(mVocabLib[4],R.raw.four));
+        mVocabs.add(new Vocab(mVocabLib[5],R.raw.five));
+        mVocabs.add(new Vocab(mVocabLib[6],R.raw.six));
+        mVocabs.add(new Vocab(mVocabLib[7],R.raw.seven));
+        mVocabs.add(new Vocab(mVocabLib[8],R.raw.eight));
+        mVocabs.add(new Vocab(mVocabLib[9],R.raw.nine));
+
 
 
 
@@ -426,7 +427,7 @@ public class PuzzleActivity extends AppCompatActivity {
                     if ((mTestPuzzle.getPrefilledCell(i, j) == k)& (mTestPuzzle.getPrefilledCell(i, j)>0)){
                         final int finalK = k;
                         mButtonArray[i][j].setOnClickListener(new View.OnClickListener() {
-                            MediaPlayer mp = MediaPlayer.create(PuzzleActivity.this, clips[finalK-1]);
+                            MediaPlayer mp = MediaPlayer.create(PuzzleActivity.this, clips[finalK]);
                             public void onClick(View v) {
                                 mp.start();
                             }
