@@ -27,6 +27,13 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        mVocab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MenuActivity.this, VocabActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
     @Override
