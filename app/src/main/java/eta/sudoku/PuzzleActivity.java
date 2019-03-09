@@ -58,7 +58,8 @@ public class PuzzleActivity extends AppCompatActivity {
     //Test variables for puzzle.java and vocab.java
        //private String[][] mVocabLib = SudokuApplication.getInstance().getVocabList().getRandomVocabs(9);
     //String[] a = getResources().getStringArray(R.array.EngAlpha);
-    private VocabLibrary mVocabs = SudokuApplication.getInstance().getVocabList().getRandomVocabs(9);
+    private VocabLibrary mVocabs = SudokuApplication.getInstance().getSelectedVocabs();
+    //private VocabLibrary mVocabs = SudokuApplication.getInstance().getSelectedVocabs();
     private Button[][] mButtonArray = new Button[9][9];
 
     private int[][] mPuzzle = {
