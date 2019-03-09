@@ -17,14 +17,6 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class VocabLibraryTest {
     @Test
-    public void useAppContext() {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
-
-        assertEquals("eta.sudoku", appContext.getPackageName());
-    }
-
-    @Test
     public void testVocabLibrary() {
         VocabLibrary test = new VocabLibrary();
         test.getRandomVocabs(5);
