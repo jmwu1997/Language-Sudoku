@@ -90,6 +90,9 @@ public class Puzzle implements Serializable{
     public int[][] getFilledPuzzle() {
         return this.mFilledPuzzle;
     }
+    public ArrayList<Vocab> getFullVocab() {
+        return mVocabs;
+    }
 
     public void switchLang(){
         int temp = mChosenLang;
