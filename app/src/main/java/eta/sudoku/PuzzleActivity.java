@@ -266,6 +266,7 @@ public class PuzzleActivity extends AppCompatActivity {
             isLandscape = true;
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             isLandscape = false;
+
         }
     }
 
