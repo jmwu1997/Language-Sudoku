@@ -16,7 +16,7 @@ public class Vocab implements Serializable {
 
     public Vocab() {} //or set words later
     public void setDifficult(boolean difficult) {
-        if(difficult)isDifficult = difficult;
+        isDifficult = difficult;
     }
     public boolean isDifficult() {
         return isDifficult;
