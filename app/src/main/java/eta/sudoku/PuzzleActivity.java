@@ -5,11 +5,13 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -386,15 +388,26 @@ public class PuzzleActivity extends AppCompatActivity {
 
 
                 mButton.setPadding(0, 0, 0, 0);
+
                 //decapitalize button text
                 mButton.setTransformationMethod(null);
 
                 mButton.setBackgroundColor(Color.alpha(0));
 
                 // Fit text in button properly
-                mButton.setTextSize(5 * mDp2Px);
+                // check if device is tablet (a tablet is defined to have a diagonal of 6.5 inches or more here)
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                float yInches= displayMetrics.heightPixels/displayMetrics.ydpi;
+                float xInches= displayMetrics.widthPixels/displayMetrics.xdpi;
+                double diagonalInches = Math.sqrt(xInches*xInches + yInches*yInches);
+                // if not tablet
+                if (diagonalInches < 6.5) {
+                    mButton.setTextSize(5 * mDp2Px);
+                }
                 mButton.setSingleLine(true);
 
+                // add button to array
                 mButtonArray[i][j] = mButton;
             }
         }
