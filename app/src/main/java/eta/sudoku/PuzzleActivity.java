@@ -42,14 +42,14 @@ public class PuzzleActivity extends AppCompatActivity {
     // 0 or 1 to select language for selection Buttons, board language will be opposite
     private int langIndex = 0;
     private int selLangIndex = 1;
-    public boolean onStartFlag = false;
+    private boolean onStartFlag = false;
     private boolean isLandscape; //useful?
     private boolean isCompMode = false;
-    public int lastInsert[][]=new int[100][100];
-    public int count = 0;
+    public int lastInsert[][] = new int[100][100];
+    private int count = 0;
     // if you get at least 5 wrong, word is difficult for you
-    public int maxError=5;
-    public int[] array = new int[] {0,0,0,0,0,0,0,0,0};
+    private static final int maxError=5;
+    private int[] incorrectCount = new int[9];
 
 
 
@@ -163,11 +163,11 @@ public class PuzzleActivity extends AppCompatActivity {
         mComprehensionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isCompMode==false){
-                playSound();
-                mComprehensionButton.setImageResource(R.drawable.nosoundicon);
-                Toast.makeText(getBaseContext(), "Comprehension Mode On" , Toast.LENGTH_SHORT ).show();
-                isCompMode=true;
+                if(!isCompMode){
+                    playSound();
+                    mComprehensionButton.setImageResource(R.drawable.nosoundicon);
+                    Toast.makeText(getBaseContext(), "Comprehension Mode On" , Toast.LENGTH_SHORT ).show();
+                    isCompMode=true;
                 }
                 else{
                     mComprehensionButton.setImageResource(R.drawable.soundicon);
@@ -294,14 +294,14 @@ public class PuzzleActivity extends AppCompatActivity {
             }
         }
         if(!mTestPuzzle.isRowSolved(row)&rowcount==0&!mTestPuzzle.isColSolved(col)&colcount==0){
-            array[mTestPuzzle.getFilledCell(row,col)-1]+=1;
+            incorrectCount[mTestPuzzle.getFilledCell(row,col)-1]++;
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Row and Col is wrong", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 150);
             toast.show();
         }
         else if (!mTestPuzzle.isColSolved(col)&colcount==0) {
-            array[mTestPuzzle.getFilledCell(row,col)-1]+=1;
+            incorrectCount[mTestPuzzle.getFilledCell(row,col)-1]++;
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Col is wrong", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 100);
@@ -310,7 +310,7 @@ public class PuzzleActivity extends AppCompatActivity {
         }
         else if (!mTestPuzzle.isRowSolved(row)&rowcount==0) {
             //mVocabs.get(mTestPuzzle.getFilledCell(row,col));
-            array[mTestPuzzle.getFilledCell(row,col)-1]+=1;
+            incorrectCount[mTestPuzzle.getFilledCell(row,col)-1]++;
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Row is wrong", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 150);
@@ -318,8 +318,8 @@ public class PuzzleActivity extends AppCompatActivity {
         }
 
         for(int i=0; i<9; i++){
-                if(array[i] > maxError){
-                    SudokuApplication.getInstance().setVocabDifficult(mVocabs.get(array[i]).getmIndex());
+                if(incorrectCount[i] == maxError){
+                    SudokuApplication.getInstance().setVocabDifficult(mVocabs.get(i).getmIndex());
                 }
         }
     }
@@ -483,7 +483,7 @@ public class PuzzleActivity extends AppCompatActivity {
                 final int word = mTestPuzzle.getPrefilledCell(i,j);
                 final Vocab w = mVocabs.get(word);
                 if(word != 0){
-                    if(isCompMode==false){
+                    if(!isCompMode){
                         mButtonArray[i][j].setOnClickListener(new View.OnClickListener() {
                              MediaPlayer mp = MediaPlayer.create(PuzzleActivity.this, w.getSoundFile());
                              public void onClick(View v) {
@@ -491,7 +491,7 @@ public class PuzzleActivity extends AppCompatActivity {
                              }
                         });
                     }
-                    if(isCompMode==true){
+                    if(isCompMode){
                         final int finalJ = j;
                         final int finalI = i;
                         mButtonArray[i][j].setOnClickListener(new View.OnClickListener() {
