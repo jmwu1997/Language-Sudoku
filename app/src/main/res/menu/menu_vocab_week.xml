@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="eta.sudoku.VocabWeekActivity">
+    <item
+        android:id="@+id/week_add_week"
+        android:orderInCategory="100"
+        android:title="Add Week"
+        app:showAsAction="never" />
+</menu>

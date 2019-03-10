@@ -14,6 +14,7 @@ public class Vocab implements Serializable {
 
     public Vocab(String[] words, int soundFile){ setWords(words);} //construct the class with a complete tuple of same meaning words
     public Vocab(String[] words){ setWords(words);} //construct the class with a complete tuple of same meaning words
+
     public Vocab() {} //or set words later
 
     public boolean isDifficult() {
@@ -35,6 +36,13 @@ public class Vocab implements Serializable {
 
     } //set a tuple
 
+    public int getIndex() {
+        return mIndex;
+    }
+
+    public void setIndex(int index) {
+        mIndex = index;
+    }
 
     public String getWord(int lang) { return this.mWords[lang]; } //get the word in specific language with language index
     public void setWord(int lang, String word){ this.mWords[lang] = word; } //set a word in specific language with language index

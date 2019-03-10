@@ -326,6 +326,11 @@ public class PuzzleActivity extends AppCompatActivity {
                 mButton.setTransformationMethod(null);
 
                 mButton.setBackgroundColor(Color.alpha(0));
+
+                // Fit text in button properly
+                mButton.setTextSize(5 * mDp2Px);
+                mButton.setSingleLine(true);
+
                 mButtonArray[i][j] = mButton;
             }
         }

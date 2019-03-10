@@ -3,17 +3,32 @@
     package="eta.sudoku">
 
     <application
-        android:name="eta.sudoku.SudokuApplication"
+        android:name=".SudokuApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-
         >
         <activity
+            android:name=".VocabWeekListActivity"
+            android:label=" "
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".VocabWeekActivity"
+            android:label="Week By Week List"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".VocabFullActivity"
+            android:label="@string/title_activity_full_vocab"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".VocabActivity"
+            android:label="@string/button_vocab"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".PuzzleActivity"
-            android:theme="@style/AppThemeNoActionBar"></activity>
+            android:theme="@style/AppThemeNoActionBar" />
         <activity
             android:name=".MenuActivity"
             android:theme="@style/AppTheme">
