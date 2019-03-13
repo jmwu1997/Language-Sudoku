@@ -23,4 +23,10 @@ public class VocabLibraryTest {
 
         assertEquals("eta.sudoku", appContext.getPackageName());
     }
+
+    @Test
+    public void testVocabLibrary() {
+        VocabLibrary test = new VocabLibrary();
+        test.getRandomVocabs(5);
+    }
 }

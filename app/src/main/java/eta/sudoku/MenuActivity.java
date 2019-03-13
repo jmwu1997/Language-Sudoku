@@ -22,11 +22,18 @@ public class MenuActivity extends AppCompatActivity {
         mGameStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MenuActivity.this, PuzzleActivity.class);
+                Intent i = new Intent(MenuActivity.this, SelectorActivity.class);
                 startActivity(i);
             }
         });
 
+        mVocab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MenuActivity.this, VocabActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
     @Override

@@ -11,17 +11,38 @@ import java.util.ListIterator;
 public class SudokuApplication extends Application {
     private static final SudokuApplication ourInstance = new SudokuApplication();
 
-    public VocabLibrary getVocabList() {
-        return mVocabList;
-    }
-    public VocabLibrary getVocabWeek(int week) {
-        return mVocabWeeks.get(week);
-    }
-    public int getTotalWeek(){
-        return mVocabWeeks.size();
-    }
+
+
+
     private VocabLibrary mVocabList = new VocabLibrary();
-    private ArrayList<VocabLibrary> mVocabWeeks = new ArrayList<>(2);
+    private ArrayList<VocabLibrary> mVocabWeeks = new ArrayList<>();
+
+    public boolean[] getSelected() {
+        return selected;
+    }
+
+    public void setSelected( int i, boolean selected) {
+        this.selected[i] = selected;
+    }
+
+    private boolean[] selected = new boolean[mVocabList.size()];
+
+    public VocabLibrary getSelectedVocabs() {
+        return selectedVocabs;
+    }
+
+    public void setSelectedVocabs(VocabLibrary selectedVocabs) {
+        this.selectedVocabs = selectedVocabs;
+    }
+
+    private VocabLibrary selectedVocabs = new VocabLibrary();
+
+
+    //VocabularyMenu
+    //    FullVocabList=> filter(isDifficult)
+     //   VocabListByWeek
+     //           VocabListWeek# => filter(isDifficult)
+
     private String[][] mVocabLib = {
             {"Apple", "苹果"},
             {"Pear", "梨"},
@@ -42,7 +63,7 @@ public class SudokuApplication extends Application {
             {"Date", "枣子"},
             {"Durian", "榴莲"},
             {"Longan", "龙眼"},
-            {"Melon", "香瓜"},
+            {"Melon", "香瓜"}
     };
 
     final int[] clips= { R.raw.apple, R.raw.pear, R.raw.banana, R.raw.peach, R.raw.grape, R.raw.haw, R.raw.guava,
@@ -59,8 +80,12 @@ public class SudokuApplication extends Application {
 
     public SudokuApplication(){
         for(int i=0;i<mVocabLib.length;i++){
-            mVocabList.add(new Vocab(mVocabLib[i]));
+            Vocab v = new Vocab(mVocabLib[i]);
+            v.setIndex(i+1);
+            mVocabList.add(v);
+
             mVocabList.get(i+1).setSoundFile(clips[i]);
+
         }
         //for(int i=0; i<mVocabLib.length; i++){
          //   mVocabList.get(i+1).setSoundFile(clips[i]);
@@ -68,4 +93,24 @@ public class SudokuApplication extends Application {
         //}
 
     }
+    public VocabLibrary getVocabList() {
+        return mVocabList;
+    }
+    public VocabLibrary getVocabWeek(int week) {
+        return mVocabWeeks.get(week);
+    }
+    public ArrayList<VocabLibrary> getAllWeekVocab(){return mVocabWeeks;}
+    public int getTotalWeek(){
+        return mVocabWeeks.size();
+    }
+    public void setVocabWeek(VocabLibrary WeekVocab, int weekInd){
+        mVocabWeeks.set(weekInd, WeekVocab);
+    }
+    public void addVocabIntoLib(Vocab v){
+        mVocabList.add(v);
+    }
+    public void addVocabIntoWeek(int week, Vocab v){
+        mVocabWeeks.get(week).add(v);
+    }
+
 }

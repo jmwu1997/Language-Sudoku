@@ -19,7 +19,7 @@ import java.util.Random;
 public class Puzzle implements Serializable{
     // 1-9 for words, 0 for blank
     private int[][] mPrefilledPuzzle = new int[9][9];
-    public int[][] mCurrentPuzzle = new int[9][9];
+    private int[][] mCurrentPuzzle = new int[9][9];
     private int[][] mFilledPuzzle = new int[9][9];
     private int mPuzzleLang = 0;
     private int mChosenLang = 1;
@@ -89,6 +89,9 @@ public class Puzzle implements Serializable{
     }
     public int[][] getFilledPuzzle() {
         return this.mFilledPuzzle;
+    }
+    public ArrayList<Vocab> getFullVocab() {
+        return mVocabs;
     }
 
     public void switchLang(){
@@ -171,11 +174,11 @@ public class Puzzle implements Serializable{
     public boolean isRowSolved(int row) {
         assert row >= 0 & row < 9;
         //convert int[] to Integer[]
-        Integer[] mRow = new Integer[9];
+        ArrayList<Integer> mRow = new ArrayList<>(0);
         for (int i = 0; i < 9; i++) {
-            mRow[i] = Integer.valueOf(this.mCurrentPuzzle[row][i]);
+            if(mCurrentPuzzle[row][i] != 0) mRow.add(Integer.valueOf(this.mCurrentPuzzle[row][i]));
         }
-        if (!Arrays.asList(mRow).containsAll(Arrays.asList(mRange))) { //mRow and mRange have to be Integer[]
+        if (!mRow.containsAll(Arrays.asList(mRange))) { //mRange have to be Integer[]
             //checks if mRow contains 1-9
             System.out.print("row ");
             System.out.print(row);
@@ -234,9 +237,32 @@ public class Puzzle implements Serializable{
     }
 
 
-
-
-
+    public boolean isDuplicateInRow(int row){
+        boolean[] bitmap = new boolean[9];
+        for(int i=0; i<9; i++){
+            if(mCurrentPuzzle[row][i] != 0)
+                if(!(bitmap[mCurrentPuzzle[row][i]-1] ^= true)) return true;
+        }
+        return false;
+    }
+    public boolean isDuplicateInCol(int col){
+        boolean[] bitmap = new boolean[9];
+        for(int i=0; i<9; i++){
+            if(mCurrentPuzzle[i][col] != 0)
+                if(!(bitmap[mCurrentPuzzle[i][col]-1] ^= true)) return true;
+        }
+        return false;
+    }
+    public boolean isDuplicateInSub(int sub){
+        boolean[] bitmap = new boolean[9];
+        for(int i=0; i<3; i++){
+            for(int j=0; j<3; j++) {
+                if (mCurrentPuzzle[(sub / 3) * 3 + i][(sub % 3) * 3 + j] != 0)
+                    if (!(bitmap[mCurrentPuzzle[(sub / 3) * 3 + i][(sub % 3) * 3 + j]-1] ^= true)) return true;
+            }
+        }
+        return false;
+    }
 }
 
 
