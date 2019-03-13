@@ -12,8 +12,32 @@ public class SudokuApplication extends Application {
     private static final SudokuApplication ourInstance = new SudokuApplication();
 
 
+
+
     private VocabLibrary mVocabList = new VocabLibrary();
     private ArrayList<VocabLibrary> mVocabWeeks = new ArrayList<>();
+
+    public boolean[] getSelected() {
+        return selected;
+    }
+
+    public void setSelected( int i, boolean selected) {
+        this.selected[i] = selected;
+    }
+
+    private boolean[] selected = new boolean[mVocabList.size()];
+
+    public VocabLibrary getSelectedVocabs() {
+        return selectedVocabs;
+    }
+
+    public void setSelectedVocabs(VocabLibrary selectedVocabs) {
+        this.selectedVocabs = selectedVocabs;
+    }
+
+    private VocabLibrary selectedVocabs = new VocabLibrary();
+
+
     //VocabularyMenu
     //    FullVocabList=> filter(isDifficult)
      //   VocabListByWeek
@@ -49,7 +73,9 @@ public class SudokuApplication extends Application {
 
         return ourInstance;
     }
-
+    public void setVocabDifficult(int index){
+        mVocabList.get(index).setDifficult(true);
+    }
 
 
     public SudokuApplication(){
@@ -86,4 +112,5 @@ public class SudokuApplication extends Application {
     public void addVocabIntoWeek(int week, Vocab v){
         mVocabWeeks.get(week).add(v);
     }
+
 }

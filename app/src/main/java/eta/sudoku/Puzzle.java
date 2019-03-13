@@ -1,10 +1,11 @@
 package eta.sudoku;
 //model class
 
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-
+import android.widget.Toast;
 
 
 import java.io.Serializable;
@@ -89,6 +90,9 @@ public class Puzzle implements Serializable{
     public int[][] getFilledPuzzle() {
         return this.mFilledPuzzle;
     }
+    public ArrayList<Vocab> getFullVocab() {
+        return mVocabs;
+    }
 
     public void switchLang(){
         int temp = mChosenLang;
@@ -167,14 +171,14 @@ public class Puzzle implements Serializable{
         return true;
     }
 
-    private boolean isRowSolved(int row) {
+    public boolean isRowSolved(int row) {
         assert row >= 0 & row < 9;
         //convert int[] to Integer[]
-        Integer[] mRow = new Integer[9];
+        ArrayList<Integer> mRow = new ArrayList<>(0);
         for (int i = 0; i < 9; i++) {
-            mRow[i] = Integer.valueOf(this.mCurrentPuzzle[row][i]);
+            if(mCurrentPuzzle[row][i] != 0) mRow.add(Integer.valueOf(this.mCurrentPuzzle[row][i]));
         }
-        if (!Arrays.asList(mRow).containsAll(Arrays.asList(mRange))) { //mRow and mRange have to be Integer[]
+        if (!mRow.containsAll(Arrays.asList(mRange))) { //mRange have to be Integer[]
             //checks if mRow contains 1-9
             System.out.print("row ");
             System.out.print(row);
@@ -184,7 +188,7 @@ public class Puzzle implements Serializable{
         return true;
     }
 
-    private boolean isColSolved(int col) {
+    public boolean isColSolved(int col) {
         assert col >= 0 & col < 9;
 
         Integer[] mCol = new Integer[9];
@@ -201,7 +205,7 @@ public class Puzzle implements Serializable{
         return true;
     }
 
-    private boolean isSubSolved(int sub) {
+    public boolean isSubSolved(int sub) {
         //sub index:
         //0 1 2
         //3 4 5
@@ -233,9 +237,32 @@ public class Puzzle implements Serializable{
     }
 
 
-
-
-
+    public boolean isDuplicateInRow(int row){
+        boolean[] bitmap = new boolean[9];
+        for(int i=0; i<9; i++){
+            if(mCurrentPuzzle[row][i] != 0)
+                if(!(bitmap[mCurrentPuzzle[row][i]-1] ^= true)) return true;
+        }
+        return false;
+    }
+    public boolean isDuplicateInCol(int col){
+        boolean[] bitmap = new boolean[9];
+        for(int i=0; i<9; i++){
+            if(mCurrentPuzzle[i][col] != 0)
+                if(!(bitmap[mCurrentPuzzle[i][col]-1] ^= true)) return true;
+        }
+        return false;
+    }
+    public boolean isDuplicateInSub(int sub){
+        boolean[] bitmap = new boolean[9];
+        for(int i=0; i<3; i++){
+            for(int j=0; j<3; j++) {
+                if (mCurrentPuzzle[(sub / 3) * 3 + i][(sub % 3) * 3 + j] != 0)
+                    if (!(bitmap[mCurrentPuzzle[(sub / 3) * 3 + i][(sub % 3) * 3 + j]-1] ^= true)) return true;
+            }
+        }
+        return false;
+    }
 }
 
 
