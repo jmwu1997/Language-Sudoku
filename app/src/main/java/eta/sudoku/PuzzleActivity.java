@@ -212,11 +212,13 @@ public class PuzzleActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.menu_alert_pos, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        SudokuApplication.getInstance().setSelectedVocabs(new VocabLibrary());
                         finish();
                     }
                 })
                 .setNegativeButton(R.string.menu_alert_neg, null)
                 .show();
+
 
     }
 

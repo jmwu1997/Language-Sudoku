@@ -41,6 +41,7 @@ public class SelectorActivity extends AppCompatActivity {
                 } else {
                     Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
                     startActivity(i);
+                    finish();
                 }
             }
         });
@@ -50,7 +51,9 @@ public class SelectorActivity extends AppCompatActivity {
             public void onClick(View v) {
                 SudokuApplication.getInstance().setSelectedVocabs(SudokuApplication.getInstance().getVocabList().getRandomVocabs(9));
                 Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
+
                 startActivity(i);
+                finish();
             }
         });
 
