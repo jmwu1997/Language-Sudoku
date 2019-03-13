@@ -490,6 +490,37 @@ public class PuzzleActivity extends AppCompatActivity {
         }
     }
 
+    private void switchNum(int z) {
+        TableLayout mSelectionLayout = (TableLayout) findViewById(R.id.puzzle_selectionTable);
+            for (int k = 1; k <= 9; k++) {
+                for (int i = 0; i < 9; i++) {
+                    for (int j = 0; j < 9; j++) {
+                        if (mTestPuzzle.getPrefilledCell(i, j) == k) {
+                            mButtonArray[i][j].setTextColor(Color.BLACK);
+                            if(z==1) {
+                                mButtonArray[i][j].setText(Integer.toString(k));
+                            }
+                            else{
+                                mButtonArray[i][j].setText(mTestPuzzle.getVocab(mTestPuzzle.getPrefilledCell(i, j), 0));
+                            }
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < 3; i++) {
+                TableRow mTblRow = (TableRow) mSelectionLayout.getChildAt(i); //get table row element
+                for (int j = 0; j < 3; j++) {
+                    Button mButton = (Button) mTblRow.getChildAt(j); //get button view
+                    if (z==1) {
+                        mButton.setText(mTestPuzzle.getVocab(i * 3 + j + 1, 0)); //write word on the button at position(i,j) from vocabs in "initial" language used for the puzzle
+                    }
+                    else{
+                        mButton.setText(mTestPuzzle.getVocab(i * 3 + j + 1, 1));
+                    }
+                }
+            }
+    }
+
     // Find index of 1d array
     private int findIndex(Button[] buttonArray, Button button) {
         for (int i = 0; i < 10; i++) {
@@ -509,6 +540,7 @@ public class PuzzleActivity extends AppCompatActivity {
                 final Vocab w = mVocabs.get(word);
                 if(word != 0){
                     if(!isCompMode){
+                        switchNum(1);
                         mButtonArray[i][j].setOnClickListener(new View.OnClickListener() {
                              MediaPlayer mp = MediaPlayer.create(PuzzleActivity.this, w.getSoundFile());
                              public void onClick(View v) {
@@ -517,6 +549,7 @@ public class PuzzleActivity extends AppCompatActivity {
                         });
                     }
                     if(isCompMode){
+                        switchNum(0);
                         final int finalJ = j;
                         final int finalI = i;
                         mButtonArray[i][j].setOnClickListener(new View.OnClickListener() {
