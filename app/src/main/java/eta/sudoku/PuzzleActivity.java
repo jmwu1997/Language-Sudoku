@@ -56,7 +56,7 @@ public class PuzzleActivity extends AppCompatActivity {
 
 
     //Test variables for puzzle.java and vocab.java
-       //private String[][] mVocabLib = SudokuApplication.getInstance().getVocabList().getRandomVocabs(9);
+    //private String[][] mVocabLib = SudokuApplication.getInstance().getVocabList().getRandomVocabs(9);
     //String[] a = getResources().getStringArray(R.array.EngAlpha);
     private VocabLibrary mVocabs = SudokuApplication.getInstance().getSelectedVocabs();
     //private VocabLibrary mVocabs = SudokuApplication.getInstance().getSelectedVocabs();
@@ -460,21 +460,22 @@ public class PuzzleActivity extends AppCompatActivity {
         mTestPuzzle.switchLang();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
+                if(!isCompMode) {
+                    if (mTestPuzzle.getPrefilledCell(i, j) == 0) {
+                        if (mTestPuzzle.getFilledCell(i, j) > 0) {
+                            mButtonArray[i][j].setTextColor(Color.BLUE);
+                            mButtonArray[i][j].setText(mTestPuzzle.getVocab(mTestPuzzle.getFilledCell(i, j), selLangIndex));
+                        } else {
 
-                if (mTestPuzzle.getPrefilledCell(i, j) == 0) {
-                    if (mTestPuzzle.getFilledCell(i, j) > 0) {
-                        mButtonArray[i][j].setTextColor(Color.BLUE);
-                        mButtonArray[i][j].setText(mTestPuzzle.getVocab(mTestPuzzle.getFilledCell(i, j), selLangIndex));
-                    } else {
+                        }
 
-                    }
-
-                } else if (mTestPuzzle.getPrefilledCell(i, j) > 0) {
-                    if (mTestPuzzle.getFilledCell(i, j) == 0) {
-                        mButtonArray[i][j].setTextColor(Color.BLACK);
-                        mButtonArray[i][j].setText(mTestPuzzle.getVocab(mTestPuzzle.getPrefilledCell(i, j), langIndex));
-                    } else {
-                        //error
+                    } else if (mTestPuzzle.getPrefilledCell(i, j) > 0) {
+                        if (mTestPuzzle.getFilledCell(i, j) == 0) {
+                            mButtonArray[i][j].setTextColor(Color.BLACK);
+                            mButtonArray[i][j].setText(mTestPuzzle.getVocab(mTestPuzzle.getPrefilledCell(i, j), langIndex));
+                        } else {
+                            //error
+                        }
                     }
                 }
             }
@@ -488,7 +489,22 @@ public class PuzzleActivity extends AppCompatActivity {
             }
         }
     }
-
+    
+    private void switchToNum(boolean isComp) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if(mTestPuzzle.getPrefilledCell(i,j) > 0){
+                    mButtonArray[i][j].setTextColor(Color.BLACK);
+                    if(isComp) {
+                        mButtonArray[i][j].setText(Integer.toString(mTestPuzzle.getPrefilledCell(i, j)));
+                    }
+                    else{
+                        mButtonArray[i][j].setText(mTestPuzzle.getVocab(mTestPuzzle.getPrefilledCell(i, j), langIndex));
+                    }
+                }
+            }
+        }
+    }
     // Find index of 1d array
     private int findIndex(Button[] buttonArray, Button button) {
         for (int i = 0; i < 10; i++) {
@@ -502,19 +518,12 @@ public class PuzzleActivity extends AppCompatActivity {
 
     //play sound on comprehension mode
     private void playSound() {
+        switchToNum(!isCompMode);
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 final int word = mTestPuzzle.getPrefilledCell(i,j);
                 final Vocab w = mVocabs.get(word);
                 if(word != 0){
-                    if(!isCompMode){
-                        mButtonArray[i][j].setOnClickListener(new View.OnClickListener() {
-                             MediaPlayer mp = MediaPlayer.create(PuzzleActivity.this, w.getSoundFile());
-                             public void onClick(View v) {
-                                 mp.start();
-                             }
-                        });
-                    }
                     if(isCompMode){
                         final int finalJ = j;
                         final int finalI = i;
@@ -522,6 +531,13 @@ public class PuzzleActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 hint(finalI, finalJ);
+                            }
+                        });
+                    }else{
+                        mButtonArray[i][j].setOnClickListener(new View.OnClickListener() {
+                            MediaPlayer mp = MediaPlayer.create(PuzzleActivity.this, w.getSoundFile());
+                            public void onClick(View v) {
+                                mp.start();
                             }
                         });
                     }
