@@ -489,24 +489,7 @@ public class PuzzleActivity extends AppCompatActivity {
             }
         }
     }
-    private void switchNum(int z) {
-        for (int k = 1; k <= 9; k++) {
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
-                    if (mTestPuzzle.getPrefilledCell(i, j) == k) {
-                        mButtonArray[i][j].setTextColor(Color.BLACK);
-                        if(z==1) {
-                            mButtonArray[i][j].setText(Integer.toString(k));
-                        }
-                        else{
-                            mButtonArray[i][j].setText(mTestPuzzle.getVocab(mTestPuzzle.getPrefilledCell(i, j), langIndex));
-                        }
-                    }
-                }
-            }
-        }
-
-    }
+    
     private void switchToNum(boolean isComp) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
