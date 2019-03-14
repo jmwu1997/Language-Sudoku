@@ -39,6 +39,7 @@ public class PuzzleActivity extends AppCompatActivity {
     private static final String KEY_LANG_INDEX = "langIndex";
     private static final String KEY_SEL_LANG_INDEX = "selLangIndex";
     private static final String KEY_PUZZLE = "testPuzzle";
+    private static final String KEY_IS_COMP = "isCompMode";
     // 1 indexed
     private Button[] selectionButtons = new Button[10];
     // 0 or 1 to select language for selection Buttons, board language will be opposite
@@ -93,7 +94,7 @@ public class PuzzleActivity extends AppCompatActivity {
             langIndex = savedInstanceState.getInt(KEY_LANG_INDEX);
             selLangIndex = savedInstanceState.getInt(KEY_SEL_LANG_INDEX);
             mTestPuzzle = (Puzzle) savedInstanceState.getSerializable(KEY_PUZZLE);
-
+            isCompMode = savedInstanceState.getBoolean(KEY_IS_COMP);
         }
         /* //currently not useful
         Configuration config = new Configuration();
@@ -163,6 +164,11 @@ public class PuzzleActivity extends AppCompatActivity {
         });
 
         final ImageButton mComprehensionButton = (ImageButton) findViewById(R.id.puzzle_Comprehension);
+        if(isCompMode){
+            mComprehensionButton.setImageResource(R.drawable.nosoundicon);
+        }else{
+            mComprehensionButton.setImageResource(R.drawable.soundicon);
+        }
         mComprehensionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -262,6 +268,7 @@ public class PuzzleActivity extends AppCompatActivity {
         savedInstanceState.putInt(KEY_LANG_INDEX, langIndex);
         savedInstanceState.putInt(KEY_SEL_LANG_INDEX, selLangIndex);
         savedInstanceState.putSerializable(KEY_PUZZLE, mTestPuzzle);
+        savedInstanceState.putBoolean(KEY_IS_COMP, isCompMode);
     }
 
     @Override
@@ -370,12 +377,15 @@ public class PuzzleActivity extends AppCompatActivity {
                 } else if (prefilledPuzzle[i][j] > 0) {
                     if (filledPuzzle[i][j] == 0) {
                         mButton.setTextColor(Color.BLACK);
-                        mButton.setText(mVocabs.get(prefilledPuzzle[i][j]).getWord(langIndex));
+                        if(!isCompMode) {
+                            mButton.setText(mVocabs.get(prefilledPuzzle[i][j]).getWord(langIndex));
+                        }else{
+                            mButton.setText(Integer.toString(mTestPuzzle.getPrefilledCell(i, j)));
+                        }
                         mButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 hint(row, col);
-
                             }
                         });
                     } else {
@@ -436,10 +446,10 @@ public class PuzzleActivity extends AppCompatActivity {
 
     public void submit() {
         if (mTestPuzzle.isSolved()) {
-            Toast.makeText(ctx, "solved", Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, "Sudoku solved!", Toast.LENGTH_LONG).show();
 
         } else {
-            Toast.makeText(ctx, "incorrect", Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, "Incorrect", Toast.LENGTH_LONG).show();
         }
     }
 
