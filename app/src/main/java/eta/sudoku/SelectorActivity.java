@@ -10,12 +10,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,8 +28,10 @@ public class SelectorActivity extends AppCompatActivity {
     private boolean[] selected = new boolean[mFullVocab.size()];
     private int size = 9;
     private int difficulty = 0;
+    private boolean isListen = false;
     public static final String EXTRA_SUDOKU_SIZE = "eta.sudoku.sudoku_size";
     public static final String EXTRA_SUDOKU_DIFFICULTY = "eta.sudoku.sudoku_difficulty";
+    public static final String EXTRA_SUDOKU_IS_LISTEN = "eta.sudoku.sudoku_isListen";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,9 @@ public class SelectorActivity extends AppCompatActivity {
         //setting dialog pop up
         LayoutInflater li = LayoutInflater.from(this);
         View prompt = li.inflate(R.layout.game_setting, null);
+
+        final Switch listenSwitch = (Switch) prompt.findViewById(R.id.setting_listen);
+
 
         final AlertDialog.Builder a = new AlertDialog.Builder(this);
         a.setView(prompt);
@@ -69,6 +76,7 @@ public class SelectorActivity extends AppCompatActivity {
                                     Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
                                     i.putExtra(EXTRA_SUDOKU_SIZE, size);
                                     i.putExtra(EXTRA_SUDOKU_DIFFICULTY, difficulty);
+                                    i.putExtra(EXTRA_SUDOKU_IS_LISTEN, listenSwitch.isChecked());
                                     startActivity(i);
                                     finish();
                                 }
@@ -93,6 +101,7 @@ public class SelectorActivity extends AppCompatActivity {
                                 Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
                                 i.putExtra(EXTRA_SUDOKU_SIZE, size);
                                 i.putExtra(EXTRA_SUDOKU_DIFFICULTY, difficulty);
+                                i.putExtra(EXTRA_SUDOKU_IS_LISTEN, listenSwitch.isChecked());
                                 startActivity(i);
                                 finish();
                             }
@@ -177,6 +186,8 @@ public class SelectorActivity extends AppCompatActivity {
 
         final TextView textSize = (TextView) prompt.findViewById(R.id.setting_size);
         final TextView textDiff = (TextView) prompt.findViewById(R.id.setting_difficulty);
+
+
         Button buttonSize9 = (Button) prompt.findViewById(R.id.setting_size_9);
         buttonSize9.setOnClickListener(new View.OnClickListener() {
             @Override

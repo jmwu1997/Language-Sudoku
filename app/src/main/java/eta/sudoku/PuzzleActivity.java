@@ -83,6 +83,7 @@ public class PuzzleActivity extends AppCompatActivity {
         puzzleSize = getIntent().getIntExtra(SelectorActivity.EXTRA_SUDOKU_SIZE,9);
         mPuzzle = SudokuApplication.getInstance().getPuzzle(puzzleSize);
         puzzleDiffculty = getIntent().getIntExtra(SelectorActivity.EXTRA_SUDOKU_DIFFICULTY,0);
+        isCompMode = getIntent().getBooleanExtra(SelectorActivity.EXTRA_SUDOKU_IS_LISTEN, false);
         mButtonArray = new Button[puzzleSize][puzzleSize];
         incorrectCount = new int[puzzleSize];
         selectionButtons = new Button[puzzleSize];
@@ -145,7 +146,8 @@ public class PuzzleActivity extends AppCompatActivity {
                 switchLang();
             }
         });
-
+        playSound();
+/*
         final ImageButton mComprehensionButton = (ImageButton) findViewById(R.id.puzzle_Comprehension);
         if(isCompMode){
             mComprehensionButton.setImageResource(R.drawable.nosoundicon);
@@ -169,7 +171,7 @@ public class PuzzleActivity extends AppCompatActivity {
                 }
             }
 
-        });
+        });*/
 
         Button mMenuButton = (Button) findViewById(R.id.puzzle_menu);
         mMenuButton.setOnClickListener(new View.OnClickListener() {
@@ -567,13 +569,13 @@ public class PuzzleActivity extends AppCompatActivity {
 
     //play sound on comprehension mode
     private void playSound() {
-        switchToNum(!isCompMode);
+        switchToNum(isCompMode);
         for (int i = 0; i < puzzleSize; i++) {
             for (int j = 0; j < puzzleSize; j++) {
                 final int word = mTestPuzzle.getPrefilledCell(i,j);
                 final Vocab w = mVocabs.get(word);
                 if(word != 0){
-                    if(isCompMode){
+                    if(!isCompMode){
                         final int finalJ = j;
                         final int finalI = i;
                         mButtonArray[i][j].setOnClickListener(new View.OnClickListener() {

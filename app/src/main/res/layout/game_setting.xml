@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="70dp"
+            android:layout_marginEnd="50dp"
             android:gravity="end"
             android:textSize="18dp"
             android:text="9x9"
@@ -60,17 +60,21 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:text="Difficulty"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="70dp"
+        android:layout_marginEnd="50dp"
         android:gravity="end"
-        android:textSize="18dp"
+        android:textSize="18sp"
+
+
+
+
         android:text="EASY"
         android:id="@+id/setting_difficulty"/>
-</LinearLayout>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -90,5 +94,22 @@
             android:text="HARD"
             android:id="@+id/setting_dif_hard"/>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Listening Mode"
+            android:textSize="18sp"/>
 
+        <Switch
+            android:id="@+id/setting_listen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="50dp"
+            />
+
+    </LinearLayout>
 </LinearLayout>
