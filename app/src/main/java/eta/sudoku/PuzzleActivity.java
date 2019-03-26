@@ -60,23 +60,11 @@ public class PuzzleActivity extends AppCompatActivity {
 
 
     //Test variables for puzzle.java and vocab.java
-    //private String[][] mVocabLib = SudokuApplication.getInstance().getVocabList().getRandomVocabs(9);
-    //String[] a = getResources().getStringArray(R.array.EngAlpha);
+
     private VocabLibrary mVocabs = SudokuApplication.getInstance().getSelectedVocabs();
-    //private VocabLibrary mVocabs = SudokuApplication.getInstance().getSelectedVocabs();
     private Button[][] mButtonArray;
 
-    private int[][] mPuzzle = {
-            {6, 8, 2, 9, 4, 7, 5, 1, 3},
-            {3, 1, 4, 6, 2, 5, 7, 9, 8},
-            {9, 7, 5, 8, 3, 1, 4, 6, 2},
-            {2, 5, 7, 3, 8, 6, 9, 4, 1},
-            {1, 4, 6, 7, 9, 2, 3, 8, 5},
-            {8, 9, 3, 1, 5, 4, 6, 2, 7},
-            {7, 6, 9, 2, 1, 3, 8, 5, 4},
-            {4, 2, 8, 5, 7, 9, 1, 3, 6},
-            {5, 3, 1, 4, 6, 8, 2, 7, 9}
-    };
+    private int[][] mPuzzle;
     private Puzzle mTestPuzzle;
     //Test variables end
     public transient Context ctx = this; //for testing with TOAST
