@@ -1,6 +1,7 @@
 package eta.sudoku;
 //model class
 
+import android.support.annotation.MainThread;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -18,23 +19,36 @@ import java.util.Random;
 
 public class Puzzle implements Serializable{
     // 1-9 for words, 0 for blank
-    private int[][] mPrefilledPuzzle = new int[9][9];
-    private int[][] mCurrentPuzzle = new int[9][9];
-    private int[][] mFilledPuzzle = new int[9][9];
+    private int[][] mPrefilledPuzzle;
+    private int[][] mCurrentPuzzle;
+    private int[][] mFilledPuzzle;
     private int mPuzzleLang = 0;
     private int mChosenLang = 1;
-    private Integer[] mRange = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    public Integer[] mRange;
     private ArrayList<Vocab> mVocabs;
+    private int mSize; //4,6,9,12
     // difficulty
-    private int min = 26; // for difficulty
-    private int max = 35;
+    private int mDifficulty;//0,1,2
+    private int min; // for difficulty
+    private int max;
 
     private int selectedInd = -1;
 
-    public Puzzle(int[][] savedPuzzle, ArrayList<Vocab> vocab) {//construct with a pre-generated puzzle
-        createPuzzle(savedPuzzle);
-        this.mVocabs = vocab;
+    public Puzzle(int[][] savedPuzzle, ArrayList<Vocab> vocab, int size, int difficulty) {//construct with a pre-generated puzzle
+        this.mPrefilledPuzzle = new int[size][size];
+        this.mCurrentPuzzle = new int[size][size];
+        this.mFilledPuzzle = new int[size][size];
+        mRange = new Integer[size];
+        for(int i=0; i<size; i++){
+            mRange[i] = i+1;
+        }
+        this.mDifficulty = difficulty;
+        this.min = size*size*(difficulty+1)/5;
 
+        this.max =  (int) Math.ceil(min*1.1);
+        this.mSize = size;
+        this.mVocabs = vocab;
+        createPuzzle(savedPuzzle);
     }
 /*
 
@@ -68,13 +82,15 @@ public class Puzzle implements Serializable{
     };*/
 
 
-
+    public int getSize() {
+        return mSize;
+    }
 
     public String getVocab(int index, int lang){
         return mVocabs.get(index).getWord(lang);
     }
     public void createPuzzle(int[][] savedPuzzle) {//create puzzle with a pre-generated puzzle(number ranging from 1-9, 0 for blank
-        for(int i=0; i<9; i++) {
+        for(int i=0; i<mSize; i++) {
             this.mPrefilledPuzzle[i] = savedPuzzle[i].clone(); //copy by value
             this.mCurrentPuzzle[i] = savedPuzzle[i].clone();
         }
@@ -149,13 +165,15 @@ public class Puzzle implements Serializable{
     public void genRandomPuzzle() {//generate puzzle from random difficulty with bounds defined in this class
         Random r = new Random();
         // pick random difficulty(relating the # of blank cells)
+        //TODO: bound negative when easy 6x6
+        Log.e(SelectorActivity.TAG, Integer.toString(max) +" "+ Integer.toString(min));
         int difficulty = r.nextInt(this.max-this.min) + this.min;
 
         // pick random positions
         //mRandomPositions = new int[difficulty][2];
         for (int i = 0; i < difficulty; i++) {
-            int x = /*mRandomPositions[i][0] =*/ r.nextInt(9);
-            int y = /*mRandomPositions[i][1] =*/ r.nextInt(9);
+            int x = /*mRandomPositions[i][0] =*/ r.nextInt(mSize);
+            int y = /*mRandomPositions[i][1] =*/ r.nextInt(mSize);
 
             this.mPrefilledPuzzle[x][y] = 0;
             this.mCurrentPuzzle[x][y] = 0;
@@ -163,8 +181,8 @@ public class Puzzle implements Serializable{
     }
 
     public boolean isCompleted() { //check if all the cells are filled
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < mSize; i++) {
+            for (int j = 0; j < mSize; j++) {
                 if (isBoxEmpty(i, j)) return false;
             }
         }
@@ -172,10 +190,10 @@ public class Puzzle implements Serializable{
     }
 
     public boolean isRowSolved(int row) {
-        assert row >= 0 & row < 9;
+        assert row >= 0 & row < mSize;
         //convert int[] to Integer[]
         ArrayList<Integer> mRow = new ArrayList<>(0);
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < mSize; i++) {
             if(mCurrentPuzzle[row][i] != 0) mRow.add(Integer.valueOf(this.mCurrentPuzzle[row][i]));
         }
         if (!mRow.containsAll(Arrays.asList(mRange))) { //mRange have to be Integer[]
@@ -189,10 +207,10 @@ public class Puzzle implements Serializable{
     }
 
     public boolean isColSolved(int col) {
-        assert col >= 0 & col < 9;
+        assert col >= 0 & col < mSize;
 
-        Integer[] mCol = new Integer[9];
-        for (int i = 0; i < 9; i++) {
+        Integer[] mCol = new Integer[mSize];
+        for (int i = 0; i < mSize; i++) {
             mCol[i] = Integer.valueOf(this.mCurrentPuzzle[i][col]);
         }
         if (!Arrays.asList(mCol).containsAll(Arrays.asList(mRange))) {
@@ -207,15 +225,33 @@ public class Puzzle implements Serializable{
 
     public boolean isSubSolved(int sub) {
         //sub index:
-        //0 1 2
-        //3 4 5
-        //6 7 8
-        assert sub >= 0 & sub < 9;
-
-        Integer[] mSub = new Integer[9];
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                mSub[i * 3 + j] = Integer.valueOf(this.mCurrentPuzzle[(sub / 3) * 3 + i][(sub % 3) * 3 + j]);
+        //0 1 2   0 1    0 1    0 1 2
+        //3 4 5   2 3    2 3    3 4 5
+        //6 7 8          4 5    6 7 8
+        //                      9 1011
+        assert sub >= 0 & sub < mSize;
+        int r = 0;
+        int c = 0;
+        switch(mSize) {
+            case 4:
+            case 9: r =(int)Math.sqrt(mSize);
+                c = r;
+                break;
+            case 6: r = 2;
+                c = 3;
+                break;
+            case 12: r = 3;
+                c = 4;
+                break;
+            default:
+                System.out.print("mSize out of range");
+                break;
+        }
+        assert r == 0 || c == 0;
+        Integer[] mSub = new Integer[mSize];
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                mSub[i * c + j] = Integer.valueOf(this.mCurrentPuzzle[(sub / r) * r + i][(sub % r) * c + j]);
             }
         }
         if (!Arrays.asList(mSub).containsAll(Arrays.asList(mRange))) {
@@ -230,7 +266,7 @@ public class Puzzle implements Serializable{
 
     public boolean isSolved() {
         if (!isCompleted()) return false;
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < mSize; i++) {
             if (!isRowSolved(i) || !isColSolved(i) || !isSubSolved(i)) return false;
         }
         return true;
@@ -238,27 +274,47 @@ public class Puzzle implements Serializable{
 
 
     public boolean isDuplicateInRow(int row){
-        boolean[] bitmap = new boolean[9];
-        for(int i=0; i<9; i++){
+        boolean[] bitmap = new boolean[mSize];
+        for(int i=0; i<mSize; i++){
             if(mCurrentPuzzle[row][i] != 0)
                 if(!(bitmap[mCurrentPuzzle[row][i]-1] ^= true)) return true;
         }
         return false;
     }
     public boolean isDuplicateInCol(int col){
-        boolean[] bitmap = new boolean[9];
-        for(int i=0; i<9; i++){
+        boolean[] bitmap = new boolean[mSize];
+        for(int i=0; i<mSize; i++){
             if(mCurrentPuzzle[i][col] != 0)
                 if(!(bitmap[mCurrentPuzzle[i][col]-1] ^= true)) return true;
         }
         return false;
     }
     public boolean isDuplicateInSub(int sub){
-        boolean[] bitmap = new boolean[9];
-        for(int i=0; i<3; i++){
-            for(int j=0; j<3; j++) {
-                if (mCurrentPuzzle[(sub / 3) * 3 + i][(sub % 3) * 3 + j] != 0)
-                    if (!(bitmap[mCurrentPuzzle[(sub / 3) * 3 + i][(sub % 3) * 3 + j]-1] ^= true)) return true;
+        boolean[] bitmap = new boolean[mSize];
+        assert sub >= 0 & sub < mSize;
+        int r = 0;
+        int c = 0;
+        switch(mSize) {
+            case 4:
+            case 9: r =(int)Math.sqrt(mSize);
+                c = r;
+                break;
+            case 6: r = 2;
+                c = 3;
+                break;
+            case 12: r = 3;
+                c = 4;
+                break;
+            default:
+                System.out.print("mSize out of range");
+                break;
+        }
+        assert r == 0 || c == 0;
+
+        for(int i=0; i<r; i++){
+            for(int j=0; j<c; j++) {
+                if (mCurrentPuzzle[(sub / r) * r + i][(sub % r) * c + j] != 0)
+                    if (!(bitmap[mCurrentPuzzle[(sub / r) * r + i][(sub % r) * c + j]-1] ^= true)) return true;
             }
         }
         return false;
