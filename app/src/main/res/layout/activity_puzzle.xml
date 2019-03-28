@@ -20,7 +20,7 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/background_image_desc"
             android:scaleType="fitXY"
-            app:srcCompat="@drawable/sudokuboard" />
+            app:srcCompat="@drawable/sudoku6x6" />
 
         <GridLayout
             android:id="@+id/puzzle_board_grid"
