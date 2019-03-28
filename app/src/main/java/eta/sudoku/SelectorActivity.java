@@ -1,27 +1,37 @@
 package eta.sudoku;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class SelectorActivity extends AppCompatActivity {
     //private static final SelectorActivity ourInstance = new SelectorActivity();
+    public static final String TAG = "SelectorActivity";
     private VocabLibrary mFullVocab = SudokuApplication.getInstance().getVocabList();
     private boolean[] selected = new boolean[mFullVocab.size()];
-
-
-
+    private int size = 9;
+    private int difficulty = 0;
+    private boolean isListen = false;
+    public static final String EXTRA_SUDOKU_SIZE = "eta.sudoku.sudoku_size";
+    public static final String EXTRA_SUDOKU_DIFFICULTY = "eta.sudoku.sudoku_difficulty";
+    public static final String EXTRA_SUDOKU_IS_LISTEN = "eta.sudoku.sudoku_isListen";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +42,26 @@ public class SelectorActivity extends AppCompatActivity {
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.selector_Vocab_layout);
 
+        size = getIntent().getIntExtra(MenuActivity.EXTRA_SUDOKU_SIZE,9);
+        difficulty = getIntent().getIntExtra(MenuActivity.EXTRA_SUDOKU_DIFFICULTY, 0);
+        isListen = getIntent().getBooleanExtra(MenuActivity.EXTRA_SUDOKU_IS_LISTEN, false);
+
         Button start = (Button) findViewById(R.id.selector_start_game);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(SudokuApplication.getInstance().getSelectedVocabs().size()<10){
-                    Toast.makeText(SelectorActivity.this, "Please select "+ Integer.toString(10-SudokuApplication.getInstance().getSelectedVocabs().size()) + " more words", Toast.LENGTH_LONG).show();
+                if(SudokuApplication.getInstance().getSelectedVocabs().size()<size+1){
+                    Toast.makeText(SelectorActivity.this, "Please select "+ Integer.toString(size+1-SudokuApplication.getInstance().getSelectedVocabs().size()) + " more words", Toast.LENGTH_LONG).show();
                 } else {
+
                     Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
+                    i.putExtra(EXTRA_SUDOKU_SIZE, size);
+                    i.putExtra(EXTRA_SUDOKU_DIFFICULTY, difficulty);
+                    i.putExtra(EXTRA_SUDOKU_IS_LISTEN, isListen);
                     startActivity(i);
+                    finish();
+
+
                 }
             }
         });
@@ -48,13 +69,17 @@ public class SelectorActivity extends AppCompatActivity {
         startRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SudokuApplication.getInstance().setSelectedVocabs(SudokuApplication.getInstance().getVocabList().getRandomVocabs(9));
+                SudokuApplication.getInstance().setSelectedVocabs(SudokuApplication.getInstance().getVocabList().getRandomVocabs(size));
                 Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
+                i.putExtra(EXTRA_SUDOKU_SIZE, size);
+                i.putExtra(EXTRA_SUDOKU_DIFFICULTY, difficulty);
+                i.putExtra(EXTRA_SUDOKU_IS_LISTEN, isListen);
                 startActivity(i);
+                finish();
             }
         });
 
-
+        //show all vocab from overall vocab library
         for(int i=1; i<mFullVocab.size(); i++) {
             final int ind = i;
             final LinearLayout wordLayout = new LinearLayout(eta.sudoku.SelectorActivity.this);
@@ -76,7 +101,7 @@ public class SelectorActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if(selected[ind]){
-                        //SudokuApplication.getInstance().setSelected(ind, false);
+
                         selected[ind] = false;
                         SudokuApplication.getInstance().getSelectedVocabs().remove(mFullVocab.get(ind));
                         if(mFullVocab.get(ind).isDifficult()) {
@@ -86,13 +111,13 @@ public class SelectorActivity extends AppCompatActivity {
                             wordLayout.setBackgroundColor(Color.WHITE);
                         }
                     }else {
-                        if(SudokuApplication.getInstance().getSelectedVocabs().size()<10) {
+                        if(SudokuApplication.getInstance().getSelectedVocabs().size()<size+1) {
                             //SudokuApplication.getInstance().setSelected(ind, true);
                             selected[ind] = true;
                             SudokuApplication.getInstance().getSelectedVocabs().add(mFullVocab.get(ind));
                             wordLayout.setBackgroundColor(Color.GREEN);
                         }else{
-                            Toast.makeText(SelectorActivity.this, "You have already selected 9 words", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SelectorActivity.this, "You have already selected "+ Integer.toString(size)+" words", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -119,6 +144,9 @@ public class SelectorActivity extends AppCompatActivity {
             word1.setLayoutParams(marginLayoutParams);
             wordLayout.addView(word1);
         }
+
+
+
     }
     @Override
     public void onBackPressed() {
@@ -126,5 +154,82 @@ public class SelectorActivity extends AppCompatActivity {
         SudokuApplication.getInstance().setSelectedVocabs(new VocabLibrary());
         finish();
     }
+    public void settings(){
 
+        LayoutInflater li = LayoutInflater.from(this);
+        View prompt = li.inflate(R.layout.game_setting, null);
+
+        AlertDialog.Builder a = new AlertDialog.Builder(this);
+        a.setView(prompt);
+
+
+        a
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+
+                            }
+                        });
+        AlertDialog dialog = a.create();
+        dialog.show();
+
+    }
+    public void settingsRandom(){
+        LayoutInflater li = LayoutInflater.from(this);
+        View prompt = li.inflate(R.layout.game_setting, null);
+
+        AlertDialog.Builder a = new AlertDialog.Builder(this);
+        a.setView(prompt);
+        a
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+
+                        }
+                        })
+                .setPositiveButton("START",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SudokuApplication.getInstance().setSelectedVocabs(SudokuApplication.getInstance().getVocabList().getRandomVocabs(size));
+                        Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
+
+                        startActivity(i);
+                        finish();
+                    }
+                });
+        AlertDialog dialog = a.create();
+        dialog.show();
+    }
+    public void settingsSelected(){
+        LayoutInflater li = LayoutInflater.from(this);
+        View prompt = li.inflate(R.layout.game_setting, null);
+
+        AlertDialog.Builder a = new AlertDialog.Builder(this);
+        a.setView(prompt);
+        a
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                .setPositiveButton("SELECT VOCABULARY",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
+                            startActivity(i);
+                            finish();
+                        }
+                    });
+
+    AlertDialog dialog = a.create();
+        dialog.show();
+    }
 }
