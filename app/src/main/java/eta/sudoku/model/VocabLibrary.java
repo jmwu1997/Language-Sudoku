@@ -1,4 +1,4 @@
-package eta.sudoku;
+package eta.sudoku.model;
 
 
 import java.util.ArrayList;

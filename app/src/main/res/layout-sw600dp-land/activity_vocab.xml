@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".VocabActivity">
+    tools:context=".view.VocabActivity">
 
         <Button
         android:id="@+id/vocab_full_vocab"

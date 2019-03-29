@@ -1,15 +1,10 @@
-package eta.sudoku;
+package eta.sudoku.view;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,15 +13,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.zip.Inflater;
+import eta.sudoku.R;
+import eta.sudoku.SudokuApplication;
+import eta.sudoku.model.Vocab;
+import eta.sudoku.model.VocabLibrary;
 
 public class VocabFullActivity extends AppCompatActivity {
     private VocabLibrary mFullVocab = SudokuApplication.getInstance().getVocabList();

@@ -1,13 +1,11 @@
-package eta.sudoku;
+package eta.sudoku.view;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.media.MediaPlayer;
-import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,24 +13,21 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import eta.sudoku.R;
+import eta.sudoku.SudokuApplication;
+import eta.sudoku.controller.PuzzleController;
+import eta.sudoku.model.Puzzle;
+import eta.sudoku.model.Vocab;
+import eta.sudoku.model.VocabLibrary;
 
 
 public class PuzzleActivity extends AppCompatActivity {
@@ -42,6 +37,9 @@ public class PuzzleActivity extends AppCompatActivity {
     private static final String KEY_SEL_LANG_INDEX = "selLangIndex";
     private static final String KEY_PUZZLE = "testPuzzle";
     private static final String KEY_IS_COMP = "isCompMode";
+
+    private static final PuzzleController puzzleController= PuzzleController.getInstance();
+
     // 1 indexed
     private Button[] selectionButtons;
     // 0 or 1 to select language for selection Buttons, board language will be opposite
@@ -82,15 +80,24 @@ public class PuzzleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_puzzle);
 
-        puzzleSize = getIntent().getIntExtra(SelectorActivity.EXTRA_SUDOKU_SIZE,9);
-        mPuzzle = SudokuApplication.getInstance().getPuzzle(puzzleSize);
-        puzzleDiffculty = getIntent().getIntExtra(SelectorActivity.EXTRA_SUDOKU_DIFFICULTY,0);
+        //puzzleSize = getIntent().getIntExtra(SelectorActivity.EXTRA_SUDOKU_SIZE,9);
+        //mPuzzle = SudokuApplication.getInstance().getPuzzle(puzzleSize);
+        //puzzleDiffculty = getIntent().getIntExtra(SelectorActivity.EXTRA_SUDOKU_DIFFICULTY,0);
         isCompMode = getIntent().getBooleanExtra(SelectorActivity.EXTRA_SUDOKU_IS_LISTEN, false);
         mButtonArray = new Button[puzzleSize][puzzleSize];
         mCells = new TextView[puzzleSize][puzzleSize];
         incorrectCount = new int[puzzleSize];
         selectionButtons = new Button[puzzleSize];
-        mTestPuzzle = new Puzzle(mPuzzle, mVocabs, puzzleSize, puzzleDiffculty);
+        //mTestPuzzle = new Puzzle(mPuzzle, mVocabs, puzzleSize, puzzleDiffculty);
+        //mTestPuzzle = puzzleController.newPuzzle(mPuzzle, mVocabs, puzzleSize, puzzleDiffculty);
+        puzzleController.setSize(getIntent().getIntExtra(SelectorActivity.EXTRA_SUDOKU_SIZE,9));
+        puzzleController.setSudoku(SudokuApplication.getInstance().getPuzzle(puzzleController.getSize()));
+        puzzleController.setDifficulty(getIntent().getIntExtra(SelectorActivity.EXTRA_SUDOKU_DIFFICULTY,0));
+        puzzleController.setPuzzleVocabs(SudokuApplication.getInstance().getSelectedVocabs());
+        puzzleController.newPuzzle();
+
+
+
 
 
         if (savedInstanceState != null) {
@@ -115,7 +122,8 @@ public class PuzzleActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {//only generate random puzzle once
 
-            mTestPuzzle.genRandomPuzzle();
+            //mTestPuzzle.genRandomPuzzle();
+            puzzleController.genPuzzle();
         }
         GridLayout selectionLayout = (GridLayout) findViewById(R.id.puzzle_select_pad);
         ImageView background = (ImageView) findViewById(R.id.puzzle_board);

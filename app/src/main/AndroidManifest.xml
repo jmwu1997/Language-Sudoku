@@ -10,30 +10,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
         <activity
-            android:name=".SelectorActivity"
+            android:name=".view.SelectorActivity"
             android:label="@string/title_activity_selector"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".VocabWeekListActivity"
+            android:name=".view.VocabWeekListActivity"
             android:label=" "
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".VocabWeekActivity"
+            android:name=".view.VocabWeekActivity"
             android:label="Week By Week List"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".VocabFullActivity"
+            android:name=".view.VocabFullActivity"
             android:label="@string/title_activity_full_vocab"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".VocabActivity"
+            android:name=".view.VocabActivity"
             android:label="@string/button_vocab"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".PuzzleActivity"
+            android:name=".view.PuzzleActivity"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
-            android:name=".MenuActivity"
+            android:name=".view.MenuActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

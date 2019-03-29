@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="eta.sudoku.VocabFullActivity">
+    tools:context="eta.sudoku.view.VocabFullActivity">
     <item
         android:id="@+id/fullVocab_add_word"
         android:orderInCategory="100"

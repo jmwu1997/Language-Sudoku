@@ -1,20 +1,15 @@
-package eta.sudoku;
+package eta.sudoku.model;
 //model class
 
-import android.support.annotation.MainThread;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.Toast;
 
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
-
 
 
 public class Puzzle implements Serializable{
@@ -165,8 +160,7 @@ public class Puzzle implements Serializable{
     public void genRandomPuzzle() {//generate puzzle from random difficulty with bounds defined in this class
         Random r = new Random();
         // pick random difficulty(relating the # of blank cells)
-        //TODO: bound negative when easy 6x6
-        Log.e(SelectorActivity.TAG, Integer.toString(max) +" "+ Integer.toString(min));
+
         int difficulty = r.nextInt(this.max-this.min) + this.min;
 
         // pick random positions

@@ -1,25 +1,24 @@
-package eta.sudoku;
+package eta.sudoku.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import eta.sudoku.R;
+import eta.sudoku.SudokuApplication;
+import eta.sudoku.model.VocabLibrary;
 
 public class SelectorActivity extends AppCompatActivity {
     //private static final SelectorActivity ourInstance = new SelectorActivity();
@@ -82,7 +81,7 @@ public class SelectorActivity extends AppCompatActivity {
         //show all vocab from overall vocab library
         for(int i=1; i<mFullVocab.size(); i++) {
             final int ind = i;
-            final LinearLayout wordLayout = new LinearLayout(eta.sudoku.SelectorActivity.this);
+            final LinearLayout wordLayout = new LinearLayout(SelectorActivity.this);
             LinearLayout.LayoutParams wordLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             wordLayoutParam.setMargins(30,20,30,15);
             if(mFullVocab.get(ind).isDifficult()) {
@@ -126,7 +125,7 @@ public class SelectorActivity extends AppCompatActivity {
             ViewGroup.LayoutParams wordParam = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
 
-            TextView word0 = new TextView(eta.sudoku.SelectorActivity.this);
+            TextView word0 = new TextView(SelectorActivity.this);
             word0.setText(mFullVocab.get(i).getWord(0));
             word0.setLayoutParams(wordParam);
             word0.setTextSize(23);
@@ -135,7 +134,7 @@ public class SelectorActivity extends AppCompatActivity {
             word0.setLayoutParams(marginLayoutParams);
             wordLayout.addView(word0);
 
-            TextView word1 = new TextView(eta.sudoku.SelectorActivity.this);
+            TextView word1 = new TextView(SelectorActivity.this);
             word1.setText(mFullVocab.get(i).getWord(1));
             word1.setLayoutParams(wordParam);
             word1.setTextSize(16);
