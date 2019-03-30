@@ -18,10 +18,16 @@ import android.widget.Toast;
 
 import eta.sudoku.R;
 import eta.sudoku.SudokuApplication;
+import eta.sudoku.controller.GameController;
+import eta.sudoku.controller.PuzzleController;
+import eta.sudoku.controller.VocabLibraryController;
 import eta.sudoku.model.VocabLibrary;
 
 public class SelectorActivity extends AppCompatActivity {
-    //private static final SelectorActivity ourInstance = new SelectorActivity();
+    private static final SelectorActivity ourInstance = new SelectorActivity();
+    private static final PuzzleController puzzleController = PuzzleController.getInstance();
+    private static final GameController gameController = GameController.getInstance();
+    private static final VocabLibraryController vocabLibController = VocabLibraryController.getInstance();
     public static final String TAG = "SelectorActivity";
     private VocabLibrary mFullVocab = SudokuApplication.getInstance().getVocabList();
     private boolean[] selected = new boolean[mFullVocab.size()];
@@ -54,9 +60,16 @@ public class SelectorActivity extends AppCompatActivity {
                 } else {
 
                     Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
-                    i.putExtra(EXTRA_SUDOKU_SIZE, size);
-                    i.putExtra(EXTRA_SUDOKU_DIFFICULTY, difficulty);
-                    i.putExtra(EXTRA_SUDOKU_IS_LISTEN, isListen);
+                    //i.putExtra(EXTRA_SUDOKU_SIZE, size);
+                    //i.putExtra(EXTRA_SUDOKU_DIFFICULTY, difficulty);
+                    //i.putExtra(EXTRA_SUDOKU_IS_LISTEN, isListen);
+                    //puzzleController.setSize(size);
+                    //puzzleController.setDifficulty(difficulty);
+                    //puzzleController.setSudoku(SudokuApplication.getInstance().getPuzzle(puzzleController.getSize()));
+                    //puzzleController.setPuzzleVocabs(SudokuApplication.getInstance().getSelectedVocabs());
+                    vocabLibController.setGameVocabs(SudokuApplication.getInstance().getSelectedVocabs());
+                    puzzleController.newPuzzle(SudokuApplication.getInstance().getPuzzle(size), SudokuApplication.getInstance().getSelectedVocabs(), size, difficulty);
+                    gameController.newGame(isListen);
                     startActivity(i);
                     finish();
 
@@ -70,9 +83,17 @@ public class SelectorActivity extends AppCompatActivity {
             public void onClick(View v) {
                 SudokuApplication.getInstance().setSelectedVocabs(SudokuApplication.getInstance().getVocabList().getRandomVocabs(size));
                 Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
-                i.putExtra(EXTRA_SUDOKU_SIZE, size);
-                i.putExtra(EXTRA_SUDOKU_DIFFICULTY, difficulty);
-                i.putExtra(EXTRA_SUDOKU_IS_LISTEN, isListen);
+                //i.putExtra(EXTRA_SUDOKU_SIZE, size);
+                //i.putExtra(EXTRA_SUDOKU_DIFFICULTY, difficulty);
+                //i.putExtra(EXTRA_SUDOKU_IS_LISTEN, isListen);
+                //puzzleController.setSize(size);
+                //puzzleController.setDifficulty(difficulty);
+                //puzzleController.setSudoku(SudokuApplication.getInstance().getPuzzle(puzzleController.getSize()));
+                //puzzleController.setPuzzleVocabs(SudokuApplication.getInstance().getSelectedVocabs());
+                vocabLibController.setGameVocabs(SudokuApplication.getInstance().getSelectedVocabs());
+
+                puzzleController.newPuzzle(SudokuApplication.getInstance().getPuzzle(size), SudokuApplication.getInstance().getSelectedVocabs(), size, difficulty);
+                gameController.newGame(isListen);
                 startActivity(i);
                 finish();
             }
