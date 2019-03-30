@@ -1,16 +1,17 @@
 package eta.sudoku;
 
 import android.app.Application;
+import android.util.Log;
 
 import java.util.ArrayList;
 
+import eta.sudoku.controller.VocabLibraryController;
 import eta.sudoku.model.Vocab;
 import eta.sudoku.model.VocabLibrary;
 
 
 public class SudokuApplication extends Application {
     private static final SudokuApplication ourInstance = new SudokuApplication();
-
     private int[][] mPuzzle9 = {
             {6, 8, 2, 9, 4, 7, 5, 1, 3},
             {3, 1, 4, 6, 2, 5, 7, 9, 8},
@@ -52,38 +53,8 @@ public class SudokuApplication extends Application {
     };
 
 
-    private VocabLibrary mVocabList = new VocabLibrary();
-    private ArrayList<VocabLibrary> mVocabWeeks = new ArrayList<>();
 
-    public boolean[] getSelected() {
-        return selected;
-    }
 
-    public void setSelected( int i, boolean selected) {
-        this.selected[i] = selected;
-    }
-
-    private boolean[] selected = new boolean[mVocabList.size()];
-
-    public VocabLibrary getSelectedVocabs() {
-        return selectedVocabs;
-    }
-
-    public void setSelectedVocabs(VocabLibrary selectedVocabs) {
-        this.selectedVocabs = selectedVocabs;
-    }
-
-    public int[][] getPuzzle(int size) {
-        if(size == 4) return mPuzzle4;
-        else if(size == 6) return mPuzzle6;
-        else if(size == 9) return mPuzzle9;
-        else if(size == 12) return mPuzzle12;
-        else
-            return null;
-
-    }
-
-    private VocabLibrary selectedVocabs = new VocabLibrary();
 
 
     private String[][] mVocabLib = {
@@ -116,47 +87,30 @@ public class SudokuApplication extends Application {
 
         return ourInstance;
     }
-    public boolean isVocabDifficult(int index){
-        return mVocabList.get(index).isDifficult();
-    }
-    public void setVocabDifficult(int index){
-        mVocabList.get(index).setDifficult(true);
-    }
+
 
 
     public SudokuApplication(){
-        for(int i=0;i<mVocabLib.length;i++){
-            Vocab v = new Vocab(mVocabLib[i]);
-            v.setIndex(i+1);
-            mVocabList.add(v);
 
-            mVocabList.get(i+1).setSoundFile(clips[i]);
-
-        }
-        //for(int i=0; i<mVocabLib.length; i++){
-         //   mVocabList.get(i+1).setSoundFile(clips[i]);
-
-        //}
 
     }
-    public VocabLibrary getVocabList() {
-        return mVocabList;
-    }
-    public VocabLibrary getVocabWeek(int week) {
-        return mVocabWeeks.get(week);
-    }
-    public ArrayList<VocabLibrary> getAllWeekVocab(){return mVocabWeeks;}
-    public int getTotalWeek(){
-        return mVocabWeeks.size();
-    }
-    public void setVocabWeek(VocabLibrary WeekVocab, int weekInd){
-        mVocabWeeks.set(weekInd, WeekVocab);
-    }
-    public void addVocabIntoLib(Vocab v){
-        mVocabList.add(v);
-    }
-    public void addVocabIntoWeek(int week, Vocab v){
-        mVocabWeeks.get(week).add(v);
+
+    public int[][] getPuzzle(int size) {
+        if(size == 4) return mPuzzle4;
+        else if(size == 6) return mPuzzle6;
+        else if(size == 9) return mPuzzle9;
+        else if(size == 12) return mPuzzle12;
+        else
+            return null;
+
     }
 
+
+    public String[][] getStringVocabLib() {
+        return mVocabLib;
+    }
+
+    public int[] getClips() {
+        return clips;
+    }
 }

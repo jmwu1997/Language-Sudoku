@@ -31,7 +31,7 @@ public class Puzzle implements Serializable{
 
 
 
-    public Puzzle(int[][] savedPuzzle, ArrayList<Vocab> vocab, int size, int difficulty) {//construct with a pre-generated puzzle
+    public Puzzle(int[][] savedPuzzle, int size, int difficulty) {//construct with a pre-generated puzzle
         this.mPrefilledPuzzle = new int[size][size];
         this.mCurrentPuzzle = new int[size][size];
         this.mFilledPuzzle = new int[size][size];
@@ -44,7 +44,6 @@ public class Puzzle implements Serializable{
 
         this.max =  (int) Math.ceil(min*1.1);
         this.mSize = size;
-        //this.mVocabs = vocab;
         createPuzzle(savedPuzzle);
     }
 /*

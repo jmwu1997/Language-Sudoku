@@ -1,10 +1,13 @@
 package eta.sudoku.view;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,13 +20,17 @@ import android.widget.TextView;
 
 import eta.sudoku.R;
 import eta.sudoku.SudokuApplication;
+import eta.sudoku.controller.VocabLibraryController;
 import eta.sudoku.model.VocabLibrary;
 
 public class VocabWeekListActivity extends AppCompatActivity {
-    int weekNum;
-    private VocabLibrary mVocabLibrary = SudokuApplication.getInstance().getVocabList();
+
+    private static final String TAG = "VocabWeekListActivity";
+    private static final VocabLibraryController vocabLibController = VocabLibraryController.getInstance();
+    //private VocabLibrary mVocabLibrary = SudokuApplication.getInstance().getVocabList();
     public static final String EXTRA_WEEK_NUM = "eta.sudoku.weekNum";
     private VocabLibrary mWeekVocab;
+    private int weekNum;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +46,7 @@ public class VocabWeekListActivity extends AppCompatActivity {
 
         //getting week number from caller
         weekNum = getIntent().getIntExtra(EXTRA_WEEK_NUM, 0);
-        mWeekVocab = SudokuApplication.getInstance().getVocabWeek(weekNum);
-
+        mWeekVocab = vocabLibController.getVocabWeek(weekNum);
 
         //set action bar title
         //getActionBar().setTitle();
@@ -68,10 +74,12 @@ public class VocabWeekListActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if(mWeekVocab.get(ind).isDifficult()) {
                         wordLayout.setBackgroundColor(Color.WHITE);
-                        mVocabLibrary.get(mWeekVocab.get(ind).getIndex()).setDifficult(false);
+                        //mVocabLibrary.get(mWeekVocab.get(ind).getIndex()).setDifficult(false);
+                        vocabLibController.setVocabDifficult(mWeekVocab.get(ind).getIndex(), false);
                     }else {
                         wordLayout.setBackgroundColor(Color.YELLOW);
-                        mVocabLibrary.get(mWeekVocab.get(ind).getIndex()).setDifficult(true);
+                        //mVocabLibrary.get(mWeekVocab.get(ind).getIndex()).setDifficult(true);
+                        vocabLibController.setVocabDifficult(mWeekVocab.get(ind).getIndex(), true);
                     }
                 }
             });
@@ -107,18 +115,37 @@ public class VocabWeekListActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
     public void addWord(final int week){
-        //final String[] newWords = new String[2];
-        //final int libSize = mVocabLibrary.size();
         LayoutInflater li = LayoutInflater.from(this);
 
-        View lib = li.inflate(R.layout.add_word_from_lib, null);
+        final View lib = li.inflate(R.layout.add_word_from_lib, null);
         LinearLayout layout = lib.findViewById(R.id.weekList_add_word_lib);
-        for(int i=1; i<mVocabLibrary.size(); i++) {
+
+
+        AlertDialog.Builder a = new AlertDialog.Builder(this);
+        a.setView(lib);
+
+        a
+                .setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            //((ViewGroup) lib.getParent()).removeView(lib);
+                            dialog.cancel();
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+        final AlertDialog dialog = a.create();
+
+
+
+        for(int i=1; i<vocabLibController.getOverallVocabLibSize(); i++) {
             final int ind = i;
             final LinearLayout wordLayout = new LinearLayout(VocabWeekListActivity.this);
             LinearLayout.LayoutParams wordLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             wordLayoutParam.setMargins(30,20,30,15);
-            if(mVocabLibrary.get(ind).isDifficult()) {
+            if(vocabLibController.isVocabDifficult(ind)) {
                 wordLayout.setBackgroundColor(Color.YELLOW);
 
             }else{
@@ -133,8 +160,10 @@ public class VocabWeekListActivity extends AppCompatActivity {
             wordLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SudokuApplication.getInstance().addVocabIntoWeek(week, mVocabLibrary.get(ind));
+                    vocabLibController.addVocabIntoWeek(week, vocabLibController.getOverallVocab(ind));
                     //refresh activity
+                    //((ViewGroup) lib.getParent()).removeView(lib);
+                    dialog.dismiss();
                     finish();
                     startActivity(getIntent());
                 }
@@ -144,7 +173,7 @@ public class VocabWeekListActivity extends AppCompatActivity {
 
 
             TextView word0 = new TextView(VocabWeekListActivity.this);
-            word0.setText(mVocabLibrary.get(i).getWord(0));
+            word0.setText(vocabLibController.getOverallVocab(i,0));
             word0.setLayoutParams(wordParam);
             word0.setTextSize(23);
             ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(wordParam);
@@ -153,18 +182,16 @@ public class VocabWeekListActivity extends AppCompatActivity {
             wordLayout.addView(word0);
 
             TextView word1 = new TextView(VocabWeekListActivity.this);
-            word1.setText(mVocabLibrary.get(i).getWord(1));
+            word1.setText(vocabLibController.getOverallVocab(i,1));
             word1.setLayoutParams(wordParam);
             word1.setTextSize(16);
-            //ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(wordParam);
             marginLayoutParams.setMarginStart(60);
             word1.setLayoutParams(marginLayoutParams);
             wordLayout.addView(word1);
         }
 
-        AlertDialog.Builder a = new AlertDialog.Builder(this);
-        a.setView(lib);
-        AlertDialog dialog = a.create();
+
+
         dialog.show();
 
         /*
@@ -216,5 +243,33 @@ public class VocabWeekListActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    @Override
+    public void onStart(){
+        super.onStart();
+        Log.i(TAG, "onStart()");
+    }
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.d(TAG,"onPause() called");
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.d(TAG, "onResume() called");
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        Log.d(TAG, "onStop called");
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        Log.d(TAG, "onDestroy called");
     }
 }

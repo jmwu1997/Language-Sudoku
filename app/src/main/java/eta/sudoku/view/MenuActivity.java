@@ -15,12 +15,16 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import eta.sudoku.R;
+import eta.sudoku.controller.VocabLibraryController;
 
 public class MenuActivity extends AppCompatActivity {
     private static final String TAG = "MenuActivity";
     public static final String EXTRA_SUDOKU_SIZE = "eta.sudoku.sudoku_size";
     public static final String EXTRA_SUDOKU_DIFFICULTY = "eta.sudoku.sudoku_difficulty";
     public static final String EXTRA_SUDOKU_IS_LISTEN = "eta.sudoku.sudoku_isListen";
+
+
+    private static final VocabLibraryController vocabLibController = VocabLibraryController.getInstance();
     private int size = 9;
     private int difficulty = 0;
     @Override
@@ -28,7 +32,8 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-
+        //initialize full vocab lib
+        vocabLibController.newFullVocabLib();
 
 //setting dialog pop up
         LayoutInflater li = LayoutInflater.from(this);
@@ -67,9 +72,10 @@ public class MenuActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             ((ViewGroup) prompt.getParent()).removeView(prompt);
                             Intent i = new Intent(MenuActivity.this, SelectorActivity.class);
-                            i.putExtra(EXTRA_SUDOKU_SIZE, size);
-                            i.putExtra(EXTRA_SUDOKU_DIFFICULTY, difficulty);
-                            i.putExtra(EXTRA_SUDOKU_IS_LISTEN, listenSwitch.isChecked());
+                            vocabLibController.newGameVocabLib();
+                            //i.putExtra(EXTRA_SUDOKU_SIZE, size);
+                            //i.putExtra(EXTRA_SUDOKU_DIFFICULTY, difficulty);
+                            //i.putExtra(EXTRA_SUDOKU_IS_LISTEN, listenSwitch.isChecked());
                             startActivity(i);
                         }
                     });

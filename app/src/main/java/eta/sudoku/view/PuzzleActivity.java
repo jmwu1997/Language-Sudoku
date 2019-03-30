@@ -159,7 +159,8 @@ public class PuzzleActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.menu_alert_pos, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        SudokuApplication.getInstance().setSelectedVocabs(new VocabLibrary());
+                        //SudokuApplication.getInstance().setSelectedVocabs(new VocabLibrary());
+                        vocabLibController.newGameVocabLib();
                         finish();
                     }
                 })
@@ -269,12 +270,13 @@ public class PuzzleActivity extends AppCompatActivity {
 
                 if(gameController.getIncorrectCount(row,col) == maxError){
                     //set and alert difficult only if the word is not difficult
-                    if(!SudokuApplication.getInstance().isVocabDifficult(vocabLibController.getGameVocabIndex(puzzleController.getFilledCell(row,col)))){
+                    //if(!SudokuApplication.getInstance().isVocabDifficult(vocabLibController.getGameVocabIndex(puzzleController.getFilledCell(row,col)))){
+                    if(!vocabLibController.isVocabDifficult(vocabLibController.getGameVocabIndex(puzzleController.getFilledCell(row,col)))){
                         toast = Toast.makeText(ctx,
                                 vocabLibController.getGameVocab(puzzleController.getFilledCell(row,col), gameController.getSelectLang()) + " seems difficult", Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 150);
                         toast.show();
-                        SudokuApplication.getInstance().setVocabDifficult(vocabLibController.getGameVocabIndex(puzzleController.getFilledCell(row,col)));
+                        vocabLibController.setVocabDifficult(vocabLibController.getGameVocabIndex(puzzleController.getFilledCell(row,col)), true);
                     }
                 }
             } else {
@@ -448,7 +450,6 @@ public class PuzzleActivity extends AppCompatActivity {
 
         int size = puzzleController.getSize();
         gameController.swapLang();
-        Log.e(TAG, Integer.toString(gameController.getSelectLang()));
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if(!gameController.isListenMode()) {
@@ -510,10 +511,7 @@ public class PuzzleActivity extends AppCompatActivity {
         switchToNum(gameController.isListenMode());
         for (int i = 0; i < puzzleController.getSize(); i++) {
             for (int j = 0; j < puzzleController.getSize(); j++) {
-                //final int word = mTestPuzzle.getPrefilledCell(i,j);
                 final int word = puzzleController.getPrefilledCell(i,j);
-
-
                 if(word != 0){
                     if(!gameController.isListenMode()){
                         final int finalJ = j;

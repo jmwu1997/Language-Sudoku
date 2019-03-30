@@ -20,11 +20,13 @@ import android.widget.Toast;
 
 import eta.sudoku.R;
 import eta.sudoku.SudokuApplication;
+import eta.sudoku.controller.VocabLibraryController;
 import eta.sudoku.model.Vocab;
 import eta.sudoku.model.VocabLibrary;
 
 public class VocabFullActivity extends AppCompatActivity {
-    private VocabLibrary mFullVocab = SudokuApplication.getInstance().getVocabList();
+    private static final VocabLibraryController vocabLibController = VocabLibraryController.getInstance();
+    private VocabLibrary mFullVocab = vocabLibController.getOverallVocabLib();
 
 
     @Override
@@ -40,12 +42,12 @@ public class VocabFullActivity extends AppCompatActivity {
 
 
 
-        for(int i=1; i<mFullVocab.size(); i++) {
+        for(int i=1; i<vocabLibController.getOverallVocabLibSize(); i++) {
             final int ind = i;
             final LinearLayout wordLayout = new LinearLayout(VocabFullActivity.this);
             LinearLayout.LayoutParams wordLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             wordLayoutParam.setMargins(30,20,30,15);
-            if(mFullVocab.get(ind).isDifficult()) {
+            if(vocabLibController.isVocabDifficult(ind)) {
                 wordLayout.setBackgroundColor(Color.YELLOW);
 
             }else{
@@ -60,12 +62,12 @@ public class VocabFullActivity extends AppCompatActivity {
             wordLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mFullVocab.get(ind).isDifficult()) {
+                    if(vocabLibController.isVocabDifficult(ind)) {
                         wordLayout.setBackgroundColor(Color.WHITE);
-                        mFullVocab.get(ind).setDifficult(false);
+                        vocabLibController.setVocabDifficult(ind, false);
                     }else {
                         wordLayout.setBackgroundColor(Color.YELLOW);
-                        mFullVocab.get(ind).setDifficult(true);
+                        vocabLibController.setVocabDifficult(ind, true);
                     }
                 }
             });
@@ -74,7 +76,7 @@ public class VocabFullActivity extends AppCompatActivity {
 
 
             TextView word0 = new TextView(VocabFullActivity.this);
-            word0.setText(mFullVocab.get(i).getWord(0));
+            word0.setText(vocabLibController.getOverallVocab(i,0));
             word0.setLayoutParams(wordParam);
             word0.setTextSize(23);
             ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(wordParam);
@@ -83,7 +85,7 @@ public class VocabFullActivity extends AppCompatActivity {
             wordLayout.addView(word0);
 
             TextView word1 = new TextView(VocabFullActivity.this);
-            word1.setText(mFullVocab.get(i).getWord(1));
+            word1.setText(vocabLibController.getOverallVocab(i,1));
             word1.setLayoutParams(wordParam);
             word1.setTextSize(16);
             //ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(wordParam);
@@ -96,7 +98,7 @@ public class VocabFullActivity extends AppCompatActivity {
 
     public void addWord(){
         final String[] newWords = new String[2];
-        final int libSize = mFullVocab.size();
+        final int libSize = vocabLibController.getOverallVocabLibSize();
         LayoutInflater li = LayoutInflater.from(this);
         View prompt = li.inflate(R.layout.add_word_prompt, null);
 
@@ -115,8 +117,7 @@ public class VocabFullActivity extends AppCompatActivity {
                                 newWords[1] = addChn.getText().toString();
                                 Vocab v = new Vocab(newWords);
                                 v.setIndex(libSize);
-                                mFullVocab.add(v);
-
+                                vocabLibController.addFullVocab(v);
 
                                 //Refresh Activity
                                 finish();

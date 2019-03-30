@@ -7,6 +7,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import eta.sudoku.SudokuApplication;
 import eta.sudoku.model.Puzzle;
 import eta.sudoku.model.Vocab;
 import eta.sudoku.view.PuzzleActivity;
@@ -20,8 +21,8 @@ public class PuzzleController {
     public PuzzleController() {
 
     }
-    public Puzzle newPuzzle(int[][] sudoku, ArrayList<Vocab> puzzleVocabs, int size, int difficulty){
-        mPuzzle = new Puzzle(sudoku, puzzleVocabs, size, difficulty);
+    public Puzzle newPuzzle(int size, int difficulty){
+        mPuzzle = new Puzzle(SudokuApplication.getInstance().getPuzzle(size), size, difficulty);
         mPuzzle.genRandomPuzzle();
         return mPuzzle;
     }

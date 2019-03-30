@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,11 +21,15 @@ import java.util.ArrayList;
 
 import eta.sudoku.R;
 import eta.sudoku.SudokuApplication;
+import eta.sudoku.controller.VocabLibraryController;
 import eta.sudoku.model.VocabLibrary;
 
 public class VocabWeekActivity extends AppCompatActivity {
-    private ArrayList<VocabLibrary> mAllWeekVocab = SudokuApplication.getInstance().getAllWeekVocab();
-    private int numWeeks = SudokuApplication.getInstance().getTotalWeek();
+    private static final String TAG = "VocabWeekActivity";
+    private static final VocabLibraryController vocabLibController = VocabLibraryController.getInstance();
+
+    private ArrayList<VocabLibrary> mAllWeekVocab = vocabLibController.getAllWeekVocab();
+    private int numWeeks = vocabLibController.getTotalWeek();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,5 +118,33 @@ public class VocabWeekActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    @Override
+    public void onStart(){
+        super.onStart();
+        Log.i(TAG, "onStart()");
+    }
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.d(TAG,"onPause() called");
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.d(TAG, "onResume() called");
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        Log.d(TAG, "onStop called");
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        Log.d(TAG, "onDestroy called");
     }
 }
