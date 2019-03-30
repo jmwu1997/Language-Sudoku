@@ -67,6 +67,8 @@ public class PuzzleTest {
             assertEquals(9, puzzleTest.getPrefilledPuzzle()[i].length);
             assertEquals(9, puzzleTest.getCurrentPuzzle()[i].length);
         }
+
+        //check puzzle value are correct
         assertArrayEquals(mPuzzle,  puzzleTest.getPrefilledPuzzle());
         assertArrayEquals(mPuzzle,  puzzleTest.getCurrentPuzzle());
         assertEquals(9,puzzleTest.getSize());
@@ -101,6 +103,8 @@ public class PuzzleTest {
             assertEquals(12, puzzleTest.getPrefilledPuzzle()[i].length);
             assertEquals(12, puzzleTest.getCurrentPuzzle()[i].length);
         }
+
+        //check puzzle value are correct
         assertArrayEquals(mPuzzle,  puzzleTest.getPrefilledPuzzle());
         assertArrayEquals(mPuzzle,  puzzleTest.getCurrentPuzzle());
         assertEquals(12,puzzleTest.getSize());
@@ -127,6 +131,8 @@ public class PuzzleTest {
             assertEquals(4, puzzleTest.getPrefilledPuzzle()[i].length);
             assertEquals(4, puzzleTest.getCurrentPuzzle()[i].length);
         }
+
+        //check puzzle value are correct
         assertArrayEquals(mPuzzle,  puzzleTest.getPrefilledPuzzle());
         assertArrayEquals(mPuzzle,  puzzleTest.getCurrentPuzzle());
         assertEquals(4,puzzleTest.getSize());
