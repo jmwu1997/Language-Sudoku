@@ -53,11 +53,12 @@ public class PuzzleTest {
 
         // assumes SudokuApplication.java and VocabLibrary.java is working
         VocabLibrary vocab = SudokuApplication.getInstance().getVocabList().getRandomVocabs(9);
-        Puzzle puzzleTest = new Puzzle(mPuzzle, vocab);
+        Puzzle puzzleTest = new Puzzle(mPuzzle, vocab,9,0);
 
         assertEquals(9, puzzleTest.getPrefilledPuzzle()[0].length);
         assertEquals(9, puzzleTest.getPrefilledPuzzle()[1].length);
         assertArrayEquals(mPuzzle,  puzzleTest.getPrefilledPuzzle());
-        assertEquals(vocab, puzzleTest.getFullVocab());
+        assertArrayEquals(mPuzzle,  puzzleTest.getCurrentPuzzle());
+        assertEquals(9,puzzleTest.getSize());
     }
 }
