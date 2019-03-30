@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -139,7 +140,13 @@ public class Puzzle implements Serializable{
             ButtonArray[row][col].setText(this.mVocabs.get(this.selectedInd).getWord(this.mChosenLang));
         }
     }
-
+    public void setPosition(TextView[][] cells, int row, int col) {
+        if (this.selectedInd != -1) {
+            this.mCurrentPuzzle[row][col] = this.selectedInd;
+            this.mFilledPuzzle[row][col] = this.selectedInd;
+            cells[row][col].setText(this.mVocabs.get(this.selectedInd).getWord(this.mChosenLang));
+        }
+    }
     public void setSelected(int wordInd) {
         this.selectedInd = wordInd;
     }

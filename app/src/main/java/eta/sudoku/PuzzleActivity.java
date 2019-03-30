@@ -63,7 +63,7 @@ public class PuzzleActivity extends AppCompatActivity {
     //Test variables for puzzle.java and vocab.java
 
     private VocabLibrary mVocabs = SudokuApplication.getInstance().getSelectedVocabs();
-    private Button[][] mButtonArray;
+    //private Button[][] mButtonArray;
     private TextView[][] mCells;
 
     private int[][] mPuzzle;
@@ -86,7 +86,7 @@ public class PuzzleActivity extends AppCompatActivity {
         mPuzzle = SudokuApplication.getInstance().getPuzzle(puzzleSize);
         puzzleDiffculty = getIntent().getIntExtra(SelectorActivity.EXTRA_SUDOKU_DIFFICULTY,0);
         isCompMode = getIntent().getBooleanExtra(SelectorActivity.EXTRA_SUDOKU_IS_LISTEN, false);
-        mButtonArray = new Button[puzzleSize][puzzleSize];
+        //mButtonArray = new Button[puzzleSize][puzzleSize];
         mCells = new TextView[puzzleSize][puzzleSize];
         incorrectCount = new int[puzzleSize];
         selectionButtons = new Button[puzzleSize];
@@ -309,11 +309,11 @@ public class PuzzleActivity extends AppCompatActivity {
         String msg = "";
 
         if(mTestPuzzle.getCurrentCell(row,col) == 0){
-            mButtonArray[row][col].setBackgroundColor(Color.alpha(0));
+            mCells[row][col].setBackgroundColor(Color.alpha(0));
         }else {
             if(rowWrong || colWrong || subWrong){
                 incorrectCount[mTestPuzzle.getFilledCell(row, col) - 1]++;
-                mButtonArray[row][col].setBackgroundColor(Color.RED);
+                mCells[row][col].setBackgroundColor(Color.RED);
                 if(rowWrong){
                     msg = "Row";
                     if(colWrong){
@@ -347,13 +347,13 @@ public class PuzzleActivity extends AppCompatActivity {
                     }
                 }
             } else {
-                mButtonArray[row][col].setBackgroundColor(Color.alpha(0));
+                mCells[row][col].setBackgroundColor(Color.alpha(0));
             }
         }
 
 
     }
-
+/*
     public void createButton(GridLayout grid, GridLayout selector, ImageView background) {
         //programmatically create buttons in the table(layout)
         Resources r = ctx.getResources();
@@ -479,7 +479,7 @@ public class PuzzleActivity extends AppCompatActivity {
 
             selector.addView(mSelButton);
         }
-    }
+    }*/
     public void layoutSetup(GridLayout grid, GridLayout selector, ImageView background) {
         //programmatically create buttons in the table(layout)
         Resources r = ctx.getResources();
@@ -614,7 +614,7 @@ public class PuzzleActivity extends AppCompatActivity {
     }
 
     public void setPosition(int row, int col) {
-        mTestPuzzle.setPosition(mButtonArray, row, col);
+        mTestPuzzle.setPosition(mCells, row, col);
     }
 
     public void submit() {
@@ -646,16 +646,16 @@ public class PuzzleActivity extends AppCompatActivity {
                 if(!isCompMode) {
                     if (mTestPuzzle.getPrefilledCell(i, j) == 0) {
                         if (mTestPuzzle.getFilledCell(i, j) > 0) {
-                            mButtonArray[i][j].setTextColor(Color.BLUE);
-                            mButtonArray[i][j].setText(mTestPuzzle.getVocab(mTestPuzzle.getFilledCell(i, j), selLangIndex));
+                            mCells[i][j].setTextColor(Color.BLUE);
+                            mCells[i][j].setText(mTestPuzzle.getVocab(mTestPuzzle.getFilledCell(i, j), selLangIndex));
                         } else {
 
                         }
 
                     } else if (mTestPuzzle.getPrefilledCell(i, j) > 0) {
                         if (mTestPuzzle.getFilledCell(i, j) == 0) {
-                            mButtonArray[i][j].setTextColor(Color.BLACK);
-                            mButtonArray[i][j].setText(mTestPuzzle.getVocab(mTestPuzzle.getPrefilledCell(i, j), langIndex));
+                            mCells[i][j].setTextColor(Color.BLACK);
+                            mCells[i][j].setText(mTestPuzzle.getVocab(mTestPuzzle.getPrefilledCell(i, j), langIndex));
                         } else {
                             //error
                         }

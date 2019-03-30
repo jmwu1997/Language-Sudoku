@@ -23,3 +23,77 @@ Example: A "delete" button is available so the user can press it then the desire
 As a language learner, I want to be able to peek at the correct translation of a word, so that I can try to remember it in filling out the puzzle.  
 Example: A "switch" button is available to switch the languages back and forth. This way, the learner can peak as they play the game.  
 Note: Variable is available in MainActivity.java to switch initial lanugages.
+
+### ITERATION 2
+
+### Listening Comprehension
+
+As a student who wants to practice my understanding of spoken words in the language that I am learning, I want a listening comprehension mode. In this mode, numbers will appear in the prefilled cells and the corresponding word in the language that I am learning will be read out to me when I press the number.
+
+### Vocabulary Lists
+
+As a teacher, I want to specify a list of word pairs for my students to practice this week.  
+As a student working with a textbook, I want to load pairs of words to practice from each chapter of the book.  
+As a student, I want the Sudoku app to keep track of the vocabulary words that I am having difficulty recognizing so that they will be used more often in my practice puzzles.
+
+### Different Devices
+
+As a vocabulary learner practicing at home, I want to use my tablet for Sudoku vocabulary practice, so that the words will be conveniently displayed in larger, easier to read fonts.  
+As a vocabulary learner taking the bus, I want to use my phone in landscape mode for Sudoku vocabulary practice, so that longer words are displayed in a larger font that standard mode.
+
+### ITERATION 3
+
+### Challenge mode
+
+As a teacher who wants to make sure my student understands the vocabs, student must pass some tests. I want a challenge mode where the student must complete my difficulty requirement in certain amount of time.
+If student completes them succcesfully, they pass the test. If they don't, they will fail and must try again.
+
+Example: A student need to pass a 9x9 puzzle in under 10 minutes, then the 9 words in this puzzle will consider learned or understood.
+
+As a teacher, I want the hints be off on the Challenge mode.
+
+Example: No more hints when you click on prefilled cells, and other pop ups.
+
+### Pratice mode
+
+As a student who wants to pass the challenge. I want a pratice mode where I can pratice with no time limit but has a timer on the side and tells me how much time I spent on the game in the end.
+
+Example: Student can pratice on any puzzle. It will have all hint functions and a timer on the side. When it is complete they will know their time spent.
+
+### Useful feature
+
+As a student who forgot my last number placed and want to go back, I want a button to back to it.
+
+Example: Student erased a 5 and put down a 7, they want to go back from 7 to 5 so they click undo.
+
+As a student who messed up most of the puzzle, I would like to clean all the filled cells and start over.
+
+Example: Student have to many error on the puzzle and doesn't want to fix one by one so they clean all.
+
+As a student who clicked undo and figure it's not what I wants, I want a button to revert the change.
+
+Example: Student erased a 5 and put down a 7, click undo and go back to 5. then he wants to revert it back to 7, so he clicks revert.
+
+### Update vocab list
+
+As a teacher who wants student to learn Chinese, I would like to have a good mix of different categories of words.
+
+Example: I want more groups of words, like animals, plants, or others.
+
+As a teacher who wants student to learn better, I would like to have my set words for student to learn each week.
+
+Example: I want to pick my own set of words for my student each week for them to learn. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
