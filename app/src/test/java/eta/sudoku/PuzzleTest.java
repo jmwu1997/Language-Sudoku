@@ -54,11 +54,56 @@ public class PuzzleTest {
         // assumes SudokuApplication.java and VocabLibrary.java is working
         VocabLibrary vocab = SudokuApplication.getInstance().getVocabList().getRandomVocabs(9);
         Puzzle puzzleTest = new Puzzle(mPuzzle, vocab,9,0);
-
-        assertEquals(9, puzzleTest.getPrefilledPuzzle()[0].length);
-        assertEquals(9, puzzleTest.getPrefilledPuzzle()[1].length);
+        for (int i = 0; i < 9; i++) {
+            assertEquals(9, puzzleTest.getPrefilledPuzzle()[i].length);
+        }
         assertArrayEquals(mPuzzle,  puzzleTest.getPrefilledPuzzle());
         assertArrayEquals(mPuzzle,  puzzleTest.getCurrentPuzzle());
         assertEquals(9,puzzleTest.getSize());
+    }
+    @Test
+    public void testVocabLibrary1() {
+        // Test constructor
+        int[][] mPuzzle = {
+                {1,4,3,2},
+                {3,2,4,1},
+                {4,1,2,3},
+                {2,3,1,4},
+
+        };
+
+        String[][] mVocabLib = {
+                {"Apple", "苹果"},
+                {"Pear", "梨"},
+                {"Banana", "香蕉"},
+                {"Peach", "桃子"},
+                {"Grape", "葡萄"},
+                {"Haw", "山楂"},
+                {"Guava", "番石榴"},
+                {"Papaya", "木瓜"},
+                {"Lemon", "柠檬"},
+                {"Orange", "橙子"},
+                {"Mango", "芒果"},
+                {"Fig", "无花果"},
+                {"Coconut", "椰子"},
+                {"Berry", "浆果"},
+                {"Almond", "杏仁"},
+                {"Tomato", "番茄"},
+                {"Date", "枣子"},
+                {"Durian", "榴莲"},
+                {"Longan", "龙眼"},
+                {"Melon", "香瓜"}
+        };
+
+        // assumes SudokuApplication.java and VocabLibrary.java is working
+        VocabLibrary vocab = SudokuApplication.getInstance().getVocabList().getRandomVocabs(4);
+        Puzzle puzzleTest = new Puzzle(mPuzzle, vocab,4,0);
+
+        for (int i = 0; i < 4; i++) {
+            assertEquals(4, puzzleTest.getPrefilledPuzzle()[i].length);
+        }
+        assertArrayEquals(mPuzzle,  puzzleTest.getPrefilledPuzzle());
+        assertArrayEquals(mPuzzle,  puzzleTest.getCurrentPuzzle());
+        assertEquals(4,puzzleTest.getSize());
     }
 }
