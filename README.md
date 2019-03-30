@@ -41,7 +41,7 @@ As a student, I want the Sudoku app to keep track of the vocabulary words that I
 As a vocabulary learner practicing at home, I want to use my tablet for Sudoku vocabulary practice, so that the words will be conveniently displayed in larger, easier to read fonts.  
 As a vocabulary learner taking the bus, I want to use my phone in landscape mode for Sudoku vocabulary practice, so that longer words are displayed in a larger font that standard mode.
 
-###ITERATION 3
+### ITERATION 3
 
 ### Challenge mode
 
