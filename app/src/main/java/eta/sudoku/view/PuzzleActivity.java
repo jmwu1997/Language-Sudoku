@@ -24,7 +24,10 @@ import android.widget.Toast;
 
 import eta.sudoku.R;
 import eta.sudoku.SudokuApplication;
+import eta.sudoku.controller.GameController;
 import eta.sudoku.controller.PuzzleController;
+import eta.sudoku.controller.VocabLibraryController;
+import eta.sudoku.model.Game;
 import eta.sudoku.model.Puzzle;
 import eta.sudoku.model.Vocab;
 import eta.sudoku.model.VocabLibrary;
@@ -33,39 +36,33 @@ import eta.sudoku.model.VocabLibrary;
 public class PuzzleActivity extends AppCompatActivity {
 
     private static final String TAG = "PuzzleActivity";
-    private static final String KEY_LANG_INDEX = "langIndex";
-    private static final String KEY_SEL_LANG_INDEX = "selLangIndex";
-    private static final String KEY_PUZZLE = "testPuzzle";
-    private static final String KEY_IS_COMP = "isCompMode";
+
 
     private static final PuzzleController puzzleController= PuzzleController.getInstance();
-
+    private static final VocabLibraryController vocabLibController = VocabLibraryController.getInstance();
+    private static final GameController gameController = GameController.getInstance();
     // 1 indexed
     private Button[] selectionButtons;
     // 0 or 1 to select language for selection Buttons, board language will be opposite
-    private int langIndex = 0;
-    private int selLangIndex = 1;
+
     private boolean onStartFlag = false;
     private boolean isLandscape; //useful?
-    private boolean isCompMode = false;
+
     private int lastInsert[][] = new int[100][100];
     private int count = 0;
-    private int puzzleSize;//4,6,9,12 for sudoku size
-    private int puzzleDiffculty;//0,1,2
+
     // if you get at least 5 wrong, word is difficult for you
     private static final int maxError=5;
-    private int[] incorrectCount;
 
 
 
-    //Test variables for puzzle.java and vocab.java
 
-    private VocabLibrary mVocabs = SudokuApplication.getInstance().getSelectedVocabs();
-    //private Button[][] mButtonArray;
+
+
+
+
     private TextView[][] mCells;
 
-    private int[][] mPuzzle;
-    private Puzzle mTestPuzzle;
     //Test variables end
     public transient Context ctx = this; //for testing with TOAST
 
@@ -80,33 +77,11 @@ public class PuzzleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_puzzle);
 
-        //puzzleSize = getIntent().getIntExtra(SelectorActivity.EXTRA_SUDOKU_SIZE,9);
-        //mPuzzle = SudokuApplication.getInstance().getPuzzle(puzzleSize);
-        //puzzleDiffculty = getIntent().getIntExtra(SelectorActivity.EXTRA_SUDOKU_DIFFICULTY,0);
-        isCompMode = getIntent().getBooleanExtra(SelectorActivity.EXTRA_SUDOKU_IS_LISTEN, false);
-        //mButtonArray = new Button[puzzleSize][puzzleSize];
-        mCells = new TextView[puzzleSize][puzzleSize];
-        incorrectCount = new int[puzzleSize];
-        selectionButtons = new Button[puzzleSize];
-        //mTestPuzzle = new Puzzle(mPuzzle, mVocabs, puzzleSize, puzzleDiffculty);
-        //mTestPuzzle = puzzleController.newPuzzle(mPuzzle, mVocabs, puzzleSize, puzzleDiffculty);
-        puzzleController.setSize(getIntent().getIntExtra(SelectorActivity.EXTRA_SUDOKU_SIZE,9));
-        puzzleController.setSudoku(SudokuApplication.getInstance().getPuzzle(puzzleController.getSize()));
-        puzzleController.setDifficulty(getIntent().getIntExtra(SelectorActivity.EXTRA_SUDOKU_DIFFICULTY,0));
-        puzzleController.setPuzzleVocabs(SudokuApplication.getInstance().getSelectedVocabs());
-        puzzleController.newPuzzle();
 
+        mCells = new TextView[puzzleController.getSize()][puzzleController.getSize()];
 
+        selectionButtons = new Button[puzzleController.getSize()];
 
-
-
-        if (savedInstanceState != null) {
-
-            langIndex = savedInstanceState.getInt(KEY_LANG_INDEX);
-            selLangIndex = savedInstanceState.getInt(KEY_SEL_LANG_INDEX);
-            mTestPuzzle = (Puzzle) savedInstanceState.getSerializable(KEY_PUZZLE);
-            isCompMode = savedInstanceState.getBoolean(KEY_IS_COMP);
-        }
         /* //currently not useful
         Configuration config = new Configuration();
         if(config.orientation == Configuration.ORIENTATION_PORTRAIT){
@@ -120,11 +95,6 @@ public class PuzzleActivity extends AppCompatActivity {
         final GridLayout puzzleBoardGrid = (GridLayout) findViewById(R.id.puzzle_board_grid);
 
 
-        if (savedInstanceState == null) {//only generate random puzzle once
-
-            //mTestPuzzle.genRandomPuzzle();
-            puzzleController.genPuzzle();
-        }
         GridLayout selectionLayout = (GridLayout) findViewById(R.id.puzzle_select_pad);
         ImageView background = (ImageView) findViewById(R.id.puzzle_board);
         //createButton(puzzleBoardGrid, selectionLayout, background);
@@ -158,31 +128,7 @@ public class PuzzleActivity extends AppCompatActivity {
             }
         });
         playSound();
-/*
-        final ImageButton mComprehensionButton = (ImageButton) findViewById(R.id.puzzle_Comprehension);
-        if(isCompMode){
-            mComprehensionButton.setImageResource(R.drawable.nosoundicon);
-        }else{
-            mComprehensionButton.setImageResource(R.drawable.soundicon);
-        }
-        mComprehensionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!isCompMode){
-                    playSound();
-                    mComprehensionButton.setImageResource(R.drawable.nosoundicon);
-                    Toast.makeText(getBaseContext(), "Comprehension Mode On" , Toast.LENGTH_SHORT ).show();
-                    isCompMode=true;
-                }
-                else{
-                    mComprehensionButton.setImageResource(R.drawable.soundicon);
-                    playSound();
-                    Toast.makeText(getBaseContext(), "Comprehension Mode Off" , Toast.LENGTH_SHORT ).show();
-                    isCompMode=false;
-                }
-            }
 
-        });*/
 
         Button mMenuButton = (Button) findViewById(R.id.puzzle_menu);
         mMenuButton.setOnClickListener(new View.OnClickListener() {
@@ -201,7 +147,6 @@ public class PuzzleActivity extends AppCompatActivity {
                         .show();
             }
         });
-
     }
 
 
@@ -261,10 +206,7 @@ public class PuzzleActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstantState()");
-        savedInstanceState.putInt(KEY_LANG_INDEX, langIndex);
-        savedInstanceState.putInt(KEY_SEL_LANG_INDEX, selLangIndex);
-        savedInstanceState.putSerializable(KEY_PUZZLE, mTestPuzzle);
-        savedInstanceState.putBoolean(KEY_IS_COMP, isCompMode);
+
     }
 
     @Override
@@ -292,50 +234,30 @@ public class PuzzleActivity extends AppCompatActivity {
 
 
     public void checkDuplicate(int row,int col) {
-        boolean rowWrong = mTestPuzzle.isDuplicateInRow(row);
-        boolean colWrong = mTestPuzzle.isDuplicateInCol(col);
-        boolean subWrong;
-        int r=0; int c=0;
-        switch(mTestPuzzle.getSize()) {
-            case 4:
-            case 9: r =(int)Math.sqrt(mTestPuzzle.getSize());
-                c = r;
-                break;
-            case 6: r = 2;
-                c = 3;
-                break;
-            case 12: r = 3;
-                c = 4;
-                break;
-            default:
-                System.out.print("mSize out of range");
-                break;
-        }
-        assert r == 0 || c == 0;
-        int sub = (row/r)*r + col/c;
-        subWrong = mTestPuzzle.isDuplicateInSub(sub);
+        boolean[] isDuplicate = gameController.checkDuplicate(row, col);
         String msg = "";
 
-        if(mTestPuzzle.getCurrentCell(row,col) == 0){
+        if(puzzleController.getCurrentCell(row,col) == 0){
             mCells[row][col].setBackgroundColor(Color.alpha(0));
         }else {
-            if(rowWrong || colWrong || subWrong){
-                incorrectCount[mTestPuzzle.getFilledCell(row, col) - 1]++;
+            if(isDuplicate[0] || isDuplicate[1] || isDuplicate[2]){
+                //incorrectCount[mTestPuzzle.getFilledCell(row, col) - 1]++;
+                gameController.incorrectInc(row, col);
                 mCells[row][col].setBackgroundColor(Color.RED);
-                if(rowWrong){
+                if(isDuplicate[0]){
                     msg = "Row";
-                    if(colWrong){
+                    if(isDuplicate[1]){
                         msg += " & column";
                     }
-                    if(subWrong){
+                    if(isDuplicate[2]){
                         msg += " & sub-table";
                     }
-                }else if(colWrong){
+                }else if(isDuplicate[1]){
                     msg = "Column";
-                    if(subWrong){
+                    if(isDuplicate[2]){
                         msg += " & sub-table";
                     }
-                }else if(subWrong){
+                }else if(isDuplicate[2]){
                     msg = "Sub-table";
                 }
 
@@ -344,14 +266,15 @@ public class PuzzleActivity extends AppCompatActivity {
                 toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 150);
                 toast.show();
 
-                if(incorrectCount[mTestPuzzle.getFilledCell(row, col) - 1] == maxError){
+
+                if(gameController.getIncorrectCount(row,col) == maxError){
                     //set and alert difficult only if the word is not difficult
-                    if(!SudokuApplication.getInstance().isVocabDifficult(mVocabs.get(mTestPuzzle.getFilledCell(row, col)).getmIndex())) {
-                        toast = Toast.makeText(getApplicationContext(),
-                                mVocabs.get(mTestPuzzle.getFilledCell(row, col)).getWord(selLangIndex) + " seems difficult", Toast.LENGTH_LONG);
+                    if(!SudokuApplication.getInstance().isVocabDifficult(vocabLibController.getGameVocabIndex(puzzleController.getFilledCell(row,col)))){
+                        toast = Toast.makeText(ctx,
+                                vocabLibController.getGameVocab(puzzleController.getFilledCell(row,col), gameController.getSelectLang()) + " seems difficult", Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 150);
                         toast.show();
-                        SudokuApplication.getInstance().setVocabDifficult(mVocabs.get(mTestPuzzle.getFilledCell(row, col)).getmIndex());
+                        SudokuApplication.getInstance().setVocabDifficult(vocabLibController.getGameVocabIndex(puzzleController.getFilledCell(row,col)));
                     }
                 }
             } else {
@@ -361,160 +284,43 @@ public class PuzzleActivity extends AppCompatActivity {
 
 
     }
-/*
-    public void createButton(GridLayout grid, GridLayout selector, ImageView background) {
-        //programmatically create buttons in the table(layout)
-        Resources r = ctx.getResources();
-        int[][] prefilledPuzzle = mTestPuzzle.getPrefilledPuzzle();
-        int[][] filledPuzzle = mTestPuzzle.getFilledPuzzle();
-        grid.setRowCount(puzzleSize);
-        grid.setColumnCount(puzzleSize);
-        //convert dp to pixel
-        float mDp2Px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, r.getDisplayMetrics());
 
-
-        //building puzzle board
-        for (int i = 0; i < puzzleSize; i++) {
-
-            for (int j = 0; j < puzzleSize; j++) {
-                final int row = i;
-                final int col = j;
-                final Button mButton = new Button(ctx);
-
-                if (prefilledPuzzle[i][j] == 0) {
-
-                    mButton.setTextColor(Color.BLUE);
-                    mButton.setText(mVocabs.get(filledPuzzle[i][j]).getWord(selLangIndex));
-                    mButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            setPosition(row, col);
-                            checkDuplicate(row,col);
-                        }
-                    });
-
-
-                } else if (prefilledPuzzle[i][j] > 0) {
-                    if (filledPuzzle[i][j] == 0) {
-                        mButton.setTextColor(Color.BLACK);
-                        if(!isCompMode) {
-                            mButton.setText(mVocabs.get(prefilledPuzzle[i][j]).getWord(langIndex));
-                        }else{
-                            mButton.setText(Integer.toString(mTestPuzzle.getPrefilledCell(i, j)));
-                        }
-                        mButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                hint(row, col);
-                            }
-                        });
-                    } else {
-                        //error
-                    }
-                }
-
-                grid.addView(mButton);
-
-                //set adaptable width and height
-                ViewGroup.LayoutParams mButtonLayoutParams = mButton.getLayoutParams();
-                mButtonLayoutParams.height = (int) (0 * mDp2Px);
-                mButtonLayoutParams.width = (int) (0 * mDp2Px);
-                ((GridLayout.LayoutParams) mButton.getLayoutParams()).columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
-                ((GridLayout.LayoutParams) mButton.getLayoutParams()).rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
-
-
-                mButton.setGravity(Gravity.CENTER);
-                mButton.setShadowLayer(0, 0, 0, Color.alpha(0));
-
-
-                mButton.setPadding(0, 0, 0, 0);
-
-                //decapitalize button text
-                mButton.setTransformationMethod(null);
-
-                mButton.setBackgroundColor(Color.alpha(0));
-
-                // Fit text in button properly
-                // check if device is tablet (a tablet is defined to have a diagonal of 6.5 inches or more here)
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                float yInches= displayMetrics.heightPixels/displayMetrics.ydpi;
-                float xInches= displayMetrics.widthPixels/displayMetrics.xdpi;
-                double diagonalInches = Math.sqrt(xInches*xInches + yInches*yInches);
-                // if not tablet
-                if (diagonalInches < 6.5) {
-                    mButton.setTextSize(5 * mDp2Px);
-                }
-                mButton.setSingleLine(true);
-
-                // add button to array
-                mButtonArray[i][j] = mButton;
-            }
-        }
-        //create selection pad and background img for puzzle board
-        switch (puzzleSize){
-            case 4: selector.setRowCount(2);
-                    selector.setColumnCount(2);
-                    background.setImageResource(R.drawable.sudoku4x4);
-                    break;
-            case 6: selector.setRowCount(2);
-                    selector.setColumnCount(3);
-                    background.setImageResource(R.drawable.sudoku6x6);
-                    break;
-            case 9: selector.setRowCount(3);
-                    selector.setColumnCount(3);
-                    background.setImageResource(R.drawable.sudokuboard);
-                    break;
-            case 12: selector.setRowCount(3);
-                    selector.setColumnCount(4);
-                    background.setImageResource(R.drawable.sudoku12x12);
-                    break;
-            default: assert puzzleSize == 4 || puzzleSize == 6 || puzzleSize ==9 || puzzleSize ==12;
-        }
-        for(int i=0; i<puzzleSize; i++){
-            final Button mSelButton = new Button(ctx);
-            mSelButton.setText(mVocabs.get(i+1).getWord(selLangIndex));
-            mSelButton.setTransformationMethod(null);
-            mSelButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Button button = (Button) v;
-                    int pos = findIndex(selectionButtons, button);
-                    mTestPuzzle.setSelected(pos);// set global variable selected Position for position for selection
-                }
-            });
-            selectionButtons[i] = mSelButton;
-
-            selector.addView(mSelButton);
-        }
-    }*/
+//TODO: refactor part 1 done
     public void layoutSetup(GridLayout grid, GridLayout selector, ImageView background) {
         //programmatically create buttons in the table(layout)
         Resources r = ctx.getResources();
-        int[][] prefilledPuzzle = mTestPuzzle.getPrefilledPuzzle();
-        int[][] filledPuzzle = mTestPuzzle.getFilledPuzzle();
-        grid.setRowCount(puzzleSize);
-        grid.setColumnCount(puzzleSize);
+        int[][] prefilledPuzzle = puzzleController.getPrefilledPuzzle();
+        int[][] filledPuzzle = puzzleController.getFilledPuzzle();
+        int size = puzzleController.getSize();
+        grid.setRowCount(size);
+        grid.setColumnCount(size);
         //convert dp to pixel
         float mDp2Px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, r.getDisplayMetrics());
 
 
         //building puzzle board
-        for (int i = 0; i < puzzleSize; i++) {
+        for (int i = 0; i < size; i++) {
 
-            for (int j = 0; j < puzzleSize; j++) {
+            for (int j = 0; j < size; j++) {
                 final int row = i;
                 final int col = j;
                 final TextView mCell = new TextView(ctx);
-
+                // add button to array
+                mCells[i][j] = mCell;
+                mCell.setBackgroundColor(Color.alpha(0));
                 if (prefilledPuzzle[i][j] == 0) {
 
                     mCell.setTextColor(Color.BLUE);
-                    mCell.setText(mVocabs.get(filledPuzzle[i][j]).getWord(selLangIndex));
+                    //mCell.setText(mVocabs.get(filledPuzzle[i][j]).getWord(selLangIndex));
+                    if(filledPuzzle[i][j] > 0){
+                        if(gameController.isDuplicate(i,j))
+                            mCell.setBackgroundColor(Color.RED);
+                    }
+                    mCell.setText(vocabLibController.getGameVocab(filledPuzzle[i][j], gameController.getSelectLang()));
                     mCell.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            setPosition(row, col);
+                            fillPosition(row, col);
                             checkDuplicate(row,col);
                         }
                     });
@@ -523,15 +329,16 @@ public class PuzzleActivity extends AppCompatActivity {
                 } else if (prefilledPuzzle[i][j] > 0) {
                     if (filledPuzzle[i][j] == 0) {
                         mCell.setTextColor(Color.BLACK);
-                        if(!isCompMode) {
-                            mCell.setText(mVocabs.get(prefilledPuzzle[i][j]).getWord(langIndex));
+                        if(!gameController.isListenMode()) {
+                            mCell.setText(vocabLibController.getGameVocab(prefilledPuzzle[i][j], gameController.getPuzzleLang()));
                         }else{
-                            mCell.setText(Integer.toString(mTestPuzzle.getPrefilledCell(i, j)));
+                            mCell.setText(Integer.toString(prefilledPuzzle[i][j]));
                         }
                         mCell.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                hint(row, col);
+                                showHint(row, col);
+
                             }
                         });
                     } else {
@@ -558,7 +365,7 @@ public class PuzzleActivity extends AppCompatActivity {
                 //decapitalize button text
                 mCell.setTransformationMethod(null);
 
-                mCell.setBackgroundColor(Color.alpha(0));
+
 
                 // Fit text in button properly
                 // check if device is tablet (a tablet is defined to have a diagonal of 6.5 inches or more here)
@@ -569,16 +376,15 @@ public class PuzzleActivity extends AppCompatActivity {
                 double diagonalInches = Math.sqrt(xInches*xInches + yInches*yInches);
                 // if not tablet
                 if (diagonalInches < 6.5) {
-                    //mButton.setTextSize(5 * mDp2Px);
+                    mCell.setTextSize(5 * mDp2Px);
                 }
                 mCell.setSingleLine(true);
 
-                // add button to array
-                mCells[i][j] = mCell;
+
             }
         }
         //create selection pad and background img for puzzle board
-        switch (puzzleSize){
+        switch (size){
             case 4: selector.setRowCount(2);
                 selector.setColumnCount(2);
                 background.setImageResource(R.drawable.sudoku4x4);
@@ -595,38 +401,35 @@ public class PuzzleActivity extends AppCompatActivity {
                 selector.setColumnCount(4);
                 background.setImageResource(R.drawable.sudoku12x12);
                 break;
-            default: assert puzzleSize == 4 || puzzleSize == 6 || puzzleSize ==9 || puzzleSize ==12;
+            default: assert size == 4 || size == 6 || size ==9 || size ==12;
         }
-        for(int i=0; i<puzzleSize; i++){
+        for(int i=0; i<size; i++){
             final Button mSelButton = new Button(ctx);
-            mSelButton.setText(mVocabs.get(i+1).getWord(selLangIndex));
+            //mSelButton.setText(mVocabs.get(i+1).getWord(selLangIndex));
+            mSelButton.setText(vocabLibController.getGameVocab(i+1, gameController.getSelectLang()));
             mSelButton.setTransformationMethod(null);
             mSelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Button button = (Button) v;
                     int pos = findIndex(selectionButtons, button);
-                    mTestPuzzle.setSelected(pos);// set global variable selected Position for position for selection
+                    gameController.setSelectedIndex(pos);
                 }
             });
             selectionButtons[i] = mSelButton;
-
             selector.addView(mSelButton);
         }
     }
 
-
-    public void hint(int row, int col) {
-        int wordIndex = mTestPuzzle.getPrefilledCell(row, col);
-        Toast.makeText(getContext(), mTestPuzzle.getVocab(wordIndex, selLangIndex), Toast.LENGTH_LONG).show();
-    }
-
-    public void setPosition(int row, int col) {
-        mTestPuzzle.setPosition(mCells, row, col);
+    public void fillPosition(int row, int col) {
+        if(gameController.getSelectedIndex() != -1) {
+            gameController.fillCell(row, col);
+            mCells[row][col].setText(vocabLibController.getGameVocab(gameController.getSelectedIndex(), gameController.getSelectLang()));
+        }
     }
 
     public void submit() {
-        if (mTestPuzzle.isSolved()) {
+        if (gameController.isSolved()) {
             Toast.makeText(ctx, "Sudoku solved!", Toast.LENGTH_LONG).show();
 
         } else {
@@ -635,37 +438,35 @@ public class PuzzleActivity extends AppCompatActivity {
     }
 
     private void deleteWord() {
-        mTestPuzzle.setSelected(0);
+        gameController.setSelectedIndex(0);
 
     }
-
+    private void showHint(int row, int col){
+        Toast.makeText(ctx, vocabLibController.getGameVocab(puzzleController.getPrefilledCell(row,col), gameController.getSelectLang()), Toast.LENGTH_LONG).show();
+    }
     private void switchLang() {
-        TableLayout mSelectionLayout = (TableLayout) findViewById(R.id.puzzle_selectionTable);
-        if (langIndex == 1) {
-            langIndex = 0;
-            selLangIndex = 1;
-        } else {
-            langIndex = 1;
-            selLangIndex = 0;
-        }
-        mTestPuzzle.switchLang();
-        for (int i = 0; i < puzzleSize; i++) {
-            for (int j = 0; j < puzzleSize; j++) {
-                if(!isCompMode) {
-                    if (mTestPuzzle.getPrefilledCell(i, j) == 0) {
-                        if (mTestPuzzle.getFilledCell(i, j) > 0) {
+
+        int size = puzzleController.getSize();
+        gameController.swapLang();
+        Log.e(TAG, Integer.toString(gameController.getSelectLang()));
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if(!gameController.isListenMode()) {
+                    if(puzzleController.getPrefilledCell(i,j) == 0){
+                        if(puzzleController.getFilledCell(i,j) > 0){
                             mCells[i][j].setTextColor(Color.BLUE);
-                            mCells[i][j].setText(mTestPuzzle.getVocab(mTestPuzzle.getFilledCell(i, j), selLangIndex));
+                            mCells[i][j].setText(vocabLibController.getGameVocab(puzzleController.getFilledCell(i,j), gameController.getSelectLang()));
                         } else {
 
                         }
 
-                    } else if (mTestPuzzle.getPrefilledCell(i, j) > 0) {
-                        if (mTestPuzzle.getFilledCell(i, j) == 0) {
+                    } else if (puzzleController.getPrefilledCell(i,j) > 0) {
+                        if (puzzleController.getFilledCell(i,j) == 0) {
                             mCells[i][j].setTextColor(Color.BLACK);
-                            mCells[i][j].setText(mTestPuzzle.getVocab(mTestPuzzle.getPrefilledCell(i, j), langIndex));
+                            mCells[i][j].setText(vocabLibController.getGameVocab(puzzleController.getPrefilledCell(i,j), gameController.getPuzzleLang()));
                         } else {
                             //error
+                            //throw an exception here
                         }
                     }
                 }
@@ -673,21 +474,21 @@ public class PuzzleActivity extends AppCompatActivity {
         }
 
 
-        for(int i=0; i<puzzleSize; i++){
-            selectionButtons[i].setText(mTestPuzzle.getVocab(i+1, selLangIndex));
+        for(int i=0; i<size; i++){
+            selectionButtons[i].setText(vocabLibController.getGameVocab(i+1, gameController.getSelectLang()));
         }
     }
     
     private void switchToNum(boolean isComp) {
-        for (int i = 0; i < puzzleSize; i++) {
-            for (int j = 0; j < puzzleSize; j++) {
-                if(mTestPuzzle.getPrefilledCell(i,j) > 0){
+        for (int i = 0; i < puzzleController.getSize(); i++) {
+            for (int j = 0; j < puzzleController.getSize(); j++) {
+                if(puzzleController.getPrefilledCell(i,j) > 0){
                     mCells[i][j].setTextColor(Color.BLACK);
                     if(isComp) {
-                        mCells[i][j].setText(Integer.toString(mTestPuzzle.getPrefilledCell(i, j)));
+                        mCells[i][j].setText(Integer.toString(puzzleController.getPrefilledCell(i,j)));
                     }
                     else{
-                        mCells[i][j].setText(mTestPuzzle.getVocab(mTestPuzzle.getPrefilledCell(i, j), langIndex));
+                        mCells[i][j].setText(vocabLibController.getGameVocab(puzzleController.getPrefilledCell(i,j), gameController.getPuzzleLang()));
                     }
                 }
             }
@@ -695,7 +496,7 @@ public class PuzzleActivity extends AppCompatActivity {
     }
     // Find index of 1d array
     private int findIndex(Button[] buttonArray, Button button) {
-        for (int i = 0; i < puzzleSize; i++) {
+        for (int i = 0; i < puzzleController.getSize(); i++) {
             if (buttonArray[i] == button) {
                 return i+1;
             }
@@ -706,24 +507,27 @@ public class PuzzleActivity extends AppCompatActivity {
 
     //play sound on comprehension mode
     private void playSound() {
-        switchToNum(isCompMode);
-        for (int i = 0; i < puzzleSize; i++) {
-            for (int j = 0; j < puzzleSize; j++) {
-                final int word = mTestPuzzle.getPrefilledCell(i,j);
-                final Vocab w = mVocabs.get(word);
+        switchToNum(gameController.isListenMode());
+        for (int i = 0; i < puzzleController.getSize(); i++) {
+            for (int j = 0; j < puzzleController.getSize(); j++) {
+                //final int word = mTestPuzzle.getPrefilledCell(i,j);
+                final int word = puzzleController.getPrefilledCell(i,j);
+
+
                 if(word != 0){
-                    if(!isCompMode){
+                    if(!gameController.isListenMode()){
                         final int finalJ = j;
                         final int finalI = i;
                         mCells[i][j].setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                hint(finalI, finalJ);
+                                showHint(finalI, finalJ);
+
                             }
                         });
                     }else{
                         mCells[i][j].setOnClickListener(new View.OnClickListener() {
-                            MediaPlayer mp = MediaPlayer.create(PuzzleActivity.this, w.getSoundFile());
+                            MediaPlayer mp = MediaPlayer.create(PuzzleActivity.this, vocabLibController.getSoundFile(word));
                             public void onClick(View v) {
                                 mp.start();
                             }

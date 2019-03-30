@@ -86,11 +86,6 @@ public class SudokuApplication extends Application {
     private VocabLibrary selectedVocabs = new VocabLibrary();
 
 
-    //VocabularyMenu
-    //    FullVocabList=> filter(isDifficult)
-     //   VocabListByWeek
-     //           VocabListWeek# => filter(isDifficult)
-
     private String[][] mVocabLib = {
             {"Apple", "苹果"},
             {"Pear", "梨"},

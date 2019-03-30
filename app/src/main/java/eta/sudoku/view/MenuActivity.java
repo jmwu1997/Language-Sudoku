@@ -65,6 +65,7 @@ public class MenuActivity extends AppCompatActivity {
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            ((ViewGroup) prompt.getParent()).removeView(prompt);
                             Intent i = new Intent(MenuActivity.this, SelectorActivity.class);
                             i.putExtra(EXTRA_SUDOKU_SIZE, size);
                             i.putExtra(EXTRA_SUDOKU_DIFFICULTY, difficulty);
