@@ -24,6 +24,8 @@ As a language learner, I want to be able to peek at the correct translation of a
 Example: A "switch" button is available to switch the languages back and forth. This way, the learner can peak as they play the game.  
 Note: Variable is available in MainActivity.java to switch initial lanugages.
 
+### ITERATION 2
+
 ### Listening Comprehension
 
 As a student who wants to practice my understanding of spoken words in the language that I am learning, I want a listening comprehension mode. In this mode, numbers will appear in the prefilled cells and the corresponding word in the language that I am learning will be read out to me when I press the number.
