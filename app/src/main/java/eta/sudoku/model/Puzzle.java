@@ -78,7 +78,7 @@ public class Puzzle implements Serializable{
         }
     };*/
 
-
+    public int getDifficulty() {return mDifficulty;}
     public int getSize() {
         return mSize;
     }

@@ -13,8 +13,17 @@ import static org.junit.Assert.*;
  * @see <10 href="http://d.android.com/tools/testing">Testing documentation</10>
  */
 public class PuzzleTest {
+
+    private int easy=0;
+    private int medium=1;
+    private int hard=2;
+    private int size4x4=4;
+    private int size9x9=9;
+    private int size12x12=12;
+
     @Test
-    public void testVocabLibrary() {
+    //create a 9 x 9 medium mode and check
+    public void testVocabLibrary9x9() {
         // Test constructor
         int[][] mPuzzle = {
                 {6, 8, 2, 9, 4, 7, 5, 1, 3},
@@ -53,16 +62,19 @@ public class PuzzleTest {
 
         // assumes SudokuApplication.java and VocabLibrary.java is working
         VocabLibrary vocab = SudokuApplication.getInstance().getVocabList().getRandomVocabs(9);
-        Puzzle puzzleTest = new Puzzle(mPuzzle, vocab,9,0);
+        Puzzle puzzleTest = new Puzzle(mPuzzle, vocab,size9x9,medium);
         for (int i = 0; i < 9; i++) {
             assertEquals(9, puzzleTest.getPrefilledPuzzle()[i].length);
+            assertEquals(9, puzzleTest.getCurrentPuzzle()[i].length);
         }
         assertArrayEquals(mPuzzle,  puzzleTest.getPrefilledPuzzle());
         assertArrayEquals(mPuzzle,  puzzleTest.getCurrentPuzzle());
         assertEquals(9,puzzleTest.getSize());
+        assertEquals(1,puzzleTest.getDifficulty());
     }
     @Test
-    public void testVocabLibrary1() {
+    //create a 12 x 12 hard mode and check
+    public void testVocabLibrary12x12() {
         // Test constructor
         int[][] mPuzzle = {
                 {9,2,10,1,4,7,11,5,3,8,12,6},
@@ -81,43 +93,23 @@ public class PuzzleTest {
 
         };
 
-        String[][] mVocabLib = {
-                {"Apple", "苹果"},
-                {"Pear", "梨"},
-                {"Banana", "香蕉"},
-                {"Peach", "桃子"},
-                {"Grape", "葡萄"},
-                {"Haw", "山楂"},
-                {"Guava", "番石榴"},
-                {"Papaya", "木瓜"},
-                {"Lemon", "柠檬"},
-                {"Orange", "橙子"},
-                {"Mango", "芒果"},
-                {"Fig", "无花果"},
-                {"Coconut", "椰子"},
-                {"Berry", "浆果"},
-                {"Almond", "杏仁"},
-                {"Tomato", "番茄"},
-                {"Date", "枣子"},
-                {"Durian", "榴莲"},
-                {"Longan", "龙眼"},
-                {"Melon", "香瓜"}
-        };
-
         // assumes SudokuApplication.java and VocabLibrary.java is working
         VocabLibrary vocab = SudokuApplication.getInstance().getVocabList().getRandomVocabs(12);
-        Puzzle puzzleTest = new Puzzle(mPuzzle, vocab,12,0);
+        Puzzle puzzleTest = new Puzzle(mPuzzle, vocab,size12x12,hard);
 
         for (int i = 0; i < 12; i++) {
             assertEquals(12, puzzleTest.getPrefilledPuzzle()[i].length);
+            assertEquals(12, puzzleTest.getCurrentPuzzle()[i].length);
         }
         assertArrayEquals(mPuzzle,  puzzleTest.getPrefilledPuzzle());
         assertArrayEquals(mPuzzle,  puzzleTest.getCurrentPuzzle());
         assertEquals(12,puzzleTest.getSize());
+        assertEquals(2,puzzleTest.getDifficulty());
     }
 
     @Test
-    public void testVocabLibrary2() {
+    //create puzzle 4x4 easy mode and check
+    public void testVocabLibrary4x4() {
         // Test constructor
         int[][] mPuzzle = {
                 {1,4,3,2},
@@ -127,38 +119,17 @@ public class PuzzleTest {
 
         };
 
-        String[][] mVocabLib = {
-                {"Apple", "苹果"},
-                {"Pear", "梨"},
-                {"Banana", "香蕉"},
-                {"Peach", "桃子"},
-                {"Grape", "葡萄"},
-                {"Haw", "山楂"},
-                {"Guava", "番石榴"},
-                {"Papaya", "木瓜"},
-                {"Lemon", "柠檬"},
-                {"Orange", "橙子"},
-                {"Mango", "芒果"},
-                {"Fig", "无花果"},
-                {"Coconut", "椰子"},
-                {"Berry", "浆果"},
-                {"Almond", "杏仁"},
-                {"Tomato", "番茄"},
-                {"Date", "枣子"},
-                {"Durian", "榴莲"},
-                {"Longan", "龙眼"},
-                {"Melon", "香瓜"}
-        };
-
         // assumes SudokuApplication.java and VocabLibrary.java is working
         VocabLibrary vocab = SudokuApplication.getInstance().getVocabList().getRandomVocabs(4);
-        Puzzle puzzleTest = new Puzzle(mPuzzle, vocab,4,0);
+        Puzzle puzzleTest = new Puzzle(mPuzzle, vocab,size4x4,easy);
 
         for (int i = 0; i < 4; i++) {
             assertEquals(4, puzzleTest.getPrefilledPuzzle()[i].length);
+            assertEquals(4, puzzleTest.getCurrentPuzzle()[i].length);
         }
         assertArrayEquals(mPuzzle,  puzzleTest.getPrefilledPuzzle());
         assertArrayEquals(mPuzzle,  puzzleTest.getCurrentPuzzle());
         assertEquals(4,puzzleTest.getSize());
+        assertEquals(0,puzzleTest.getDifficulty());
     }
 }
