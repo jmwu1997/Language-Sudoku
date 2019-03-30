@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 /**
  * Instrumented test, which will execute on an Android device.
  *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * @see <10 href="http://d.android.com/tools/testing">Testing documentation</10>
  */
 public class PuzzleTest {
     @Test
@@ -63,6 +63,61 @@ public class PuzzleTest {
     }
     @Test
     public void testVocabLibrary1() {
+        // Test constructor
+        int[][] mPuzzle = {
+                {9,2,10,1,4,7,11,5,3,8,12,6},
+                {3,5,11,6,8,10,12,9,1,4,2,7},
+                {8,12,4,7,3,1,6,2,11,5,10,9},
+                {11,8,6,12,5,4,2,7,10,9,1,3},
+                {2,3,9,4,1,12,10,6,8,7,11,5},
+                {7,1,5,10,11,9,8,3,2,12,6,4},
+                {12,4,8,9,10,6,1,11,7,3,5,2},
+                {6,10,7,3,2,8,5,12,9,11,4,1},
+                {1,11,2,5,9,3,7,4,12,6,8,10},
+                {5,6,1,11,7,2,9,8,4,10,3,12},
+                {2,7,3,8,12,5,4,1,6,2,9,11},
+                {4,9,12,2,6,11,3,10,5,1,7,8},
+
+
+        };
+
+        String[][] mVocabLib = {
+                {"Apple", "苹果"},
+                {"Pear", "梨"},
+                {"Banana", "香蕉"},
+                {"Peach", "桃子"},
+                {"Grape", "葡萄"},
+                {"Haw", "山楂"},
+                {"Guava", "番石榴"},
+                {"Papaya", "木瓜"},
+                {"Lemon", "柠檬"},
+                {"Orange", "橙子"},
+                {"Mango", "芒果"},
+                {"Fig", "无花果"},
+                {"Coconut", "椰子"},
+                {"Berry", "浆果"},
+                {"Almond", "杏仁"},
+                {"Tomato", "番茄"},
+                {"Date", "枣子"},
+                {"Durian", "榴莲"},
+                {"Longan", "龙眼"},
+                {"Melon", "香瓜"}
+        };
+
+        // assumes SudokuApplication.java and VocabLibrary.java is working
+        VocabLibrary vocab = SudokuApplication.getInstance().getVocabList().getRandomVocabs(12);
+        Puzzle puzzleTest = new Puzzle(mPuzzle, vocab,12,0);
+
+        for (int i = 0; i < 12; i++) {
+            assertEquals(12, puzzleTest.getPrefilledPuzzle()[i].length);
+        }
+        assertArrayEquals(mPuzzle,  puzzleTest.getPrefilledPuzzle());
+        assertArrayEquals(mPuzzle,  puzzleTest.getCurrentPuzzle());
+        assertEquals(12,puzzleTest.getSize());
+    }
+
+    @Test
+    public void testVocabLibrary2() {
         // Test constructor
         int[][] mPuzzle = {
                 {1,4,3,2},
