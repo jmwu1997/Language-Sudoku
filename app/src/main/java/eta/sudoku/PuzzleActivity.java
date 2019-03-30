@@ -632,7 +632,7 @@ public class PuzzleActivity extends AppCompatActivity {
     }
 
     private void switchLang() {
-        TableLayout mSelectionLayout = (TableLayout) findViewById(R.id.puzzle_selectionTable);
+        //TableLayout mSelectionLayout = (TableLayout) findViewById(R.id.puzzle_selectionTable);
         if (langIndex == 1) {
             langIndex = 0;
             selLangIndex = 1;
