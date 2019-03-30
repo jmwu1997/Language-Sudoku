@@ -1,6 +1,5 @@
-package eta.sudoku;
+package eta.sudoku.view;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -14,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import eta.sudoku.R;
 
 public class MenuActivity extends AppCompatActivity {
     private static final String TAG = "MenuActivity";
@@ -64,6 +65,7 @@ public class MenuActivity extends AppCompatActivity {
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            ((ViewGroup) prompt.getParent()).removeView(prompt);
                             Intent i = new Intent(MenuActivity.this, SelectorActivity.class);
                             i.putExtra(EXTRA_SUDOKU_SIZE, size);
                             i.putExtra(EXTRA_SUDOKU_DIFFICULTY, difficulty);

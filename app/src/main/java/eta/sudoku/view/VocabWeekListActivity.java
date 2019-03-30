@@ -1,12 +1,7 @@
-package eta.sudoku;
+package eta.sudoku.view;
 
-import android.content.ClipData;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,10 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import eta.sudoku.R;
+import eta.sudoku.SudokuApplication;
+import eta.sudoku.model.VocabLibrary;
 
 public class VocabWeekListActivity extends AppCompatActivity {
     int weekNum;

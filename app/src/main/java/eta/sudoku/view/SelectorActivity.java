@@ -1,28 +1,33 @@
-package eta.sudoku;
+package eta.sudoku.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import eta.sudoku.R;
+import eta.sudoku.SudokuApplication;
+import eta.sudoku.controller.GameController;
+import eta.sudoku.controller.PuzzleController;
+import eta.sudoku.controller.VocabLibraryController;
+import eta.sudoku.model.VocabLibrary;
+
 public class SelectorActivity extends AppCompatActivity {
-    //private static final SelectorActivity ourInstance = new SelectorActivity();
+    private static final SelectorActivity ourInstance = new SelectorActivity();
+    private static final PuzzleController puzzleController = PuzzleController.getInstance();
+    private static final GameController gameController = GameController.getInstance();
+    private static final VocabLibraryController vocabLibController = VocabLibraryController.getInstance();
     public static final String TAG = "SelectorActivity";
     private VocabLibrary mFullVocab = SudokuApplication.getInstance().getVocabList();
     private boolean[] selected = new boolean[mFullVocab.size()];
@@ -55,9 +60,16 @@ public class SelectorActivity extends AppCompatActivity {
                 } else {
 
                     Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
-                    i.putExtra(EXTRA_SUDOKU_SIZE, size);
-                    i.putExtra(EXTRA_SUDOKU_DIFFICULTY, difficulty);
-                    i.putExtra(EXTRA_SUDOKU_IS_LISTEN, isListen);
+                    //i.putExtra(EXTRA_SUDOKU_SIZE, size);
+                    //i.putExtra(EXTRA_SUDOKU_DIFFICULTY, difficulty);
+                    //i.putExtra(EXTRA_SUDOKU_IS_LISTEN, isListen);
+                    //puzzleController.setSize(size);
+                    //puzzleController.setDifficulty(difficulty);
+                    //puzzleController.setSudoku(SudokuApplication.getInstance().getPuzzle(puzzleController.getSize()));
+                    //puzzleController.setPuzzleVocabs(SudokuApplication.getInstance().getSelectedVocabs());
+                    vocabLibController.setGameVocabs(SudokuApplication.getInstance().getSelectedVocabs());
+                    puzzleController.newPuzzle(SudokuApplication.getInstance().getPuzzle(size), SudokuApplication.getInstance().getSelectedVocabs(), size, difficulty);
+                    gameController.newGame(isListen);
                     startActivity(i);
                     finish();
 
@@ -71,9 +83,17 @@ public class SelectorActivity extends AppCompatActivity {
             public void onClick(View v) {
                 SudokuApplication.getInstance().setSelectedVocabs(SudokuApplication.getInstance().getVocabList().getRandomVocabs(size));
                 Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
-                i.putExtra(EXTRA_SUDOKU_SIZE, size);
-                i.putExtra(EXTRA_SUDOKU_DIFFICULTY, difficulty);
-                i.putExtra(EXTRA_SUDOKU_IS_LISTEN, isListen);
+                //i.putExtra(EXTRA_SUDOKU_SIZE, size);
+                //i.putExtra(EXTRA_SUDOKU_DIFFICULTY, difficulty);
+                //i.putExtra(EXTRA_SUDOKU_IS_LISTEN, isListen);
+                //puzzleController.setSize(size);
+                //puzzleController.setDifficulty(difficulty);
+                //puzzleController.setSudoku(SudokuApplication.getInstance().getPuzzle(puzzleController.getSize()));
+                //puzzleController.setPuzzleVocabs(SudokuApplication.getInstance().getSelectedVocabs());
+                vocabLibController.setGameVocabs(SudokuApplication.getInstance().getSelectedVocabs());
+
+                puzzleController.newPuzzle(SudokuApplication.getInstance().getPuzzle(size), SudokuApplication.getInstance().getSelectedVocabs(), size, difficulty);
+                gameController.newGame(isListen);
                 startActivity(i);
                 finish();
             }
@@ -82,7 +102,7 @@ public class SelectorActivity extends AppCompatActivity {
         //show all vocab from overall vocab library
         for(int i=1; i<mFullVocab.size(); i++) {
             final int ind = i;
-            final LinearLayout wordLayout = new LinearLayout(eta.sudoku.SelectorActivity.this);
+            final LinearLayout wordLayout = new LinearLayout(SelectorActivity.this);
             LinearLayout.LayoutParams wordLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             wordLayoutParam.setMargins(30,20,30,15);
             if(mFullVocab.get(ind).isDifficult()) {
@@ -126,7 +146,7 @@ public class SelectorActivity extends AppCompatActivity {
             ViewGroup.LayoutParams wordParam = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
 
-            TextView word0 = new TextView(eta.sudoku.SelectorActivity.this);
+            TextView word0 = new TextView(SelectorActivity.this);
             word0.setText(mFullVocab.get(i).getWord(0));
             word0.setLayoutParams(wordParam);
             word0.setTextSize(23);
@@ -135,7 +155,7 @@ public class SelectorActivity extends AppCompatActivity {
             word0.setLayoutParams(marginLayoutParams);
             wordLayout.addView(word0);
 
-            TextView word1 = new TextView(eta.sudoku.SelectorActivity.this);
+            TextView word1 = new TextView(SelectorActivity.this);
             word1.setText(mFullVocab.get(i).getWord(1));
             word1.setLayoutParams(wordParam);
             word1.setTextSize(16);

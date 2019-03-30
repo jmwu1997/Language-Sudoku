@@ -2,6 +2,8 @@ package eta.sudoku;
 
 import org.junit.Test;
 
+import eta.sudoku.model.Vocab;
+
 import static org.junit.Assert.*;
 
 public class VocabTest {

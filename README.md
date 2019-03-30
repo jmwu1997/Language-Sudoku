@@ -32,13 +32,13 @@ As a student who wants to practice my understanding of spoken words in the langu
 
 ### Vocabulary Lists
 
-As a teacher, I want to specify a list of word pairs for my students to practice this week.  
-As a student working with a textbook, I want to load pairs of words to practice from each chapter of the book.  
+As a teacher, I want to specify a list of word pairs for my students to practice this week.
+As a student working with a textbook, I want to load pairs of words to practice from each chapter of the book.
 As a student, I want the Sudoku app to keep track of the vocabulary words that I am having difficulty recognizing so that they will be used more often in my practice puzzles.
 
 ### Different Devices
 
-As a vocabulary learner practicing at home, I want to use my tablet for Sudoku vocabulary practice, so that the words will be conveniently displayed in larger, easier to read fonts.  
+As a vocabulary learner practicing at home, I want to use my tablet for Sudoku vocabulary practice, so that the words will be conveniently displayed in larger, easier to read fonts.
 As a vocabulary learner taking the bus, I want to use my phone in landscape mode for Sudoku vocabulary practice, so that longer words are displayed in a larger font that standard mode.
 
 ### ITERATION 3
@@ -82,18 +82,4 @@ Example: I want more groups of words, like animals, plants, or others.
 
 As a teacher who wants student to learn better, I would like to have my set words for student to learn each week.
 
-Example: I want to pick my own set of words for my student each week for them to learn. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Example: I want to pick my own set of words for my student each week for them to learn.

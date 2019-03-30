@@ -3,10 +3,10 @@ package eta.sudoku;
 import android.app.Application;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+
+import eta.sudoku.model.Vocab;
+import eta.sudoku.model.VocabLibrary;
+
 
 public class SudokuApplication extends Application {
     private static final SudokuApplication ourInstance = new SudokuApplication();
@@ -86,11 +86,6 @@ public class SudokuApplication extends Application {
     private VocabLibrary selectedVocabs = new VocabLibrary();
 
 
-    //VocabularyMenu
-    //    FullVocabList=> filter(isDifficult)
-     //   VocabListByWeek
-     //           VocabListWeek# => filter(isDifficult)
-
     private String[][] mVocabLib = {
             {"Apple", "苹果"},
             {"Pear", "梨"},
@@ -117,7 +112,7 @@ public class SudokuApplication extends Application {
     final int[] clips= { R.raw.apple, R.raw.pear, R.raw.banana, R.raw.peach, R.raw.grape, R.raw.haw, R.raw.guava,
             R.raw.papaya,R.raw.lemon, R.raw.orange, R.raw.mango, R.raw.fig, R.raw.coconut, R.raw.berry, R.raw.almond,
             R.raw.tomato, R.raw.date, R.raw.durian, R.raw.longan, R.raw.melon };
-    static SudokuApplication getInstance() {
+    public static SudokuApplication getInstance() {
 
         return ourInstance;
     }
