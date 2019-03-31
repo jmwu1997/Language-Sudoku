@@ -65,6 +65,25 @@ public class VocabStorage {
         }
 
     }
+    public boolean deleteList(String listName){
+        if(listName=="Library"){
+            return false;
+        }
+        File file = new File(filepath+ File.separator+listName);
+        return file.delete();
+    }
+    public boolean deleteLang(String langName){
+        File dir = new File(Environment.getExternalStorageDirectory()+langName);
+        if (dir.isDirectory())
+        {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++)
+            {
+                new File(dir, children[i]).delete();
+            }
+        }
+        return dir.delete();
+    }
     public VocabLibrary loadLibrary(){
         return loadList("Library");
     }
