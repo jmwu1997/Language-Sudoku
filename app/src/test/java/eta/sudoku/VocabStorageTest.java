@@ -41,7 +41,7 @@ public class VocabTest {
         assertEquals("test0",testVocab.getWord(0));
         testVocab.setWord(1,"test1");
         assertEquals("test1",testVocab.getWord(1));
-       testVocab.
+
 
     }
 }
