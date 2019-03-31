@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import eta.sudoku.model.Game;
+import eta.sudoku.model.Puzzle;
 
 public class GameController {
     private static final GameController ourInstance = new GameController();
@@ -15,8 +16,8 @@ public class GameController {
     public GameController(){
 
     }
-    public void newGame(boolean isListen){
-        mGame = new Game(isListen);
+    public void newGame(Puzzle puzzle, boolean isListen){
+        mGame = new Game(puzzle, isListen);
     }
     public void swapLang(){
         int temp = mGame.getSelectLang();

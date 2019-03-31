@@ -15,7 +15,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import eta.sudoku.R;
+import eta.sudoku.controller.GameController;
+import eta.sudoku.controller.PuzzleController;
 import eta.sudoku.controller.VocabLibraryController;
+import eta.sudoku.model.Game;
 
 public class MenuActivity extends AppCompatActivity {
     private static final String TAG = "MenuActivity";
@@ -25,6 +28,8 @@ public class MenuActivity extends AppCompatActivity {
 
 
     private static final VocabLibraryController vocabLibController = VocabLibraryController.getInstance();
+    private static final GameController gameController = GameController.getInstance();
+    private static final PuzzleController puzzleController = PuzzleController.getInstance();
     private int size = 9;
     private int difficulty = 0;
     @Override
@@ -73,6 +78,8 @@ public class MenuActivity extends AppCompatActivity {
                             ((ViewGroup) prompt.getParent()).removeView(prompt);
                             Intent i = new Intent(MenuActivity.this, SelectorActivity.class);
                             vocabLibController.newGameVocabLib();
+                            puzzleController.newPuzzle(size, difficulty);
+                            gameController.newGame(puzzleController.getPuzzle(), listenSwitch.isChecked());
                             //i.putExtra(EXTRA_SUDOKU_SIZE, size);
                             //i.putExtra(EXTRA_SUDOKU_DIFFICULTY, difficulty);
                             //i.putExtra(EXTRA_SUDOKU_IS_LISTEN, listenSwitch.isChecked());
