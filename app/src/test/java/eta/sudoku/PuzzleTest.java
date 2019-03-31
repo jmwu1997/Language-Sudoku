@@ -79,16 +79,16 @@ public class PuzzleTest {
         assertFalse(puzzleTest.isCellEmpty(1,1));
 
         //prefilled = current
-        assertEquals(6,puzzleTest.getCurrentCell(0,0));
-        assertEquals(6,puzzleTest.getPrefilledCell(0,0));
+        assertEquals(9,puzzleTest.getCurrentCell(8,8));
+        assertEquals(9,puzzleTest.getPrefilledCell(8,8));
 
-        //change the cell
-        puzzleTest.setCurrentCell(4,0,0);
-        assertEquals(4,puzzleTest.getCurrentCell(0,0));
+        //change the last cell to 4
+        puzzleTest.setCurrentCell(4,8,8);
+        assertEquals(4,puzzleTest.getCurrentCell(8,8));
 
         // prefilled != current after change
-        assertEquals(4,puzzleTest.getCurrentCell(0,0));
-        assertEquals(6,puzzleTest.getPrefilledCell(0,0));
+        assertEquals(4,puzzleTest.getCurrentCell(8,8));
+        assertEquals(9,puzzleTest.getPrefilledCell(8,8));
 
 
     }
@@ -134,16 +134,16 @@ public class PuzzleTest {
         assertFalse(puzzleTest.isCellEmpty(1,1));
 
         //prefilled = current
-        assertEquals(9,puzzleTest.getCurrentCell(0,0));
-        assertEquals(9,puzzleTest.getPrefilledCell(0,0));
+        assertEquals(8,puzzleTest.getCurrentCell(11,11));
+        assertEquals(8,puzzleTest.getPrefilledCell(11,11));
 
-        //change the cell
-        puzzleTest.setCurrentCell(4,0,0);
-        assertEquals(4,puzzleTest.getCurrentCell(0,0));
+        //change the last cell to 4
+        puzzleTest.setCurrentCell(4,11,11);
+        assertEquals(4,puzzleTest.getCurrentCell(11,11));
 
         // prefilled != current after change
-        assertEquals(4,puzzleTest.getCurrentCell(0,0));
-        assertEquals(9,puzzleTest.getPrefilledCell(0,0));
+        assertEquals(4,puzzleTest.getCurrentCell(11,11));
+        assertEquals(8,puzzleTest.getPrefilledCell(11,11));
     }
 
     @Test
@@ -179,16 +179,16 @@ public class PuzzleTest {
         assertFalse(puzzleTest.isCellEmpty(1,1));
 
         //prefilled = current
-        assertEquals(1,puzzleTest.getCurrentCell(0,0));
-        assertEquals(1,puzzleTest.getPrefilledCell(0,0));
+        assertEquals(4,puzzleTest.getCurrentCell(3,3));
+        assertEquals(4,puzzleTest.getPrefilledCell(3,3));
 
-        //change the cell
-        puzzleTest.setCurrentCell(4,0,0);
-        assertEquals(4,puzzleTest.getCurrentCell(0,0));
+        //change the last cell to 1
+        puzzleTest.setCurrentCell(1,3,3);
+        assertEquals(1,puzzleTest.getCurrentCell(3,3));
 
         // prefilled != current after change
-        assertEquals(4,puzzleTest.getCurrentCell(0,0));
-        assertEquals(1,puzzleTest.getPrefilledCell(0,0));
+        assertEquals(1,puzzleTest.getCurrentCell(3,3));
+        assertEquals(4,puzzleTest.getPrefilledCell(3,3));
 
 
 
