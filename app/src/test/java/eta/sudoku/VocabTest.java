@@ -21,6 +21,7 @@ public class VocabTest {
         testVocab.setDifficult(false);
         assertFalse(testVocab.isDifficult());
 
+
     }
     @Test
     public void VocabSoundSetCheck(){
@@ -31,8 +32,7 @@ public class VocabTest {
 
         //set sound file check
         testVocab.setSoundFile(R.raw.apple);
-        int clip= testVocab.getSoundFile();
-        assertEquals(R.raw.apple,clip);
+        assertEquals(R.raw.apple,testVocab.getSoundFile());
 
         //is sound missing check
         assertFalse(testVocab.isSoundMissing());
