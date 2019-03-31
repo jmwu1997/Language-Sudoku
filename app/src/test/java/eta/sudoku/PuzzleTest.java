@@ -2,6 +2,7 @@ package eta.sudoku;
 
 import org.junit.Test;
 
+import eta.sudoku.controller.PuzzleController;
 import eta.sudoku.model.Puzzle;
 import eta.sudoku.model.VocabLibrary;
 
@@ -13,7 +14,7 @@ import static org.junit.Assert.*;
  * @see <10 href="http://d.android.com/tools/testing">Testing documentation</10>
  */
 public class PuzzleTest {
-
+    private static final PuzzleController puzzleController = PuzzleController.getInstance();
     private int easy=0;
     private int medium=1;
     private int hard=2;
