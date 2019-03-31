@@ -21,9 +21,12 @@ public class PuzzleController {
     public PuzzleController() {
 
     }
-    public Puzzle newPuzzle(int size, int difficulty){
+    public void newPuzzle(int size, int difficulty){
         mPuzzle = new Puzzle(SudokuApplication.getInstance().getPuzzle(size), size, difficulty);
         mPuzzle.genRandomPuzzle();
+
+    }
+    public Puzzle getPuzzle(){
         return mPuzzle;
     }
 
