@@ -45,9 +45,9 @@ public class SelectorActivity extends AppCompatActivity {
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.selector_Vocab_layout);
 
-        size = getIntent().getIntExtra(MenuActivity.EXTRA_SUDOKU_SIZE,9);
-        difficulty = getIntent().getIntExtra(MenuActivity.EXTRA_SUDOKU_DIFFICULTY, 0);
-        isListen = getIntent().getBooleanExtra(MenuActivity.EXTRA_SUDOKU_IS_LISTEN, false);
+        //size = getIntent().getIntExtra(MenuActivity.EXTRA_SUDOKU_SIZE,9);
+        //difficulty = getIntent().getIntExtra(MenuActivity.EXTRA_SUDOKU_DIFFICULTY, 0);
+        //isListen = getIntent().getBooleanExtra(MenuActivity.EXTRA_SUDOKU_IS_LISTEN, false);
         mFullVocab = vocabLibController.getOverallVocabLib();
         selected = new boolean[vocabLibController.getOverallVocabLibSize()];
         Button start = (Button) findViewById(R.id.selector_start_game);
@@ -60,7 +60,7 @@ public class SelectorActivity extends AppCompatActivity {
                     Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
 
                     //puzzleController.newPuzzle(size, difficulty);
-                    gameController.newGame(puzzleController.newPuzzle(size, difficulty), isListen);
+                    //gameController.newGame(puzzleController.newPuzzle(size, difficulty), isListen);
                     startActivity(i);
                     finish();
                 }
@@ -74,7 +74,7 @@ public class SelectorActivity extends AppCompatActivity {
                 Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
 
 
-                gameController.newGame(puzzleController.newPuzzle(size, difficulty), isListen);
+                //gameController.newGame(puzzleController.newPuzzle(size, difficulty), isListen);
                 startActivity(i);
                 finish();
             }
