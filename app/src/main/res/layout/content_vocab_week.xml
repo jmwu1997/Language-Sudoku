@@ -8,11 +8,11 @@
     tools:context=".view.VocabWeekActivity"
     tools:showIn="@layout/activity_vocab_week">
 
-    <LinearLayout
+    <GridLayoutLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:id="@+id/weekVocab_layout"
-        ></LinearLayout>
+        ></GridLayoutLayout>
 
 </android.support.v4.widget.NestedScrollView>
