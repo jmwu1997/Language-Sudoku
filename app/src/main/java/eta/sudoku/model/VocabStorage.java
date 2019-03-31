@@ -1,4 +1,4 @@
-package eta.sudoku;
+package eta.sudoku.model;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import eta.sudoku.model.VocabLibrary;
 
 public class VocabStorage {
     private String filepath;
