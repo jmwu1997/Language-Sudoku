@@ -12,11 +12,11 @@ public class Game {
     private int[] incorrectCount;
     private boolean isListenMode;
 
-    public Game(boolean isListen){
+    public Game(Puzzle puzzle, boolean isListen){
         selectLang = 1;
         puzzleLang = 0;
         selectedIndex = -1;
-        incorrectCount = new int[puzzleController.getSize()];
+        incorrectCount = new int[puzzle.getSize()];
         isListenMode = isListen;
     }
 

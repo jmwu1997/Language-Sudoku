@@ -59,8 +59,8 @@ public class SelectorActivity extends AppCompatActivity {
                 } else {
                     Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
 
-                    puzzleController.newPuzzle(size, difficulty);
-                    gameController.newGame(isListen);
+                    //puzzleController.newPuzzle(size, difficulty);
+                    gameController.newGame(puzzleController.newPuzzle(size, difficulty), isListen);
                     startActivity(i);
                     finish();
                 }
@@ -73,8 +73,8 @@ public class SelectorActivity extends AppCompatActivity {
                 vocabLibController.setGameVocabs(mFullVocab.getRandomVocabs(size));
                 Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
 
-                puzzleController.newPuzzle(size, difficulty);
-                gameController.newGame(isListen);
+
+                gameController.newGame(puzzleController.newPuzzle(size, difficulty), isListen);
                 startActivity(i);
                 finish();
             }
