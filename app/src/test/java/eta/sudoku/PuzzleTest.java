@@ -70,7 +70,6 @@ public class PuzzleTest {
         assertArrayEquals(mPuzzle,  puzzleTest.getPrefilledPuzzle());
         assertArrayEquals(mPuzzle,  puzzleTest.getCurrentPuzzle());
         assertEquals(9,puzzleTest.getSize());
-        assertEquals(1,puzzleTest.getDifficulty());
         assertFalse(puzzleTest.isCellEmpty(1,1));
 
         //prefilled = current
@@ -127,7 +126,6 @@ public class PuzzleTest {
         assertArrayEquals(mPuzzle,  puzzleTest.getPrefilledPuzzle());
         assertArrayEquals(mPuzzle,  puzzleTest.getCurrentPuzzle());
         assertEquals(12,puzzleTest.getSize());
-        assertEquals(2,puzzleTest.getDifficulty());
         assertFalse(puzzleTest.isCellEmpty(1,1));
 
         //prefilled = current
@@ -174,7 +172,6 @@ public class PuzzleTest {
         assertArrayEquals(mPuzzle,  puzzleTest.getPrefilledPuzzle());
         assertArrayEquals(mPuzzle,  puzzleTest.getCurrentPuzzle());
         assertEquals(4,puzzleTest.getSize());
-        assertEquals(0,puzzleTest.getDifficulty());
         assertFalse(puzzleTest.isCellEmpty(1,1));
 
         //prefilled = current
