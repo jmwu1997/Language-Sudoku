@@ -37,7 +37,8 @@ public class PuzzleController {
     public int getSize() {
         return mPuzzle.getSize();
     }
-    public int getDifficulty(){return mPuzzle.getDifficulty();}
+
+
     public int[][] getPrefilledPuzzle(){
         return mPuzzle.getPrefilledPuzzle();
     }
