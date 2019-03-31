@@ -12,6 +12,7 @@ public class Game {
     private int[] incorrectCount;
     private boolean isListenMode;
 
+
     public Game(boolean isListen){
         selectLang = 1;
         puzzleLang = 0;
@@ -19,6 +20,8 @@ public class Game {
         incorrectCount = new int[puzzleController.getSize()];
         isListenMode = isListen;
     }
+
+
 
     public int getSelectLang() {
         return selectLang;

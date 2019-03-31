@@ -1,16 +1,12 @@
 
 package eta.sudoku.controller;
 
-import android.widget.Button;
-import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import eta.sudoku.SudokuApplication;
 import eta.sudoku.model.Puzzle;
-import eta.sudoku.model.Vocab;
-import eta.sudoku.view.PuzzleActivity;
+
 //controller with direct access to the instance of puzzle
 public class PuzzleController {
     private static final PuzzleController ourInstance = new PuzzleController();
@@ -37,6 +33,8 @@ public class PuzzleController {
     public int getSize() {
         return mPuzzle.getSize();
     }
+
+
     public int getDifficulty(){return mPuzzle.getDifficulty();}
     public int[][] getPrefilledPuzzle(){
         return mPuzzle.getPrefilledPuzzle();
