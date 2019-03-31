@@ -13,16 +13,16 @@ public class VocabTest {
         boolean diffResult;
         testVocab.setDifficult(true);
         diffResult=testVocab.isDifficult();
-        assertEquals(true,diffResult);
+        assertTrue(diffResult);
         testVocab.setDifficult(false);
         diffResult=testVocab.isDifficult();
-        assertEquals(false,diffResult);
+        assertFalse(diffResult);
 
     }
     @Test
     public void VocabSoundSetCheck(){
         Vocab testVocab = new Vocab();
-        assertEquals(true,testVocab.isSoundMissing());
+        assertTrue(testVocab.isSoundMissing());
         testVocab.setSoundFile(R.raw.apple);
         int clip= testVocab.getSoundFile();
         assertEquals(R.raw.apple,clip);
