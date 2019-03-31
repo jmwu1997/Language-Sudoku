@@ -31,7 +31,6 @@ public class Vocab implements Serializable {
     public int getmIndex() {
         return mIndex;
     }
-
     public void setmIndex(int mIndex) {
         this.mIndex = mIndex;
     }

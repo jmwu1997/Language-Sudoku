@@ -1,14 +1,8 @@
 package eta.sudoku.model;
 //model class
 
-import android.widget.Button;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 import eta.sudoku.controller.GameController;
@@ -81,6 +75,7 @@ public class Puzzle implements Serializable{
     public int getSize() {
         return mSize;
     }
+
 
     public void createPuzzle(int[][] savedPuzzle) {//create puzzle with a pre-generated puzzle(number ranging from 1-9, 0 for blank
         for(int i=0; i<mSize; i++) {
