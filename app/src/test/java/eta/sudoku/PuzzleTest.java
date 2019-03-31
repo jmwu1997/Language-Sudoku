@@ -2,7 +2,6 @@ package eta.sudoku;
 
 import org.junit.Test;
 
-import eta.sudoku.controller.PuzzleController;
 import eta.sudoku.model.Puzzle;
 import eta.sudoku.model.VocabLibrary;
 
@@ -14,13 +13,6 @@ import static org.junit.Assert.*;
  * @see <10 href="http://d.android.com/tools/testing">Testing documentation</10>
  */
 public class PuzzleTest {
-    private static final PuzzleController puzzleController = PuzzleController.getInstance();
-    private int easy=0;
-    private int medium=1;
-    private int hard=2;
-    private int size4x4=4;
-    private int size9x9=9;
-    private int size12x12=12;
 
     @Test
     //create a 9 x 9 medium mode and check
@@ -63,7 +55,9 @@ public class PuzzleTest {
 
         // assumes SudokuApplication.java and VocabLibrary.java is working
 
-        Puzzle puzzleTest = new Puzzle(mPuzzle,size9x9,medium);
+        int size9x9 = 9;
+        int medium = 1;
+        Puzzle puzzleTest = new Puzzle(mPuzzle, size9x9, medium);
         for (int i = 0; i < 9; i++) {
             assertEquals(9, puzzleTest.getPrefilledPuzzle()[i].length);
             assertEquals(9, puzzleTest.getCurrentPuzzle()[i].length);
@@ -117,7 +111,9 @@ public class PuzzleTest {
 
         // assumes SudokuApplication.java and VocabLibrary.java is working
 
-        Puzzle puzzleTest = new Puzzle(mPuzzle,size12x12,hard);
+        int hard = 2;
+        int size12x12 = 12;
+        Puzzle puzzleTest = new Puzzle(mPuzzle, size12x12, hard);
 
         for (int i = 0; i < 12; i++) {
             assertEquals(12, puzzleTest.getPrefilledPuzzle()[i].length);
@@ -161,7 +157,9 @@ public class PuzzleTest {
 
 
         // assumes SudokuApplication.java and VocabLibrary.java is working
-        Puzzle puzzleTest = new Puzzle(mPuzzle,size4x4,easy);
+        int easy = 0;
+        int size4x4 = 4;
+        Puzzle puzzleTest = new Puzzle(mPuzzle, size4x4, easy);
 
         for (int i = 0; i < 4; i++) {
             assertEquals(4, puzzleTest.getPrefilledPuzzle()[i].length);
