@@ -61,18 +61,36 @@ public class PuzzleTest {
         };
 
         // assumes SudokuApplication.java and VocabLibrary.java is working
-        VocabLibrary vocab = SudokuApplication.getInstance().getVocabList().getRandomVocabs(9);
-        Puzzle puzzleTest = new Puzzle(mPuzzle, vocab,size9x9,medium);
+
+        Puzzle puzzleTest = new Puzzle(mPuzzle,size9x9,medium);
         for (int i = 0; i < 9; i++) {
             assertEquals(9, puzzleTest.getPrefilledPuzzle()[i].length);
             assertEquals(9, puzzleTest.getCurrentPuzzle()[i].length);
         }
+
+        //compare function on a filled puzzle
+        assertArrayEquals(puzzleTest.getCurrentPuzzle(),puzzleTest.getPrefilledPuzzle());
 
         //check puzzle value are correct
         assertArrayEquals(mPuzzle,  puzzleTest.getPrefilledPuzzle());
         assertArrayEquals(mPuzzle,  puzzleTest.getCurrentPuzzle());
         assertEquals(9,puzzleTest.getSize());
         assertEquals(1,puzzleTest.getDifficulty());
+        assertFalse(puzzleTest.isCellEmpty(1,1));
+
+        //prefilled = current
+        assertEquals(6,puzzleTest.getCurrentCell(0,0));
+        assertEquals(6,puzzleTest.getPrefilledCell(0,0));
+
+        //change the cell
+        puzzleTest.setCurrentCell(4,0,0);
+        assertEquals(4,puzzleTest.getCurrentCell(0,0));
+
+        // prefilled != current after change
+        assertEquals(4,puzzleTest.getCurrentCell(0,0));
+        assertEquals(6,puzzleTest.getPrefilledCell(0,0));
+
+
     }
     @Test
     //create a 12 x 12 hard mode and check
@@ -95,20 +113,37 @@ public class PuzzleTest {
 
         };
 
+
         // assumes SudokuApplication.java and VocabLibrary.java is working
-        VocabLibrary vocab = SudokuApplication.getInstance().getVocabList().getRandomVocabs(12);
-        Puzzle puzzleTest = new Puzzle(mPuzzle, vocab,size12x12,hard);
+
+        Puzzle puzzleTest = new Puzzle(mPuzzle,size12x12,hard);
 
         for (int i = 0; i < 12; i++) {
             assertEquals(12, puzzleTest.getPrefilledPuzzle()[i].length);
             assertEquals(12, puzzleTest.getCurrentPuzzle()[i].length);
         }
 
+        //compare function on a filled puzzle
+        assertArrayEquals(puzzleTest.getCurrentPuzzle(),puzzleTest.getPrefilledPuzzle());
+
         //check puzzle value are correct
         assertArrayEquals(mPuzzle,  puzzleTest.getPrefilledPuzzle());
         assertArrayEquals(mPuzzle,  puzzleTest.getCurrentPuzzle());
         assertEquals(12,puzzleTest.getSize());
         assertEquals(2,puzzleTest.getDifficulty());
+        assertFalse(puzzleTest.isCellEmpty(1,1));
+
+        //prefilled = current
+        assertEquals(9,puzzleTest.getCurrentCell(0,0));
+        assertEquals(9,puzzleTest.getPrefilledCell(0,0));
+
+        //change the cell
+        puzzleTest.setCurrentCell(4,0,0);
+        assertEquals(4,puzzleTest.getCurrentCell(0,0));
+
+        // prefilled != current after change
+        assertEquals(4,puzzleTest.getCurrentCell(0,0));
+        assertEquals(9,puzzleTest.getPrefilledCell(0,0));
     }
 
     @Test
@@ -123,19 +158,39 @@ public class PuzzleTest {
 
         };
 
+
         // assumes SudokuApplication.java and VocabLibrary.java is working
-        VocabLibrary vocab = SudokuApplication.getInstance().getVocabList().getRandomVocabs(4);
-        Puzzle puzzleTest = new Puzzle(mPuzzle, vocab,size4x4,easy);
+        Puzzle puzzleTest = new Puzzle(mPuzzle,size4x4,easy);
 
         for (int i = 0; i < 4; i++) {
             assertEquals(4, puzzleTest.getPrefilledPuzzle()[i].length);
             assertEquals(4, puzzleTest.getCurrentPuzzle()[i].length);
         }
 
+        //compare function on a filled puzzle
+        assertArrayEquals(puzzleTest.getCurrentPuzzle(),puzzleTest.getPrefilledPuzzle());
+
+
         //check puzzle value are correct
         assertArrayEquals(mPuzzle,  puzzleTest.getPrefilledPuzzle());
         assertArrayEquals(mPuzzle,  puzzleTest.getCurrentPuzzle());
         assertEquals(4,puzzleTest.getSize());
         assertEquals(0,puzzleTest.getDifficulty());
+        assertFalse(puzzleTest.isCellEmpty(1,1));
+
+        //prefilled = current
+        assertEquals(1,puzzleTest.getCurrentCell(0,0));
+        assertEquals(1,puzzleTest.getPrefilledCell(0,0));
+
+        //change the cell
+        puzzleTest.setCurrentCell(4,0,0);
+        assertEquals(4,puzzleTest.getCurrentCell(0,0));
+
+        // prefilled != current after change
+        assertEquals(4,puzzleTest.getCurrentCell(0,0));
+        assertEquals(1,puzzleTest.getPrefilledCell(0,0));
+
+
+
     }
 }
