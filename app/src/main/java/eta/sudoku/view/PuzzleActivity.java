@@ -262,11 +262,15 @@ public class PuzzleActivity extends AppCompatActivity {
                 }else if(isDuplicate[2]){
                     msg = "Sub-table";
                 }
+
                 mToast.cancel();
-                mToast.makeText(getApplicationContext(),
+                mToast = Toast.makeText(getApplicationContext(),
                         msg + " is wrong", Toast.LENGTH_LONG);
                 mToast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 150);
+
+
                 mToast.show();
+
 
 
                 if(gameController.getIncorrectCount(row,col) == maxError){
@@ -274,7 +278,7 @@ public class PuzzleActivity extends AppCompatActivity {
                     //if(!SudokuApplication.getInstance().isVocabDifficult(vocabLibController.getGameVocabIndex(puzzleController.getFilledCell(row,col)))){
                     if(!vocabLibController.isVocabDifficult(vocabLibController.getGameVocabIndex(puzzleController.getFilledCell(row,col)))){
                         mToast.cancel();
-                        mToast.makeText(ctx,
+                        mToast = Toast.makeText(ctx,
                                 vocabLibController.getGameVocab(puzzleController.getFilledCell(row,col), gameController.getSelectLang()) + " seems difficult", Toast.LENGTH_LONG);
                         mToast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 150);
                         mToast.show();
@@ -435,11 +439,13 @@ public class PuzzleActivity extends AppCompatActivity {
     public void submit() {
         if (gameController.isSolved()) {
             mToast.cancel();
-            mToast.makeText(ctx, "Sudoku solved!", Toast.LENGTH_LONG).show();
+            mToast = Toast.makeText(ctx, "Sudoku solved!", Toast.LENGTH_LONG);
+            mToast.show();
 
         } else {
             mToast.cancel();
-            mToast.makeText(ctx, "Incorrect", Toast.LENGTH_LONG).show();
+            mToast = Toast.makeText(ctx, "Incorrect", Toast.LENGTH_LONG);
+            mToast.show();
         }
     }
 
