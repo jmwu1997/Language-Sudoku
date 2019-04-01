@@ -127,8 +127,9 @@ public class PuzzleActivity extends AppCompatActivity {
                 switchLang();
             }
         });
-        playSound();
-
+        if(gameController.isListenMode()) {
+            playSound();
+        }
 
         Button mMenuButton = (Button) findViewById(R.id.puzzle_menu);
         mMenuButton.setOnClickListener(new View.OnClickListener() {
@@ -480,17 +481,17 @@ public class PuzzleActivity extends AppCompatActivity {
         }
     }
     
-    private void switchToNum(boolean isComp) {
+    private void switchToNum(){//boolean isComp) {
         for (int i = 0; i < puzzleController.getSize(); i++) {
             for (int j = 0; j < puzzleController.getSize(); j++) {
                 if(puzzleController.getPrefilledCell(i,j) > 0){
                     mCells[i][j].setTextColor(Color.BLACK);
-                    if(isComp) {
+                    //if(isComp) {
                         mCells[i][j].setText(Integer.toString(puzzleController.getPrefilledCell(i,j)));
-                    }
-                    else{
-                        mCells[i][j].setText(vocabLibController.getGameVocab(puzzleController.getPrefilledCell(i,j), gameController.getPuzzleLang()));
-                    }
+                    //}
+                    //else{
+                    //    mCells[i][j].setText(vocabLibController.getGameVocab(puzzleController.getPrefilledCell(i,j), gameController.getPuzzleLang()));
+                    //}
                 }
             }
         }
@@ -508,29 +509,29 @@ public class PuzzleActivity extends AppCompatActivity {
 
     //play sound on comprehension mode
     private void playSound() {
-        switchToNum(gameController.isListenMode());
+        //switchToNum(gameController.isListenMode());
+        switchToNum();
         for (int i = 0; i < puzzleController.getSize(); i++) {
             for (int j = 0; j < puzzleController.getSize(); j++) {
                 final int word = puzzleController.getPrefilledCell(i,j);
                 if(word != 0){
-                    if(!gameController.isListenMode()){
-                        final int finalJ = j;
-                        final int finalI = i;
-                        mCells[i][j].setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                showHint(finalI, finalJ);
+                    //if(!gameController.isListenMode()){
+                   //     final int finalJ = j;
+                    //    final int finalI = i;
+                    //    mCells[i][j].setOnClickListener(new View.OnClickListener() {
+                    ///        public void onClick(View v) {
+                    ////            showHint(finalI, finalJ);
 
-                            }
-                        });
-                    }else{
+                    //        }
+                    //    });
+                    //}else{
                         mCells[i][j].setOnClickListener(new View.OnClickListener() {
                             MediaPlayer mp = MediaPlayer.create(PuzzleActivity.this, vocabLibController.getSoundFile(word));
                             public void onClick(View v) {
                                 mp.start();
                             }
                         });
-                    }
+                    //}
                 }
             }
         }

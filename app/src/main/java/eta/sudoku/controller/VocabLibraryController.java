@@ -25,9 +25,7 @@ public class VocabLibraryController {
     }
     public void newFullVocabLib(){
         String[][] fullList = SudokuApplication.getInstance().getStringVocabLib();
-        if(fullList.length == 0){
-            Log.e("not good",Integer.toString(fullList.length));
-        }
+
         int[] clips = SudokuApplication.getInstance().getClips();
         for(int i=0;i<fullList.length;i++){
             Vocab v = new Vocab(fullList[i]);

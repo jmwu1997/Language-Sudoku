@@ -30,10 +30,7 @@ public class SelectorActivity extends AppCompatActivity {
     private static final VocabLibraryController vocabLibController = VocabLibraryController.getInstance();
     public static final String TAG = "SelectorActivity";
     private VocabLibrary mFullVocab;
-    private boolean[] selected;// = new boolean[mFullVocab.size()];
-    private int size = 9;
-    private int difficulty = 0;
-    private boolean isListen = false;
+    private boolean[] selected;
 
 
     @Override
@@ -45,22 +42,16 @@ public class SelectorActivity extends AppCompatActivity {
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.selector_Vocab_layout);
 
-        //size = getIntent().getIntExtra(MenuActivity.EXTRA_SUDOKU_SIZE,9);
-        //difficulty = getIntent().getIntExtra(MenuActivity.EXTRA_SUDOKU_DIFFICULTY, 0);
-        //isListen = getIntent().getBooleanExtra(MenuActivity.EXTRA_SUDOKU_IS_LISTEN, false);
         mFullVocab = vocabLibController.getOverallVocabLib();
         selected = new boolean[vocabLibController.getOverallVocabLibSize()];
         Button start = (Button) findViewById(R.id.selector_start_game);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(vocabLibController.getGameVocabListSize()<size+1){
-                    Toast.makeText(SelectorActivity.this, "Please select "+ Integer.toString(size+1-vocabLibController.getGameVocabListSize()) + " more words", Toast.LENGTH_LONG).show();
+                if(vocabLibController.getGameVocabListSize()<puzzleController.getSize()+1){
+                    Toast.makeText(SelectorActivity.this, "Please select "+ Integer.toString(puzzleController.getSize()+1-vocabLibController.getGameVocabListSize()) + " more words", Toast.LENGTH_LONG).show();
                 } else {
                     Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
-
-                    //puzzleController.newPuzzle(size, difficulty);
-                    //gameController.newGame(puzzleController.newPuzzle(size, difficulty), isListen);
                     startActivity(i);
                     finish();
                 }
@@ -70,11 +61,8 @@ public class SelectorActivity extends AppCompatActivity {
         startRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                vocabLibController.setGameVocabs(mFullVocab.getRandomVocabs(size));
+                vocabLibController.setGameVocabs(mFullVocab.getRandomVocabs(puzzleController.getSize()));
                 Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
-
-
-                //gameController.newGame(puzzleController.newPuzzle(size, difficulty), isListen);
                 startActivity(i);
                 finish();
             }
@@ -112,12 +100,12 @@ public class SelectorActivity extends AppCompatActivity {
                             wordLayout.setBackgroundColor(Color.WHITE);
                         }
                     }else {
-                        if(vocabLibController.getGameVocabListSize()<size+1) {
+                        if(vocabLibController.getGameVocabListSize()<puzzleController.getSize()+1) {
                             selected[ind] = true;
                             vocabLibController.addGameVocab(mFullVocab.get(ind));
                             wordLayout.setBackgroundColor(Color.GREEN);
                         }else{
-                            Toast.makeText(SelectorActivity.this, "You have already selected "+ Integer.toString(size)+" words", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SelectorActivity.this, "You have already selected "+ Integer.toString(puzzleController.getSize())+" words", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
