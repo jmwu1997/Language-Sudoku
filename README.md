@@ -86,16 +86,21 @@ If student completes them succcesfully, they pass the test. If they don't, they 
 Example: A student need to pass a 9x9 puzzle in under 10 minutes, then the 9 words in this puzzle will consider learned or understood.
 
 Given:challenge mode is enable
+
 When:user initate a puzzle with timer count down
+
 Then:user must complete the puzzle within certain amount of time to pass, else fail
 
+______________________________________________________________________________________
 
 As a teacher, I want the hints be off on the Challenge mode.
 
 Example: No more hints when you click on prefilled cells, and other pop ups.
 
 Given:challenge mode is enable
+
 When:user click on a prefill cell
+
 Then:nothing pops up
 
                               
@@ -110,7 +115,9 @@ As a student who wants to pass the challenge. I want a pratice mode where I can 
 Example: Student can pratice on any puzzle. It will have all hint functions and a timer on the side. When it is complete they will know their time spent.
 
 Given:practice mode enable
+
 When:user click on a prefill cell
+
 Then:shows hints
 
 Before: ![](gradle/Image/pratice%20mode.png)    After:  ![](gradle/Image/challenge%20mode.png)
@@ -124,7 +131,9 @@ Example: Student erased apple and put down pear, they want to go back from pear 
 Given:that the user is filling in the sudoku in any mode
       and student erased a apple
       and put down a pear on the same cell
+      
 When:user press the undo button
+
 Then:cell will change from pear back to apple
 
 Before: ![](gradle/Image/undoafter.png)    After:  ![](gradle/Image/undobefore.png)
@@ -134,7 +143,9 @@ As a student who messed up most of the puzzle, I would like to clean all the fil
 Example: Student have to many error on the puzzle and doesn't want to fix one by one so they clean all.
 
 Given:the user is filling in sudoku in any mode
+
 When:user press the reset button
+
 Then:it will clear all filled cells
 
 Before: ![](gradle/Image/resetbefore.png)    After:  ![](gradle/Image/resetafter.png)
@@ -146,7 +157,9 @@ Example: Student erased apple and put down pear, click undo and go back to apple
 Given:student erased apple and put down pear in the same cell
       undo button is pressed
       now the cell will change back to apple to pear
+      
 When:press the redo
+
 Then:the cells change back to pear from apple
 
 Before: ![](gradle/Image/undobefore.png)    After:  ![](gradle/Image/undoafter.png)
