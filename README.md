@@ -63,6 +63,8 @@ Given:challenge mode is enable
 When:user click on a prefill cell
 Then:nothing pops up
 
+                              
+Before: ![](gradle/Image/challenge%20mode.png)    After:  ![](gradle/Image/pratice%20mode.png)
 
 
 ### Pratice mode
@@ -74,6 +76,8 @@ Example: Student can pratice on any puzzle. It will have all hint functions and 
 Given:practice mode enable
 When:user click on a prefill cell
 Then:shows hints
+
+Before: ![](gradle/Image/pratice%20mode.png)    After:  ![](gradle/Image/challenge%20mode.png)
 
 ### Useful feature
 
@@ -87,6 +91,8 @@ Given:that the user is filling in the sudoku in any mode
 When:user press the undo button
 Then:cell will change from pear back to apple
 
+Before: ![](gradle/Image/undoafter.png)    After:  ![](gradle/Image/undobefore.png)
+
 As a student who messed up most of the puzzle, I would like to clean all the filled cells and start over.
 
 Example: Student have to many error on the puzzle and doesn't want to fix one by one so they clean all.
@@ -95,15 +101,19 @@ Given:the user is filling in sudoku in any mode
 When:user press the reset button
 Then:it will clear all filled cells
 
-As a student who clicked undo and figure it's not what I wants, I want a button to revert the change.
+Before: ![](gradle/Image/resetbefore.png)    After:  ![](gradle/Image/resetafter.png)
 
-Example: Student erased apple and put down pear, click undo and go back to apple. then he wants to revert it back to pear, so he clicks revert.
+As a student who clicked undo and figure it's not what I wants, I want a button to redo the change.
+
+Example: Student erased apple and put down pear, click undo and go back to apple. then he wants to go it back to pear, so he clicks redo.
 
 Given:student erased apple and put down pear in the same cell
       undo button is pressed
       now the cell will change back to apple to pear
-When:press the revert
+When:press the redo
 Then:the cells change back to pear from apple
+
+Before: ![](gradle/Image/undobefore.png)    After:  ![](gradle/Image/undoafter.png)
 
 ### Update vocab list
 
