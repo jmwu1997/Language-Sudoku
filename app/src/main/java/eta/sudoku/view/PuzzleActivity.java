@@ -13,14 +13,20 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.sql.BatchUpdateException;
 
 import eta.sudoku.R;
 import eta.sudoku.SudokuApplication;
@@ -121,16 +127,19 @@ public class PuzzleActivity extends AppCompatActivity {
         });
 
         Button mSwitchButton = (Button) findViewById(R.id.puzzle_SwitchLanguage);
-        mSwitchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switchLang();
+        if(!gameController.isListenMode()) {
+            mSwitchButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switchLang();
+                }
+            });
+            if (gameController.isListenMode()) {
+                playSound();
             }
-        });
-        if(gameController.isListenMode()) {
-            playSound();
+        }else{
+            mSwitchButton.setVisibility(View.INVISIBLE);
         }
-
         Button mMenuButton = (Button) findViewById(R.id.puzzle_menu);
         mMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -438,9 +447,7 @@ public class PuzzleActivity extends AppCompatActivity {
 
     public void submit() {
         if (gameController.isSolved()) {
-            mToast.cancel();
-            mToast = Toast.makeText(ctx, "Sudoku solved!", Toast.LENGTH_LONG);
-            mToast.show();
+           showWinDialog();
 
         } else {
             mToast.cancel();
@@ -525,16 +532,7 @@ public class PuzzleActivity extends AppCompatActivity {
             for (int j = 0; j < puzzleController.getSize(); j++) {
                 final int word = puzzleController.getPrefilledCell(i,j);
                 if(word != 0){
-                    //if(!gameController.isListenMode()){
-                   //     final int finalJ = j;
-                    //    final int finalI = i;
-                    //    mCells[i][j].setOnClickListener(new View.OnClickListener() {
-                    ///        public void onClick(View v) {
-                    ////            showHint(finalI, finalJ);
 
-                    //        }
-                    //    });
-                    //}else{
                         mCells[i][j].setOnClickListener(new View.OnClickListener() {
                             MediaPlayer mp = MediaPlayer.create(PuzzleActivity.this, vocabLibController.getSoundFile(word));
                             public void onClick(View v) {
@@ -546,6 +544,48 @@ public class PuzzleActivity extends AppCompatActivity {
             }
         }
     }
+    public void showWinDialog(){
+        LayoutInflater li = LayoutInflater.from(this);
+        View v = li.inflate(R.layout.game_win, null);
+        AlertDialog.Builder a = new AlertDialog.Builder(this);
+        a.setView(v);
+        LinearLayout linearLayout = findViewById(R.id.puzzle_win);
+        a
+                .setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            dialog.cancel();
+                            finish();
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+        final AlertDialog dialog = a.create();
+        for(int i=1; i<vocabLibController.getGameVocabListSize(); i++) {
+            if(vocabLibController.isVocabDifficult(vocabLibController.getGameVocabIndex(i))){
+                TextView t = new TextView(this);
+                t.setText(vocabLibController.getGameVocab(i,1));
+                linearLayout.addView(t);
+                vocabLibController.setVocabDifficult(vocabLibController.getGameVocabIndex(i), false);
+            }
+        }
+        dialog.show();
 
+
+
+        Button menu = v.findViewById(R.id.puzzle_win_menu);
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vocabLibController.newGameVocabLib();
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+
+    }
 
 }

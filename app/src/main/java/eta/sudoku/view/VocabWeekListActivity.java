@@ -194,45 +194,7 @@ public class VocabWeekListActivity extends AppCompatActivity {
 
         dialog.show();
 
-        /*
-        View prompt = li.inflate(R.layout.add_word_prompt, null);
 
-        AlertDialog.Builder a = new AlertDialog.Builder(this);
-        a.setView(prompt);
-
-        final EditText addEng = (EditText) prompt.findViewById(R.id.add_eng);
-        final EditText addChn = (EditText) prompt.findViewById(R.id.add_chn);
-        //add new word
-        a
-                .setPositiveButton("Done",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                newWords[0] = addEng.getText().toString();
-                                newWords[1] = addChn.getText().toString();
-                                Vocab v = new Vocab(newWords);
-                                v.setIndex(libSize);
-                                mVocabLibrary.add(v);
-                                SudokuApplication.getInstance().addVocabIntoWeek(week, v);
-                                Toast.makeText(VocabWeekListActivity.this, "Vocabulary Added To Week Successfully!", Toast.LENGTH_LONG);
-                                //Refresh Activity
-                                finish();
-                                startActivity(getIntent());
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-
-                            }
-                        });
-        //add from library
-
-        AlertDialog dialog = a.create();
-        dialog.show();
-*/
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
