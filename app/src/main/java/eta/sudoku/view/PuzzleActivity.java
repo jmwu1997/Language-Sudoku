@@ -53,7 +53,7 @@ public class PuzzleActivity extends AppCompatActivity {
 
     // if you get at least 5 wrong, word is difficult for you
     private static final int maxError=5;
-
+    private Toast mToast ;
 
 
 
@@ -81,7 +81,7 @@ public class PuzzleActivity extends AppCompatActivity {
         mCells = new TextView[puzzleController.getSize()][puzzleController.getSize()];
 
         selectionButtons = new Button[puzzleController.getSize()];
-
+        mToast = new Toast(this);
         /* //currently not useful
         Configuration config = new Configuration();
         if(config.orientation == Configuration.ORIENTATION_PORTRAIT){
@@ -262,21 +262,22 @@ public class PuzzleActivity extends AppCompatActivity {
                 }else if(isDuplicate[2]){
                     msg = "Sub-table";
                 }
-
-                Toast toast = Toast.makeText(getApplicationContext(),
+                mToast.cancel();
+                mToast.makeText(getApplicationContext(),
                         msg + " is wrong", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 150);
-                toast.show();
+                mToast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 150);
+                mToast.show();
 
 
                 if(gameController.getIncorrectCount(row,col) == maxError){
                     //set and alert difficult only if the word is not difficult
                     //if(!SudokuApplication.getInstance().isVocabDifficult(vocabLibController.getGameVocabIndex(puzzleController.getFilledCell(row,col)))){
                     if(!vocabLibController.isVocabDifficult(vocabLibController.getGameVocabIndex(puzzleController.getFilledCell(row,col)))){
-                        toast = Toast.makeText(ctx,
+                        mToast.cancel();
+                        mToast.makeText(ctx,
                                 vocabLibController.getGameVocab(puzzleController.getFilledCell(row,col), gameController.getSelectLang()) + " seems difficult", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 150);
-                        toast.show();
+                        mToast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 150);
+                        mToast.show();
                         vocabLibController.setVocabDifficult(vocabLibController.getGameVocabIndex(puzzleController.getFilledCell(row,col)), true);
                     }
                 }
@@ -433,10 +434,12 @@ public class PuzzleActivity extends AppCompatActivity {
 
     public void submit() {
         if (gameController.isSolved()) {
-            Toast.makeText(ctx, "Sudoku solved!", Toast.LENGTH_LONG).show();
+            mToast.cancel();
+            mToast.makeText(ctx, "Sudoku solved!", Toast.LENGTH_LONG).show();
 
         } else {
-            Toast.makeText(ctx, "Incorrect", Toast.LENGTH_LONG).show();
+            mToast.cancel();
+            mToast.makeText(ctx, "Incorrect", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -445,6 +448,7 @@ public class PuzzleActivity extends AppCompatActivity {
 
     }
     private void showHint(int row, int col){
+        mToast.cancel();
         Toast.makeText(ctx, vocabLibController.getGameVocab(puzzleController.getPrefilledCell(row,col), gameController.getSelectLang()), Toast.LENGTH_LONG).show();
     }
     private void switchLang() {

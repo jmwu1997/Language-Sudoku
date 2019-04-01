@@ -61,7 +61,7 @@ public class SelectorActivity extends AppCompatActivity {
         startRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                vocabLibController.setGameVocabs(mFullVocab.getRandomVocabs(puzzleController.getSize()));
+                vocabLibController.setGameVocabs(mFullVocab.getWeightedRandomVocabs(puzzleController.getSize()));
                 Intent i = new Intent(SelectorActivity.this, PuzzleActivity.class);
                 startActivity(i);
                 finish();
@@ -105,7 +105,9 @@ public class SelectorActivity extends AppCompatActivity {
                             vocabLibController.addGameVocab(mFullVocab.get(ind));
                             wordLayout.setBackgroundColor(Color.GREEN);
                         }else{
-                            Toast.makeText(SelectorActivity.this, "You have already selected "+ Integer.toString(puzzleController.getSize())+" words", Toast.LENGTH_LONG).show();
+                            Toast m = new Toast(getApplicationContext());
+                            m.cancel();
+                            m.makeText(SelectorActivity.this, "You have already selected "+ Integer.toString(puzzleController.getSize())+" words", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
