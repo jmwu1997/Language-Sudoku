@@ -24,6 +24,8 @@ import eta.sudoku.view.PuzzleActivity;
 public class VocabStorage {
     private static final VocabStorage ourInstance = new VocabStorage();
     private String filepath;
+    public VocabStorage(){
+    }
     private File getAppDir(){
         File dir = new File(Environment.getExternalStorageDirectory()+File.separator+"etaSudoku");
         return dir;
@@ -113,7 +115,9 @@ public class VocabStorage {
         saveList(library,"Library");
     }
     public static VocabStorage getInstance(){
+
         return ourInstance;
+
     }
     public static boolean isSDCARDAvailable(){
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);

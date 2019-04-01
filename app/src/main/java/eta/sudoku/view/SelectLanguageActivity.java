@@ -29,7 +29,8 @@ public class SelectLanguageActivity extends AppCompatActivity {
     private static final VocabStorage storageController = VocabStorage.getInstance();
     public static final String TAG = "SelectorActivity";
     private VocabLibrary mFullVocab;
-    private  String[] langs;
+    private static String[] languages = storageController.getLanguages();
+
     private int size = 9;
     private int difficulty = 0;
     private boolean isListen = false;
@@ -39,35 +40,36 @@ public class SelectLanguageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_selector);
+        setContentView(R.layout.activity_full_vocab);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        LinearLayout layout = (LinearLayout) findViewById(R.id.selector_Vocab_layout);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.fullVocab_layout);
 
         //size = getIntent().getIntExtra(MenuActivity.EXTRA_SUDOKU_SIZE,9);
         //difficulty = getIntent().getIntExtra(MenuActivity.EXTRA_SUDOKU_DIFFICULTY, 0);
         //isListen = getIntent().getBooleanExtra(MenuActivity.EXTRA_SUDOKU_IS_LISTEN, false);
         mFullVocab = vocabLibController.getOverallVocabLib();
         //show all vocab from overall vocab library
-        langs = storageController.getLanguages();
+        languages = storageController.getLanguages();
 
-        if(langs==null||langs.length<1){
+        if(languages==null||languages.length<1){
             String add1,add2,add3;
             add1=storageController.addLang("Chinese");
             add2=storageController.addLang("French");
             add3=storageController.addLang("Italian");
-            langs = storageController.getLanguages();
+            languages = storageController.getLanguages();
             Log.d("lang",add1);
             Log.d("lang",add2);
             Log.d("lang",add3);
         }
-
-        for(int i=0;i<langs.length;i++) {
-            Log.d("lang", langs[i]);
+        languages = storageController.getLanguages();
+        if(languages!=null){
+        for(int i=0;i<languages.length;i++) {
+            Log.d("lang", languages[i]);
         }
-        if(langs!=null){
-        for(int i=1; i<langs.length; i++) {
+
+        for(int i=0; i<languages.length; i++) {
             final int ind = i;
             final LinearLayout wordLayout = new LinearLayout(SelectLanguageActivity.this);
             LinearLayout.LayoutParams wordLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -84,16 +86,19 @@ public class SelectLanguageActivity extends AppCompatActivity {
             ViewGroup.LayoutParams langParam = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
             TextView language = new TextView(SelectLanguageActivity.this);
-            language.setText(langs[ind]);
+            language.setText(languages[ind]);
             language.setLayoutParams(langParam);
             language.setTextSize(23);
             ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(langParam);
             marginLayoutParams.setMarginStart(30);
             language.setLayoutParams(marginLayoutParams);
+            wordLayout.addView(language);
             wordLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    storageController.setLanguage(langs[ind]);
+                    storageController.setLanguage(languages[ind]);
+                    Log.d("langSelected", languages[ind]);
+
                 }
             });
         }
