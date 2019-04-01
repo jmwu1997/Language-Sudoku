@@ -24,7 +24,6 @@ As a language learner, I want to be able to peek at the correct translation of a
 Example: A "switch" button is available to switch the languages back and forth. This way, the learner can peak as they play the game.  
 Note: Variable is available in MainActivity.java to switch initial lanugages.
 
-### ITERATION 2
 
 ### Listening Comprehension
 
@@ -40,6 +39,33 @@ As a student, I want the Sudoku app to keep track of the vocabulary words that I
 
 As a vocabulary learner practicing at home, I want to use my tablet for Sudoku vocabulary practice, so that the words will be conveniently displayed in larger, easier to read fonts.
 As a vocabulary learner taking the bus, I want to use my phone in landscape mode for Sudoku vocabulary practice, so that longer words are displayed in a larger font that standard mode.
+
+### Submit Button
+Example: There is a "submit" button that will check if the current solution is correct.
+Given: The user is playing a game.
+When: The user presses submit.
+Then:  The game checks if you solution is correct and display a message to indicate the result.
+
+Before: ![](gradle/Image/submitbefore.png)    After:  ![](gradle/Image/submitafter.png)
+
+### Switch Button
+
+Example: A "switch" button is available to switch the languages back and forth. This way, the learner can peak as they play the game.
+Given: The user is in a game and wants to swap the board and button languages.
+When: The user presses switch.
+Then: The current board language switches the button language and the current button language switches to the board language.
+
+Before: ![](gradle/Image/switchbefore.png)    After:  ![](gradle/Image/switchafter.png)
+
+### Delete Button
+
+Example: A "delete" button is available so the user can press it then the desired position on the board to clear that spot.
+Given: The user is in a game and wants to delete one of the words they put in the board previously.
+When: User presses delete then presses desired word to remove.
+Then: The desired word turns into a blank spot on the board.
+
+Before: ![](gradle/Image/deletebefore.png)    After:  ![](gradle/Image/deleteafter.png)
+
 
 ### ITERATION 3
 
@@ -65,6 +91,7 @@ Then:nothing pops up
 
                               
 Before: ![](gradle/Image/challenge%20mode.png)    After:  ![](gradle/Image/pratice%20mode.png)
+
 
 
 ### Pratice mode
