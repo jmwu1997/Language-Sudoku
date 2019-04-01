@@ -7,9 +7,11 @@ import android.view.View;
 import android.widget.Button;
 
 import eta.sudoku.R;
+import eta.sudoku.model.VocabStorage;
 
 public class VocabActivity extends AppCompatActivity {
-
+    private static VocabStorage storageController = VocabStorage.getInstance();
+    private static final String[] langs = storageController.getLanguages();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

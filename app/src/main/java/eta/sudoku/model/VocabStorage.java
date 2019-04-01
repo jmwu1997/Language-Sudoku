@@ -15,6 +15,7 @@ import java.io.ObjectOutputStream;
 import eta.sudoku.model.VocabLibrary;
 
 public class VocabStorage {
+    private static final VocabStorage ourInstance = new VocabStorage();
     private String filepath;
     public String addLang(String language){
         File dir = new File(Environment.getExternalStorageDirectory()+File.separator+language);
@@ -89,5 +90,8 @@ public class VocabStorage {
     }
     public void saveLibrary(VocabLibrary library){
         saveList(library,"Library");
+    }
+    public static VocabStorage getInstance(){
+        return ourInstance;
     }
 }
