@@ -63,6 +63,8 @@ Given:challenge mode is enable
 When:user click on a prefill cell
 Then:nothing pops up
 
+
+
 ### Pratice mode
 
 As a student who wants to pass the challenge. I want a pratice mode where I can pratice with no time limit but has a timer on the side and tells me how much time I spent on the game in the end.
@@ -77,13 +79,13 @@ Then:shows hints
 
 As a student who forgot my last number placed and want to go back, I want a button to back to it.
 
-Example: Student erased a 5 and put down a 7, they want to go back from 7 to 5 so they click undo.
+Example: Student erased apple and put down pear, they want to go back from pear to apple so they click undo.
 
 Given:that the user is filling in the sudoku in any mode
-      and student erased a 5
-      and put down a 7 on the same cell
+      and student erased a apple
+      and put down a pear on the same cell
 When:user press the undo button
-Then:cell will change from 7 back to 5
+Then:cell will change from pear back to apple
 
 As a student who messed up most of the puzzle, I would like to clean all the filled cells and start over.
 
@@ -95,13 +97,13 @@ Then:it will clear all filled cells
 
 As a student who clicked undo and figure it's not what I wants, I want a button to revert the change.
 
-Example: Student erased a 5 and put down a 7, click undo and go back to 5. then he wants to revert it back to 7, so he clicks revert.
+Example: Student erased apple and put down pear, click undo and go back to apple. then he wants to revert it back to pear, so he clicks revert.
 
-Given:student erased a 5 and put down a 7 in the same cell
+Given:student erased apple and put down pear in the same cell
       undo button is pressed
-      now the cell will change back to 5 to 7
+      now the cell will change back to apple to pear
 When:press the revert
-Then:the cells change back to 7 from 5
+Then:the cells change back to pear from apple
 
 ### Update vocab list
 
