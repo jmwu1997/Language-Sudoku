@@ -1,8 +1,13 @@
 package eta.sudoku.model;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,25 +17,41 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import eta.sudoku.SudokuApplication;
 import eta.sudoku.model.VocabLibrary;
+import eta.sudoku.view.PuzzleActivity;
 
 public class VocabStorage {
     private static final VocabStorage ourInstance = new VocabStorage();
     private String filepath;
+    private File getAppDir(){
+        File dir = new File(Environment.getExternalStorageDirectory()+File.separator+"etaSudoku");
+        return dir;
+    }
     public String addLang(String language){
-        File dir = new File(Environment.getExternalStorageDirectory()+File.separator+language);
-        boolean success=true;
-        if(!dir.exists()){
-            success= dir.mkdirs();
+        if(isSDCARDAvailable()||isExternalStorageReadOnly()) {
+            File dir = new File(getAppDir() + File.separator + language);
+            boolean success = true;
+            Log.d("LANGADD", dir.toString());
+
+            if (!(dir.exists())) {
+                success = dir.mkdirs();
+                Log.d("LANGADD", "tried to add language " + language);
+
+            }
+            if (success) {
+                Log.d("LANGADD", "Successfully added Language");
+                return "Successfully added Language";
+            } else {
+                Log.d("LANGADD", "Failed to add Language");
+                return "Failed to add Language";
+            }
         }
-        if(success){
-            return "Successfully added Language";
-        }else{
-            return "Failed to add Language";
-        }
+        else
+            return "Storage unavailable";
     }
     public String[] getLanguages(){
-        File dir=Environment.getExternalStorageDirectory();
+        File dir=getAppDir() ;
         return dir.list();
     }
     public String[] getWordLists(){
@@ -38,7 +59,7 @@ public class VocabStorage {
         return dir.list();
     }
     public void setLanguage(String language){
-       filepath= Environment.getExternalStorageDirectory().toString()+File.separator+language;
+       filepath= getAppDir()+File.separator+language;
     }
     public void saveList(Object object, String listname){
         try{
@@ -74,7 +95,7 @@ public class VocabStorage {
         return file.delete();
     }
     public boolean deleteLang(String langName){
-        File dir = new File(Environment.getExternalStorageDirectory()+langName);
+        File dir = new File(getAppDir() +langName);
         if (dir.isDirectory())
         {
             String[] children = dir.list();
@@ -93,5 +114,15 @@ public class VocabStorage {
     }
     public static VocabStorage getInstance(){
         return ourInstance;
+    }
+    public static boolean isSDCARDAvailable(){
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+    }
+    private static boolean isExternalStorageReadOnly() {
+        String extStorageState = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(extStorageState)) {
+            return true;
+        }
+        return false;
     }
 }

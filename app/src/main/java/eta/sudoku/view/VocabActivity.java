@@ -10,8 +10,7 @@ import eta.sudoku.R;
 import eta.sudoku.model.VocabStorage;
 
 public class VocabActivity extends AppCompatActivity {
-    private static VocabStorage storageController = VocabStorage.getInstance();
-    private static final String[] langs = storageController.getLanguages();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,12 +19,14 @@ public class VocabActivity extends AppCompatActivity {
 
         Button mFullVocabButton = (Button) findViewById(R.id.vocab_full_vocab);
         Button mWeekVocabButton = (Button) findViewById(R.id.vocab_week_vocab);
+        mFullVocabButton.setText("Select Language");
 
         mFullVocabButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(VocabActivity.this, VocabFullActivity.class);
-                startActivity(i);
+                /*Intent i = new Intent(VocabActivity.this, VocabFullActivity.class);
+                startActivity(i);*/
+                startActivity(new Intent(VocabActivity.this, SelectLanguageActivity.class));
             }
         });
 
