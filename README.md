@@ -152,3 +152,9 @@ As a teacher who wants student to learn better, I would like to have my set word
 
 Example: I want to pick my own set of words for my student each week for them to learn.
 
+### user preference
+
+As a student who plays the sudoku game, doesn't like the bright red when the word is wrong, would like a lighter color
+
+Example: I want the wrong color to be a bit lighter, it is too bring right now
+
