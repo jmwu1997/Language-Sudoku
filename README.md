@@ -60,8 +60,8 @@ As a teacher, I want the hints be off on the Challenge mode.
 Example: No more hints when you click on prefilled cells, and other pop ups.
 
 Given:challenge mode is enable
-When:user initialize a puzzle in challenge mode
-Then:hints will be complete off when user is playing the sudoku until the end
+When:user click on a prefill cell
+Then:nothing pops up
 
 ### Pratice mode
 
@@ -70,8 +70,8 @@ As a student who wants to pass the challenge. I want a pratice mode where I can 
 Example: Student can pratice on any puzzle. It will have all hint functions and a timer on the side. When it is complete they will know their time spent.
 
 Given:practice mode enable
-When:user initialize a puzzle in pratice mode
-Then:user gets will get all hints enable and have a timer on the side to show time spent.
+When:user click on a prefill cell
+Then:shows hints
 
 ### Useful feature
 
