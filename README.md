@@ -50,9 +50,18 @@ If student completes them succcesfully, they pass the test. If they don't, they 
 
 Example: A student need to pass a 9x9 puzzle in under 10 minutes, then the 9 words in this puzzle will consider learned or understood.
 
+Given:challenge mode is enable
+When:user initate a puzzle with timer count down
+Then:user must complete the puzzle within certain amount of time to pass, else fail
+
+
 As a teacher, I want the hints be off on the Challenge mode.
 
 Example: No more hints when you click on prefilled cells, and other pop ups.
+
+Given:challenge mode is enable
+When:user fill in the sudoku cells
+Then:hints will be complete off when user is playing the sudoku
 
 ### Pratice mode
 
@@ -60,19 +69,38 @@ As a student who wants to pass the challenge. I want a pratice mode where I can 
 
 Example: Student can pratice on any puzzle. It will have all hint functions and a timer on the side. When it is complete they will know their time spent.
 
+Given:practice mode enable
+When:user initialize a puzzle
+Then:user gets will get all hints enable and have a timer on the side to show time spent.
+
 ### Useful feature
 
 As a student who forgot my last number placed and want to go back, I want a button to back to it.
 
 Example: Student erased a 5 and put down a 7, they want to go back from 7 to 5 so they click undo.
 
+Given:that the user is filling in the sudoku in any mode
+      and student erased a 5
+      and put down a 7 on the same cell
+When:user want to go back
+Then:press the undo and the cell will change from 7 back to 5
+
 As a student who messed up most of the puzzle, I would like to clean all the filled cells and start over.
 
 Example: Student have to many error on the puzzle and doesn't want to fix one by one so they clean all.
 
+Given:the user is filling in sudoku in any mode
+When:user want to clear all cells and fill all over again
+Then:press the reset button to clear all cells
+
 As a student who clicked undo and figure it's not what I wants, I want a button to revert the change.
 
 Example: Student erased a 5 and put down a 7, click undo and go back to 5. then he wants to revert it back to 7, so he clicks revert.
+
+Given:student erased a 5 and put down a 7 in the same cell
+      undo button is pressed
+When:student want to revert the undo
+Then:press the revert
 
 ### Update vocab list
 
@@ -80,6 +108,8 @@ As a teacher who wants student to learn Chinese, I would like to have a good mix
 
 Example: I want more groups of words, like animals, plants, or others.
 
+
 As a teacher who wants student to learn better, I would like to have my set words for student to learn each week.
 
 Example: I want to pick my own set of words for my student each week for them to learn.
+
