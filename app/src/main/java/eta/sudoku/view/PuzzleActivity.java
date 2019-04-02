@@ -434,7 +434,7 @@ public class PuzzleActivity extends AppCompatActivity {
             //mSelButton.setText(mVocabs.get(i+1).getWord(selLangIndex));
             mSelButton.setText(vocabLibController.getGameVocab(i+1, gameController.getSelectLang()));
             final ColorStateList c =  ViewCompat.getBackgroundTintList(mSelButton);
-            Drawable color = mSelButton.getBackground();
+            final Drawable color = mSelButton.getBackground();
             if(gameController.getSelectedIndex() == i) ViewCompat.setBackgroundTintList(mSelButton, ContextCompat.getColorStateList(getApplicationContext(), android.R.color.darker_gray));
             else //ViewCompat.setBackgroundTintList(mSelButton, c);
                 mSelButton.setBackground(color);
@@ -446,11 +446,10 @@ public class PuzzleActivity extends AppCompatActivity {
                     int pos = findIndex(selectionButtons, button);
                     gameController.setSelectedIndex(pos);
                     for(int i=0; i<size; i++){
-
                         ViewCompat.setBackgroundTintList(selectionButtons[i], c);
                     }
-                    ViewCompat.setBackgroundTintList(v, ContextCompat.getColorStateList(getApplicationContext(), android.R.color.darker_gray));
-
+                    //ViewCompat.setBackgroundTintList(v, ContextCompat.getColorStateList(getApplicationContext(), android.R.color.darker_gray));
+                    v.setBackground(color);
                 }
             });
             selectionButtons[i] = mSelButton;
