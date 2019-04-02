@@ -446,9 +446,10 @@ public class PuzzleActivity extends AppCompatActivity {
                     int pos = findIndex(selectionButtons, button);
                     gameController.setSelectedIndex(pos);
                     for(int i=0; i<size; i++){
-                        ViewCompat.setBackgroundTintList(selectionButtons[i], c);
+                        //ViewCompat.setBackgroundTintList(selectionButtons[i], c);
+                        v.setBackground(color);
                     }
-                    //ViewCompat.setBackgroundTintList(v, ContextCompat.getColorStateList(getApplicationContext(), android.R.color.darker_gray));
+                    ViewCompat.setBackgroundTintList(v, ContextCompat.getColorStateList(getApplicationContext(), android.R.color.darker_gray));
                     v.setBackground(color);
                 }
             });
