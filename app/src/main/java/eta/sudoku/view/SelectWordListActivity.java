@@ -92,7 +92,7 @@ public class SelectWordListActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     VocabLibrary list = storageController.loadList(wordlists[ind]);
-                    //SET GAME WORD LIST ??
+                    vocabLibController.setFullVocabLib(list);
                     startActivity(new Intent(SelectWordListActivity.this, MenuActivity.class));//GO TO MENU
                 }
             });

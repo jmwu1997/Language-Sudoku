@@ -3,6 +3,7 @@ package eta.sudoku.view;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -27,6 +28,12 @@ public class VocabActivity extends AppCompatActivity {
             public void onClick(View v) {
                 /*Intent i = new Intent(VocabActivity.this, VocabFullActivity.class);
                 startActivity(i);*/
+//                VocabStorage storage =VocabStorage.getInstance();
+//                String files[] = storage.getFiles();
+//                for(int i=0;i<files.length;i++){
+//                    Log.d("FILESFOLDER",files[i]);
+//                }
+
                 startActivity(new Intent(VocabActivity.this, SelectLanguageActivity.class));
             }
         });

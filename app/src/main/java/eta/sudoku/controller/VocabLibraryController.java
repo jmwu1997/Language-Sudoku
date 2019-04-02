@@ -75,8 +75,11 @@ public class VocabLibraryController {
     public Vocab getOverallVocab(int index){
         return mOverallVocabLib.get(index);
     }
-    public void setFullVocabLib(VocabLibrary fullVocabLib){
+    public void setFullVocabLib(VocabLibrary fullVocabLib)
+    {
+        Log.d("CHANGED VOCAB","Vocab list changed to fullVocabLib");
         mOverallVocabLib = fullVocabLib;
+        Log.d()
     }
     //-----------difficult vocab
     public boolean isVocabDifficult(int indexInOverall){
