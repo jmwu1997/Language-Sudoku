@@ -14,6 +14,10 @@ public class VocabLibraryController {
     private static final VocabStorage storageController = VocabStorage.getInstance();
 
 
+
+
+    private VocabLibrary mVocabLib = new VocabLibrary();
+
     private VocabLibrary mOverallVocabLib = new VocabLibrary();
     private VocabLibrary mSelectedVocabs = new VocabLibrary();
 
@@ -25,7 +29,44 @@ public class VocabLibraryController {
 
 
     }
+    public void updateLibrary(){
+        String[] lists=storageController.getWordLists();
+        int length = lists.length;
+        int length2;
+        Vocab v;
+        for(int i=0;i<length;i++){
+            mSelectedVocabs=storageController.loadList(lists[i]);
+            length2=mSelectedVocabs.size();
+            for(int j=0;j<length2;j++){
+                v=mSelectedVocabs.get(j);
+                addLibrary(v);
+            }
+        }
+    }
+    public VocabLibrary getmVocabLib() {
+        return mVocabLib;
+    }
+    private boolean inLibrary(Vocab v){
+        int length = mVocabLib.size();
+        boolean inlib=false;
+        for( int i =0;i<length;i++){
+            if( getLibVocab(i,0)==v.getWord(0)){
+                inlib=true;
+            }
+        }
+        return inlib;
+    }
+    public boolean addLibrary(Vocab v){
+        boolean inlib=false;
 
+        if(!inlib){
+            mVocabLib.add(v);
+        }
+        return !inlib;
+    }
+    public void setmVocabLib(VocabLibrary mVocabLib) {
+        this.mVocabLib = mVocabLib;
+    }
     public void setName(String name) {
         this.name = name;
     }
@@ -71,6 +112,9 @@ public class VocabLibraryController {
     }
 
     public String getGameVocab(int index, int lang){
+        return mSelectedVocabs.get(index).getWord(lang);
+    }
+    public String getLibVocab(int index, int lang){
         return mSelectedVocabs.get(index).getWord(lang);
     }
     public void addGameVocab(Vocab vocab){ mSelectedVocabs.add(vocab);}

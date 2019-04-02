@@ -56,10 +56,10 @@ public class VocabStorage {
             return "Storage unavailable";
     }
 
-//    public String[] getFiles(){
-//        File dir= new File(Environment.getExternalStorageDirectory()+File.separator+"Download");
-//        return dir.list();
-//        }
+    public String[] getFiles(){
+        File dir= getAppDir();
+        return dir.list();
+       }
     public String[] getLanguages(){
         File dir=getAppDir() ;
         return dir.list();

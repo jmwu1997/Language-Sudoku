@@ -23,11 +23,12 @@ import eta.sudoku.SudokuApplication;
 import eta.sudoku.controller.VocabLibraryController;
 import eta.sudoku.model.Vocab;
 import eta.sudoku.model.VocabLibrary;
+import eta.sudoku.model.VocabStorage;
 
 public class VocabFullActivity extends AppCompatActivity {
     private static final VocabLibraryController vocabLibController = VocabLibraryController.getInstance();
     private VocabLibrary mFullVocab = vocabLibController.getOverallVocabLib();
-
+    private VocabStorage storageController = VocabStorage.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +119,11 @@ public class VocabFullActivity extends AppCompatActivity {
                                 Vocab v = new Vocab(newWords);
                                 v.setIndex(libSize);
                                 vocabLibController.addFullVocab(v);
+                                storageController.saveList(vocabLibController.getOverallVocabLib(),vocabLibController.getName());
+                                if(vocabLibController.addLibrary(v)){
+                                    storageController.saveLibrary(vocabLibController.getmVocabLib());
+                                }
+
 
                                 //Refresh Activity
                                 finish();

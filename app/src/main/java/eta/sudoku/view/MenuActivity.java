@@ -36,16 +36,19 @@ public class MenuActivity extends AppCompatActivity {
     private int difficulty = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        vocabLibController.updateLibrary();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         //initialize full vocab lib
         if(storagecontroller.getWordLists().length<2) {
             vocabLibController.newFullVocabLib();
-            vocabLibController.setName("testing");
+            vocabLibController.setName("Library");
+            vocabLibController.saveCurrentList();
+            vocabLibController.setName("Fruit");
             vocabLibController.saveCurrentList();
         }
         if(vocabLibController.getOverallVocabLibSize()==1){
-            vocabLibController.setFullVocabLib(storagecontroller.loadList("testing"));
+            vocabLibController.setFullVocabLib(storagecontroller.loadList("Library"));
         }
 
 //setting dialog pop up
@@ -158,8 +161,9 @@ public class MenuActivity extends AppCompatActivity {
 
         //menu controller
         Button mGameStart = (Button) findViewById(R.id.menu_game_start);
-        Button mVocab = (Button) findViewById(R.id.menu_vocab);
-
+        Button mLang = (Button) findViewById(R.id.menu_selectLanguage);
+        Button mWlist = (Button) findViewById(R.id.menu_selectList);
+        mLang.setText("Change Language");
 
         mGameStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,10 +175,17 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        mVocab.setOnClickListener(new View.OnClickListener() {
+       mLang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MenuActivity.this, VocabActivity.class);
+                Intent i = new Intent(MenuActivity.this, SelectLanguageActivity.class);
+                startActivity(i);
+            }
+        });
+        mWlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MenuActivity.this, SelectWordListActivity.class);
                 startActivity(i);
             }
         });

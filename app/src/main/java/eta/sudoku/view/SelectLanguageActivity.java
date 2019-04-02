@@ -105,6 +105,7 @@ public class SelectLanguageActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     storageController.setLanguage(languages[ind]);
+                    vocabLibController.setmVocabLib(storageController.loadLibrary());
                     Log.d("langSelected", languages[ind]);
                     onBackPressed();
                 }

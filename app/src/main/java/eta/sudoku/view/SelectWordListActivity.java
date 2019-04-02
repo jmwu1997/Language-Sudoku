@@ -91,9 +91,13 @@ public class SelectWordListActivity extends AppCompatActivity {
             wordLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+//                    storageController.deleteList("Library");
+//                    storageController.deleteList("testing");
                     VocabLibrary list = storageController.loadList(wordlists[ind]);
+                    vocabLibController.setName(wordlists[ind]);
                     vocabLibController.setFullVocabLib(list);
-                    onBackPressed();
+                    Intent i = new Intent(SelectWordListActivity.this, VocabFullActivity.class);
+                    startActivity(i);
                 }
             });
         }

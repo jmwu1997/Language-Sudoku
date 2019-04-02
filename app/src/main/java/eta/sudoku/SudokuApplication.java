@@ -105,7 +105,7 @@ public class SudokuApplication extends Application {
 
     }
 
-
+    public void setStringVocabLib(String[][] string){mVocabLib=string;}
     public String[][] getStringVocabLib() {
         return mVocabLib;
     }

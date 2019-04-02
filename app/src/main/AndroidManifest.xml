@@ -18,11 +18,11 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".view.SelectLanguageActivity"
-            android:label="@string/title_activity_selector"
+            android:label="Select Language"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".view.SelectWordListActivity"
-            android:label="@string/title_activity_selector"
+            android:label="Select Word List"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".view.VocabWeekListActivity"

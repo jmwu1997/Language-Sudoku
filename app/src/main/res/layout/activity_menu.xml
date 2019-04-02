@@ -38,13 +38,22 @@
             android:text="@string/button_start_game"
             android:textSize="18sp" />
         <Button
-            android:id="@+id/menu_vocab"
+            android:id="@+id/menu_selectLanguage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
 
             android:elegantTextHeight="false"
-            android:text="@string/button_vocab"
+            android:text="Select Language"
+            android:textSize="18sp" />
+        <Button
+            android:id="@+id/menu_selectList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:elegantTextHeight="false"
+            android:text="Select Word List"
             android:textSize="18sp" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
