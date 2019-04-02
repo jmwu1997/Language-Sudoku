@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".view.VocabFullActivity"
+    tools:context=".view.SelectWordListActivity"
     android:clipToPadding="false"
-    tools:showIn="@layout/activity_full_vocab">
+    tools:showIn="@layout/activity_wordlists">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:id="@+id/fullVocab_layout"
+        android:id="@+id/wordlist_layout"
         ></LinearLayout>
 </android.support.v4.widget.NestedScrollView>

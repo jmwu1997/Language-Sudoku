@@ -6,7 +6,6 @@ import java.util.Random;
 
 public class VocabLibrary extends ArrayList<Vocab>{
     //private ArrayList<Vocab> mVocabList;
-
     public VocabLibrary(){
         //mVocabList = new ArrayList<>(1);
         this.add(new Vocab());

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sudoku(Product Name)</string>
+    <string name="app_name">Sudoku Eta</string>
     <string name="button_delete">Delete</string>
     <string name="button_submit">Submit</string>
     <string name="button_switch">Switch</string>

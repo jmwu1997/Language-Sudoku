@@ -49,6 +49,10 @@ public class VocabLibraryController {
     public void setGameVocabs(VocabLibrary vocabs) {
         mSelectedVocabs = vocabs;
     }
+    public VocabLibrary getGameVocabs(VocabLibrary vocabs) {
+        return mSelectedVocabs;
+    }
+
     public String getGameVocab(int index, int lang){
         return mSelectedVocabs.get(index).getWord(lang);
     }

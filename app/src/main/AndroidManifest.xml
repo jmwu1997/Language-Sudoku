@@ -15,11 +15,15 @@
         <activity
             android:name=".view.SelectorActivity"
             android:label="@string/title_activity_selector"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".view.SelectLanguageActivity"
             android:label="@string/title_activity_selector"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".view.SelectWordListActivity"
+            android:label="@string/title_activity_selector"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".view.VocabWeekListActivity"
             android:label=" "

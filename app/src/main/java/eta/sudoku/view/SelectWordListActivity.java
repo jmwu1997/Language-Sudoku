@@ -9,27 +9,26 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import eta.sudoku.R;
 import eta.sudoku.controller.GameController;
 import eta.sudoku.controller.PuzzleController;
 import eta.sudoku.controller.VocabLibraryController;
+import eta.sudoku.model.Vocab;
 import eta.sudoku.model.VocabLibrary;
 import eta.sudoku.model.VocabStorage;
 
-public class SelectLanguageActivity extends AppCompatActivity {
-    private static final SelectLanguageActivity ourInstance = new SelectLanguageActivity();
+public class SelectWordListActivity extends AppCompatActivity {
+    private static final SelectWordListActivity ourInstance = new SelectWordListActivity();
     private static final PuzzleController puzzleController = PuzzleController.getInstance();
     private static final GameController gameController = GameController.getInstance();
     private static final VocabLibraryController vocabLibController = VocabLibraryController.getInstance();
     private static final VocabStorage storageController = VocabStorage.getInstance();
-    public static final String TAG = "SelectorActivity";
+    public static final String TAG = "SelectorWordListActivity";
     private VocabLibrary mFullVocab;
-    private static String[] languages = storageController.getLanguages();
+    private static String[] wordlists;
 
     private int size = 9;
     private int difficulty = 0;
@@ -38,40 +37,36 @@ public class SelectLanguageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(storageController.getLanguage()==null){
+            startActivity(new Intent(SelectWordListActivity.this, SelectLanguageActivity.class));//GO TO MENU
+        }
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_full_vocab);
+        setContentView(R.layout.activity_wordlists);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        LinearLayout layout = (LinearLayout) findViewById(R.id.fullVocab_layout);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.wordlist_layout);
 
         //size = getIntent().getIntExtra(MenuActivity.EXTRA_SUDOKU_SIZE,9);
         //difficulty = getIntent().getIntExtra(MenuActivity.EXTRA_SUDOKU_DIFFICULTY, 0);
         //isListen = getIntent().getBooleanExtra(MenuActivity.EXTRA_SUDOKU_IS_LISTEN, false);
         mFullVocab = vocabLibController.getOverallVocabLib();
         //show all vocab from overall vocab library
-        languages = storageController.getLanguages();
+        wordlists = storageController.getWordLists();
 
-        if(languages==null||languages.length<1){
-            String add1,add2,add3;
-            add1=storageController.addLang("Chinese");
-            add2=storageController.addLang("French");
-            add3=storageController.addLang("Italian");
-            languages = storageController.getLanguages();
-            Log.d("lang",add1);
-            Log.d("lang",add2);
-            Log.d("lang",add3);
+        if(wordlists==null||wordlists.length<1){
+            wordlists = storageController.getWordLists();
         }
-        languages = storageController.getLanguages();
-        if(languages!=null){
-        for(int i=0;i<languages.length;i++) {
-            Log.d("lang", languages[i]);
+        wordlists = storageController.getWordLists();
+        if(wordlists!=null){
+        for(int i=0;i<wordlists.length;i++) {
+            Log.d("lang", wordlists[i]);
         }
 
-        for(int i=0; i<languages.length; i++) {
+        for(int i=0; i<wordlists.length; i++) {
             final int ind = i;
-            final LinearLayout wordLayout = new LinearLayout(SelectLanguageActivity.this);
+            final LinearLayout wordLayout = new LinearLayout(SelectWordListActivity.this);
             LinearLayout.LayoutParams wordLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             wordLayoutParam.setMargins(30, 20, 30, 15);
 
@@ -85,8 +80,8 @@ public class SelectLanguageActivity extends AppCompatActivity {
 
             ViewGroup.LayoutParams langParam = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            TextView language = new TextView(SelectLanguageActivity.this);
-            language.setText(languages[ind]);
+            TextView language = new TextView(SelectWordListActivity.this);
+            language.setText(wordlists[ind]);
             language.setLayoutParams(langParam);
             language.setTextSize(23);
             ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(langParam);
@@ -96,9 +91,9 @@ public class SelectLanguageActivity extends AppCompatActivity {
             wordLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    storageController.setLanguage(languages[ind]);
-                    Log.d("langSelected", languages[ind]);
-
+                    VocabLibrary list = storageController.loadList(wordlists[ind]);
+                    //SET GAME WORD LIST ??
+                    startActivity(new Intent(SelectWordListActivity.this, MenuActivity.class));//GO TO MENU
                 }
             });
         }
@@ -113,8 +108,6 @@ public class SelectLanguageActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-
-        vocabLibController.newGameVocabLib();
         finish();
     }
 

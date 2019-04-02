@@ -43,6 +43,9 @@ public class VocabStorage {
             }
             if (success) {
                 Log.d("LANGADD", "Successfully added Language");
+                setLanguage("language");
+                VocabLibrary library = new VocabLibrary();
+                saveList(library,"Library");
                 return "Successfully added Language";
             } else {
                 Log.d("LANGADD", "Failed to add Language");
@@ -57,15 +60,43 @@ public class VocabStorage {
         return dir.list();
     }
     public String[] getWordLists(){
+
+        if(filepath==null){
+            String[] langs=getLanguages();
+            setLanguage(langs[0]);
+
+        }
         File dir =new File(filepath);
-        return dir.list();
+        String[] lists=dir.list();
+
+        if(lists.length==0){
+            VocabLibrary library = new VocabLibrary();
+            Log.d("ADDLIB","tried to add lib");
+            saveList(library,"Library");
+        }
+        lists=dir.list();
+        return lists;
     }
     public void setLanguage(String language){
-       filepath= getAppDir()+File.separator+language;
+       filepath= getAppDir()+File.separator+language+File.separator;
     }
+    public String getLanguage(){
+        if(filepath==null){
+            return null;
+        }
+        int index=filepath.lastIndexOf(File.separator);
+        String language = filepath.substring(0,index);
+        index=language.lastIndexOf(File.separator);
+        language=language.substring(index);
+        return language;
+    }
+
+
+
+
     public void saveList(Object object, String listname){
         try{
-            FileOutputStream fileOut = new FileOutputStream(filepath+listname);
+            FileOutputStream fileOut = new FileOutputStream(filepath+File.separator+listname);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(object);
             objectOut.close();
@@ -93,11 +124,11 @@ public class VocabStorage {
         if(listName=="Library"){
             return false;
         }
-        File file = new File(filepath+ File.separator+listName);
+        File file = new File(filepath+listName);
         return file.delete();
     }
     public boolean deleteLang(String langName){
-        File dir = new File(getAppDir() +langName);
+        File dir = new File(getAppDir()+File.separator +langName);
         if (dir.isDirectory())
         {
             String[] children = dir.list();

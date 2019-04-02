@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:clipToPadding="false"
-    tools:context=".view.VocabFullActivity">
+    tools:context=".view.SelectLanguageActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -34,7 +34,7 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_full_vocab" />
+    <include layout="@layout/content_lang_layout" />
 
 
 </android.support.design.widget.CoordinatorLayout>

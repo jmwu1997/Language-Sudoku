@@ -27,7 +27,7 @@ public class SelectLanguageActivity extends AppCompatActivity {
     private static final GameController gameController = GameController.getInstance();
     private static final VocabLibraryController vocabLibController = VocabLibraryController.getInstance();
     private static final VocabStorage storageController = VocabStorage.getInstance();
-    public static final String TAG = "SelectorActivity";
+    public static final String TAG = "SelectLanguageActivity";
     private VocabLibrary mFullVocab;
     private static String[] languages = storageController.getLanguages();
 
@@ -40,11 +40,11 @@ public class SelectLanguageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_full_vocab);
+        setContentView(R.layout.activity_langs);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        LinearLayout layout = (LinearLayout) findViewById(R.id.fullVocab_layout);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.languages_layout);
 
         //size = getIntent().getIntExtra(MenuActivity.EXTRA_SUDOKU_SIZE,9);
         //difficulty = getIntent().getIntExtra(MenuActivity.EXTRA_SUDOKU_DIFFICULTY, 0);
@@ -54,14 +54,10 @@ public class SelectLanguageActivity extends AppCompatActivity {
         languages = storageController.getLanguages();
 
         if(languages==null||languages.length<1){
-            String add1,add2,add3;
+            String add1;
             add1=storageController.addLang("Chinese");
-            add2=storageController.addLang("French");
-            add3=storageController.addLang("Italian");
             languages = storageController.getLanguages();
             Log.d("lang",add1);
-            Log.d("lang",add2);
-            Log.d("lang",add3);
         }
         languages = storageController.getLanguages();
         if(languages!=null){
@@ -98,7 +94,7 @@ public class SelectLanguageActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     storageController.setLanguage(languages[ind]);
                     Log.d("langSelected", languages[ind]);
-
+                    startActivity(new Intent(SelectLanguageActivity.this, SelectWordListActivity.class));
                 }
             });
         }
@@ -113,8 +109,6 @@ public class SelectLanguageActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-
-        vocabLibController.newGameVocabLib();
         finish();
     }
 
