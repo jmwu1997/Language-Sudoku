@@ -19,6 +19,7 @@ import eta.sudoku.controller.GameController;
 import eta.sudoku.controller.PuzzleController;
 import eta.sudoku.controller.VocabLibraryController;
 import eta.sudoku.model.Game;
+import eta.sudoku.model.VocabStorage;
 
 public class MenuActivity extends AppCompatActivity {
     private static final String TAG = "MenuActivity";
@@ -30,6 +31,7 @@ public class MenuActivity extends AppCompatActivity {
     private static final VocabLibraryController vocabLibController = VocabLibraryController.getInstance();
     private static final GameController gameController = GameController.getInstance();
     private static final PuzzleController puzzleController = PuzzleController.getInstance();
+    private static final VocabStorage storagecontroller = VocabStorage.getInstance();
     private int size = 9;
     private int difficulty = 0;
     @Override
@@ -38,7 +40,11 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
         //initialize full vocab lib
-        vocabLibController.newFullVocabLib();
+        if(storagecontroller.getWordLists().length<2) {
+            vocabLibController.newFullVocabLib();
+            vocabLibController.setName("testing");
+            vocabLibController.saveCurrentList();
+        }
 
 //setting dialog pop up
         LayoutInflater li = LayoutInflater.from(this);

@@ -7,19 +7,36 @@ import java.util.ArrayList;
 import eta.sudoku.SudokuApplication;
 import eta.sudoku.model.Vocab;
 import eta.sudoku.model.VocabLibrary;
+import eta.sudoku.model.VocabStorage;
 
 public class VocabLibraryController {
     private static final VocabLibraryController ourInstance = new VocabLibraryController();
+    private static final VocabStorage storageController = VocabStorage.getInstance();
 
 
     private VocabLibrary mOverallVocabLib = new VocabLibrary();
     private VocabLibrary mSelectedVocabs = new VocabLibrary();
+
+
+    private String name;
     private ArrayList<VocabLibrary> mVocabWeeks = new ArrayList<>();
     public VocabLibraryController() {
 
 
 
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getName() {
+        return name;
+    }
+    public void saveCurrentList(){
+        storageController.saveList(mOverallVocabLib,name);
+    }
+
+
     public void newGameVocabLib(){
         mSelectedVocabs = new VocabLibrary();
     }
@@ -75,11 +92,8 @@ public class VocabLibraryController {
     public Vocab getOverallVocab(int index){
         return mOverallVocabLib.get(index);
     }
-    public void setFullVocabLib(VocabLibrary fullVocabLib)
-    {
-        Log.d("CHANGED VOCAB","Vocab list changed to fullVocabLib");
+    public void setFullVocabLib(VocabLibrary fullVocabLib){
         mOverallVocabLib = fullVocabLib;
-        Log.d()
     }
     //-----------difficult vocab
     public boolean isVocabDifficult(int indexInOverall){
