@@ -38,12 +38,14 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
         //initialize full vocab lib
         if(storagecontroller.getWordLists().length<2) {
             vocabLibController.newFullVocabLib();
             vocabLibController.setName("testing");
             vocabLibController.saveCurrentList();
+        }
+        if(vocabLibController.getOverallVocabLibSize()==1){
+            vocabLibController.setFullVocabLib(storagecontroller.loadList("testing"));
         }
 
 //setting dialog pop up
