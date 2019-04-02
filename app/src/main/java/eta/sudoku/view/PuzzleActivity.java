@@ -2,10 +2,13 @@ package eta.sudoku.view;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,6 +40,8 @@ import eta.sudoku.model.Game;
 import eta.sudoku.model.Puzzle;
 import eta.sudoku.model.Vocab;
 import eta.sudoku.model.VocabLibrary;
+
+import static android.support.v4.view.ViewCompat.getBackgroundTintList;
 
 
 public class PuzzleActivity extends AppCompatActivity {
@@ -308,7 +313,7 @@ public class PuzzleActivity extends AppCompatActivity {
         Resources r = ctx.getResources();
         int[][] prefilledPuzzle = puzzleController.getPrefilledPuzzle();
         int[][] filledPuzzle = puzzleController.getFilledPuzzle();
-        int size = puzzleController.getSize();
+        final int size = puzzleController.getSize();
         grid.setRowCount(size);
         grid.setColumnCount(size);
         //convert dp to pixel
@@ -424,6 +429,10 @@ public class PuzzleActivity extends AppCompatActivity {
             final Button mSelButton = new Button(ctx);
             //mSelButton.setText(mVocabs.get(i+1).getWord(selLangIndex));
             mSelButton.setText(vocabLibController.getGameVocab(i+1, gameController.getSelectLang()));
+            final ColorStateList c =  ViewCompat.getBackgroundTintList(mSelButton);
+            if(gameController.getSelectedIndex() == i) ViewCompat.setBackgroundTintList(mSelButton, ContextCompat.getColorStateList(getApplicationContext(), android.R.color.darker_gray));
+            else ViewCompat.setBackgroundTintList(mSelButton, c);
+
             mSelButton.setTransformationMethod(null);
             mSelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -431,6 +440,12 @@ public class PuzzleActivity extends AppCompatActivity {
                     Button button = (Button) v;
                     int pos = findIndex(selectionButtons, button);
                     gameController.setSelectedIndex(pos);
+                    for(int i=0; i<size; i++){
+
+                        ViewCompat.setBackgroundTintList(selectionButtons[i], c);
+                    }
+                    ViewCompat.setBackgroundTintList(v, ContextCompat.getColorStateList(getApplicationContext(), android.R.color.darker_gray));
+
                 }
             });
             selectionButtons[i] = mSelButton;
