@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
@@ -425,14 +426,18 @@ public class PuzzleActivity extends AppCompatActivity {
                 break;
             default: assert size == 4 || size == 6 || size ==9 || size ==12;
         }
+
+
+
         for(int i=0; i<size; i++){
             final Button mSelButton = new Button(ctx);
             //mSelButton.setText(mVocabs.get(i+1).getWord(selLangIndex));
             mSelButton.setText(vocabLibController.getGameVocab(i+1, gameController.getSelectLang()));
             final ColorStateList c =  ViewCompat.getBackgroundTintList(mSelButton);
+            Drawable color = mSelButton.getBackground();
             if(gameController.getSelectedIndex() == i) ViewCompat.setBackgroundTintList(mSelButton, ContextCompat.getColorStateList(getApplicationContext(), android.R.color.darker_gray));
-            else ViewCompat.setBackgroundTintList(mSelButton, c);
-
+            else //ViewCompat.setBackgroundTintList(mSelButton, c);
+                mSelButton.setBackground(color);
             mSelButton.setTransformationMethod(null);
             mSelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
