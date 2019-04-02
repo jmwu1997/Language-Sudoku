@@ -93,7 +93,7 @@ public class SelectWordListActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     VocabLibrary list = storageController.loadList(wordlists[ind]);
                     vocabLibController.setFullVocabLib(list);
-                    startActivity(new Intent(SelectWordListActivity.this, MenuActivity.class));//GO TO MENU
+                    onBackPressed();
                 }
             });
         }

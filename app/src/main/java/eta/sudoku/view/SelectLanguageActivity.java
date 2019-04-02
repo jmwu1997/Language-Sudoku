@@ -106,7 +106,7 @@ public class SelectLanguageActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     storageController.setLanguage(languages[ind]);
                     Log.d("langSelected", languages[ind]);
-                    startActivity(new Intent(SelectLanguageActivity.this, SelectWordListActivity.class));
+                    onBackPressed();
                 }
             });
         }
