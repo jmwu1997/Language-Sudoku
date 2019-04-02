@@ -1,8 +1,12 @@
 package eta.sudoku.view;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -54,6 +58,14 @@ public class SelectLanguageActivity extends AppCompatActivity {
         languages = storageController.getLanguages();
 
         if(languages==null||languages.length<1){
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
+
+                // Permission is not granted
+            }
+
             String add1;
             add1=storageController.addLang("Chinese");
             languages = storageController.getLanguages();
