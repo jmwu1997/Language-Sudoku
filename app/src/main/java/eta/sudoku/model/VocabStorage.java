@@ -71,7 +71,9 @@ public class VocabStorage {
             setLanguage(langs[0]);
 
         }
-        File dir =new File(filepath);
+        int fileend=filepath.lastIndexOf(File.separator);
+
+        File dir =new File(filepath.substring(0,fileend));
         String[] lists=dir.list();
 
         if(lists.length==0){
