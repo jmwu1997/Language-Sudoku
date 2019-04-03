@@ -57,20 +57,7 @@ public class SelectLanguageActivity extends AppCompatActivity {
         //show all vocab from overall vocab library
         languages = storageController.getLanguages();
 
-        if(languages==null||languages.length<1){
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
 
-                // Permission is not granted
-            }
-
-            String add1;
-            add1=storageController.addLang("Chinese");
-            languages = storageController.getLanguages();
-            Log.d("lang",add1);
-        }
         languages = storageController.getLanguages();
         if(languages!=null){
         for(int i=0;i<languages.length;i++) {

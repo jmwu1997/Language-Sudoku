@@ -1,7 +1,11 @@
 package eta.sudoku.view;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,16 +35,31 @@ public class MenuActivity extends AppCompatActivity {
     private static final VocabLibraryController vocabLibController = VocabLibraryController.getInstance();
     private static final GameController gameController = GameController.getInstance();
     private static final PuzzleController puzzleController = PuzzleController.getInstance();
-    private static final VocabStorage storagecontroller = VocabStorage.getInstance();
+    private static final VocabStorage storageController = VocabStorage.getInstance();
     private int size = 9;
     private int difficulty = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String []languages=storageController.getLanguages();
+        if(languages==null||languages.length<1){
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
+
+                // Permission is not granted
+            }
+
+            String add1;
+            add1=storageController.addLang("Chinese");
+            languages = storageController.getLanguages();
+            Log.d("lang",add1);
+        }
         vocabLibController.updateLibrary();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         //initialize full vocab lib
-        if(storagecontroller.getWordLists().length<2) {
+        if(storageController.getWordLists().length<2) {
             vocabLibController.newFullVocabLib();
             vocabLibController.setName("Library");
             vocabLibController.saveCurrentList();
@@ -48,7 +67,7 @@ public class MenuActivity extends AppCompatActivity {
             vocabLibController.saveCurrentList();
         }
         if(vocabLibController.getOverallVocabLibSize()==1){
-            vocabLibController.setFullVocabLib(storagecontroller.loadList("Library"));
+            vocabLibController.setFullVocabLib(storageController.loadList("Library"));
         }
 
 //setting dialog pop up
