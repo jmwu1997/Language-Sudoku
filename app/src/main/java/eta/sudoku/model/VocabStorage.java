@@ -76,7 +76,7 @@ public class VocabStorage {
         File dir =new File(filepath.substring(0,fileend));
         String[] lists=dir.list();
 
-        if(lists.length==0){
+        if(lists==null){
             VocabLibrary library = new VocabLibrary();
             Log.d("ADDLIB","tried to add lib");
             saveList(library,"Library");
