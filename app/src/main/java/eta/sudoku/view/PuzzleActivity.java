@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
@@ -425,13 +426,16 @@ public class PuzzleActivity extends AppCompatActivity {
                 break;
             default: assert size == 4 || size == 6 || size ==9 || size ==12;
         }
+        Button example = new Button(ctx);
+        Button hl = new Button(ctx);
+        final Drawable buttonBack = example.getBackground();
+        ViewCompat.setBackgroundTintList(hl, ContextCompat.getColorStateList(getApplicationContext(), android.R.color.darker_gray));
+        final Drawable buttonHl = hl.getBackground();
         for(int i=0; i<size; i++){
             final Button mSelButton = new Button(ctx);
-            //mSelButton.setText(mVocabs.get(i+1).getWord(selLangIndex));
             mSelButton.setText(vocabLibController.getGameVocab(i+1, gameController.getSelectLang()));
-            final ColorStateList c =  ViewCompat.getBackgroundTintList(mSelButton);
-            if(gameController.getSelectedIndex() == i) ViewCompat.setBackgroundTintList(mSelButton, ContextCompat.getColorStateList(getApplicationContext(), android.R.color.darker_gray));
-            else ViewCompat.setBackgroundTintList(mSelButton, c);
+            if(gameController.getSelectedIndex() == i) mSelButton.setBackground(buttonHl);
+            else mSelButton.setBackground(buttonBack);
 
             mSelButton.setTransformationMethod(null);
             mSelButton.setOnClickListener(new View.OnClickListener() {
@@ -441,10 +445,9 @@ public class PuzzleActivity extends AppCompatActivity {
                     int pos = findIndex(selectionButtons, button);
                     gameController.setSelectedIndex(pos);
                     for(int i=0; i<size; i++){
-
-                        ViewCompat.setBackgroundTintList(selectionButtons[i], c);
+                        selectionButtons[i].setBackground(buttonBack);
                     }
-                    ViewCompat.setBackgroundTintList(v, ContextCompat.getColorStateList(getApplicationContext(), android.R.color.darker_gray));
+                    v.setBackground(buttonHl);
 
                 }
             });
