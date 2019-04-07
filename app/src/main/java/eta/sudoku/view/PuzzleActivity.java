@@ -2,10 +2,14 @@ package eta.sudoku.view;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,6 +41,8 @@ import eta.sudoku.model.Game;
 import eta.sudoku.model.Puzzle;
 import eta.sudoku.model.Vocab;
 import eta.sudoku.model.VocabLibrary;
+
+import static android.support.v4.view.ViewCompat.getBackgroundTintList;
 
 
 public class PuzzleActivity extends AppCompatActivity {
@@ -308,7 +314,7 @@ public class PuzzleActivity extends AppCompatActivity {
         Resources r = ctx.getResources();
         int[][] prefilledPuzzle = puzzleController.getPrefilledPuzzle();
         int[][] filledPuzzle = puzzleController.getFilledPuzzle();
-        int size = puzzleController.getSize();
+        final int size = puzzleController.getSize();
         grid.setRowCount(size);
         grid.setColumnCount(size);
         //convert dp to pixel
@@ -420,10 +426,17 @@ public class PuzzleActivity extends AppCompatActivity {
                 break;
             default: assert size == 4 || size == 6 || size ==9 || size ==12;
         }
+        Button example = new Button(ctx);
+        Button hl = new Button(ctx);
+        final Drawable buttonBack = example.getBackground();
+        ViewCompat.setBackgroundTintList(hl, ContextCompat.getColorStateList(getApplicationContext(), android.R.color.darker_gray));
+        final Drawable buttonHl = hl.getBackground();
         for(int i=0; i<size; i++){
             final Button mSelButton = new Button(ctx);
-            //mSelButton.setText(mVocabs.get(i+1).getWord(selLangIndex));
             mSelButton.setText(vocabLibController.getGameVocab(i+1, gameController.getSelectLang()));
+            if(gameController.getSelectedIndex() == i) mSelButton.setBackground(buttonHl);
+            else mSelButton.setBackground(buttonBack);
+
             mSelButton.setTransformationMethod(null);
             mSelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -431,6 +444,11 @@ public class PuzzleActivity extends AppCompatActivity {
                     Button button = (Button) v;
                     int pos = findIndex(selectionButtons, button);
                     gameController.setSelectedIndex(pos);
+                    for(int i=0; i<size; i++){
+                        selectionButtons[i].setBackground(buttonBack);
+                    }
+                    v.setBackground(buttonHl);
+
                 }
             });
             selectionButtons[i] = mSelButton;
