@@ -48,7 +48,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
+                <Button
+                    android:id="@+id/puzzle_Undo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Undo" />
                 <Button
                     android:id="@+id/puzzle_Delete"
                     android:layout_width="wrap_content"
@@ -66,7 +70,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/button_switch" />
-
+                <Button
+                    android:id="@+id/puzzle_Redo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Redo" />
 
             </LinearLayout>
 

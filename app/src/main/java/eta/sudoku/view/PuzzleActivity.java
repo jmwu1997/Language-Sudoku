@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.BatchUpdateException;
+import java.util.Stack;
 
 import eta.sudoku.R;
 import eta.sudoku.SudokuApplication;
@@ -39,6 +40,7 @@ import eta.sudoku.controller.PuzzleController;
 import eta.sudoku.controller.VocabLibraryController;
 import eta.sudoku.model.Game;
 import eta.sudoku.model.Puzzle;
+import eta.sudoku.model.PuzzleInput;
 import eta.sudoku.model.Vocab;
 import eta.sudoku.model.VocabLibrary;
 
@@ -114,7 +116,22 @@ public class PuzzleActivity extends AppCompatActivity {
         // Set listeners for all buttons in selection then store in selectionButton[]
 
 
-
+        Button mUndoButton = (Button) findViewById(R.id.puzzle_Undo);
+        mUndoButton.setVisibility(View.INVISIBLE);
+        mUndoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                undo();
+            }
+        });
+        Button mRedoButton = (Button) findViewById(R.id.puzzle_Redo);
+        mRedoButton.setVisibility(View.INVISIBLE);
+        mRedoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redo();
+            }
+        });
 
         Button mSubmitButton = (Button) findViewById(R.id.puzzle_Submit);
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +163,8 @@ public class PuzzleActivity extends AppCompatActivity {
         }else{
             mSwitchButton.setVisibility(View.INVISIBLE);
         }
+
+
         Button mMenuButton = (Button) findViewById(R.id.puzzle_menu);
         mMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -307,8 +326,24 @@ public class PuzzleActivity extends AppCompatActivity {
 
 
     }
+    public void checkDuplicateWithoutWarning(int row,int col) {
+        boolean[] isDuplicate = gameController.checkDuplicate(row, col);
 
-//TODO: refactor part 1 done
+
+        if(puzzleController.getCurrentCell(row,col) == 0){
+            mCells[row][col].setBackgroundColor(Color.alpha(0));
+        }else {
+            if(isDuplicate[0] || isDuplicate[1] || isDuplicate[2]){
+                mCells[row][col].setBackgroundColor(Color.RED);
+
+            } else {
+                mCells[row][col].setBackgroundColor(Color.alpha(0));
+            }
+        }
+
+
+    }
+
     public void layoutSetup(GridLayout grid, GridLayout selector, ImageView background) {
         //programmatically create buttons in the table(layout)
         Resources r = ctx.getResources();
@@ -345,6 +380,7 @@ public class PuzzleActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             fillPosition(row, col);
                             checkDuplicate(row,col);
+
                         }
                     });
 
@@ -455,12 +491,30 @@ public class PuzzleActivity extends AppCompatActivity {
             selector.addView(mSelButton);
         }
     }
-
+    public void redo(){
+        if(gameController.isUndoHistoryEmpty()) undoActivate();
+        int[] redo = gameController.redo();
+        puzzleController.fillCell(redo[2], redo[0], redo[1]);
+        mCells[redo[0]][redo[1]].setText(vocabLibController.getGameVocab(redo[2], gameController.getSelectLang()));
+        checkDuplicateWithoutWarning(redo[0], redo[1]);
+        if(gameController.isRedoHistoryEmpty()) redoDeactivate();
+    }
+    public void undo(){
+        if(gameController.isRedoHistoryEmpty()) redoActivate();
+        int[] undo = gameController.undo();
+        puzzleController.fillCell(undo[2],undo[0],undo[1]);
+        mCells[undo[0]][undo[1]].setText(vocabLibController.getGameVocab(undo[2], gameController.getSelectLang()));
+        checkDuplicateWithoutWarning(undo[0], undo[1]);
+        if(gameController.isUndoHistoryEmpty()) undoDeactivate();
+    }
     public void fillPosition(int row, int col) {
+        if(gameController.isUndoHistoryEmpty()) undoActivate();
+        redoDeactivate();
         if(gameController.getSelectedIndex() != -1) {
             gameController.fillCell(row, col);
             mCells[row][col].setText(vocabLibController.getGameVocab(gameController.getSelectedIndex(), gameController.getSelectLang()));
         }
+
     }
 
     public void submit() {
@@ -605,5 +659,22 @@ public class PuzzleActivity extends AppCompatActivity {
 
 
     }
+    public void undoActivate(){
+        Button undoButton = (Button) findViewById(R.id.puzzle_Undo);
+        undoButton.setVisibility(View.VISIBLE);
 
+
+    }
+    public void undoDeactivate(){
+        Button undoButton = (Button) findViewById(R.id.puzzle_Undo);
+        undoButton.setVisibility(View.INVISIBLE);
+    }
+    public void redoActivate(){
+        Button redoButton = (Button) findViewById(R.id.puzzle_Redo);
+        redoButton.setVisibility(View.VISIBLE);
+    }
+    public void redoDeactivate(){
+        Button redoButton = (Button) findViewById(R.id.puzzle_Redo);
+        redoButton.setVisibility(View.INVISIBLE);
+    }
 }

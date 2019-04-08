@@ -2,6 +2,8 @@ package eta.sudoku.model;
 
 import android.util.Log;
 
+import java.util.Stack;
+
 import eta.sudoku.controller.PuzzleController;
 
 public class Game {
@@ -11,6 +13,8 @@ public class Game {
     private int selectedIndex;
     private int[] incorrectCount;
     private boolean isListenMode;
+    private Stack<PuzzleInput> mRedoHistory = new Stack<>();
+    private Stack<PuzzleInput> mUndoHistory = new Stack<>();
 
     public Game(Puzzle puzzle, boolean isListen){
         selectLang = 1;
@@ -56,5 +60,37 @@ public class Game {
 
     public void setListenMode(boolean listenMode) {
         isListenMode = listenMode;
+    }
+
+    public void pushRedoHistory(PuzzleInput input) {
+        mRedoHistory.push(input);
+    }
+    public PuzzleInput popRedoHistory(){
+        return mRedoHistory.pop();
+    }
+    public PuzzleInput peekRedoHistory(){
+        return mRedoHistory.peek();
+    }
+    public PuzzleInput peekUndoHistory(){
+        return mUndoHistory.peek();
+    }
+    public void pushUndoHistory(PuzzleInput undo){
+        mUndoHistory.push(undo);
+    }
+    public PuzzleInput popUndoHistory(){
+        return mUndoHistory.pop();
+    }
+    public boolean isUndoHistoryEmpty() {
+        return mUndoHistory.isEmpty();
+    }
+    public boolean isRedoHistoryEmpty(){
+        return mRedoHistory.isEmpty();
+    }
+
+    public void newRedoHistory(){
+        mRedoHistory = new Stack<>();
+    }
+    public Stack<PuzzleInput> getUndoHistory() {
+        return mUndoHistory;
     }
 }

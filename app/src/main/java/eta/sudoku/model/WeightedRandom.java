@@ -34,7 +34,9 @@ public class WeightedRandom<E> {
 
             }
         }
+
     }
+
     public NavigableMap<Double, E> getMap(){
         return map;
     }

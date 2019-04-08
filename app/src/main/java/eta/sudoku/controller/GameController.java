@@ -3,8 +3,11 @@ package eta.sudoku.controller;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.util.Stack;
+
 import eta.sudoku.model.Game;
 import eta.sudoku.model.Puzzle;
+import eta.sudoku.model.PuzzleInput;
 
 public class GameController {
     private static final GameController ourInstance = new GameController();
@@ -49,6 +52,8 @@ public class GameController {
     }
 
     public void fillCell(int row, int col){
+        mGame.newRedoHistory();
+        mGame.pushUndoHistory(new PuzzleInput(row, col, puzzleController.getFilledCell(row, col)));
         puzzleController.fillCell(mGame.getSelectedIndex(), row, col);
     }
 
@@ -113,5 +118,23 @@ public class GameController {
     }
     public static GameController getInstance() {
         return ourInstance;
+    }
+
+    public int[] undo(){
+        int[] undo = mGame.popUndoHistory().getInput();
+        mGame.pushRedoHistory(new PuzzleInput(undo[0], undo[1], puzzleController.getFilledCell(undo[0],undo[1])));
+        return undo;
+    }
+    public int[] redo(){
+        int[] redo = mGame.popRedoHistory().getInput();
+        mGame.pushUndoHistory(new PuzzleInput(redo[0],redo[1], puzzleController.getFilledCell(redo[0],redo[1])));
+
+        return redo;
+    }
+    public boolean isUndoHistoryEmpty(){
+        return mGame.isUndoHistoryEmpty();
+    }
+    public boolean isRedoHistoryEmpty(){
+        return mGame.isRedoHistoryEmpty();
     }
 }
