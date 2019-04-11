@@ -69,11 +69,12 @@ public class PuzzleActivity extends AppCompatActivity {
     private static final int maxError=5;
     private Toast mToast ;
 
-
-
-
-
-
+    // for keeping track of time
+    Thread thread;
+    int secondsElapsed = 0;
+    int hr = 0;
+    int min = 0;
+    int sec = 0;
 
     private TextView[][] mCells;
 
@@ -182,6 +183,56 @@ public class PuzzleActivity extends AppCompatActivity {
                         .show();
             }
         });
+
+        // Keep track of time and update timeText
+        final TextView timerText = findViewById(R.id.timerText);
+
+        thread = new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    while (!thread.isInterrupted()) {
+                        Thread.sleep(1000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String secString;
+                                String minString;
+                                String hrString;
+                                secondsElapsed++;
+                                sec = secondsElapsed % 60;
+                                min = secondsElapsed / 60;
+                                hr = min / 60;
+                                if (sec < 10) {
+                                    secString = "0" + Integer.toString(sec);
+                                }
+                                else {
+                                    secString = Integer.toString(sec);
+                                }
+                                if (min < 10) {
+                                    minString = "0" + Integer.toString(min);
+                                }
+                                else {
+                                    minString = Integer.toString(min);
+                                }
+                                if (hr < 10) {
+                                    hrString = "0" + Integer.toString(hr);
+                                }
+                                else {
+                                    hrString = Integer.toString(hr);
+                                }
+                                String time = hrString + ":" + minString + ":" + secString;
+                                timerText.setText(time);
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+
+        thread.start();
     }
 
 
@@ -491,6 +542,7 @@ public class PuzzleActivity extends AppCompatActivity {
             selector.addView(mSelButton);
         }
     }
+
     public void redo(){
         if(gameController.isUndoHistoryEmpty()) undoActivate();
         int[] redo = gameController.redo();
