@@ -40,7 +40,7 @@ public class MenuActivity extends AppCompatActivity {
         //initialize full vocab lib
         vocabLibController.newFullVocabLib();
 
-//setting dialog pop up
+        //setting dialog pop up
         LayoutInflater li = LayoutInflater.from(this);
         final View prompt = li.inflate(R.layout.game_setting, null);
 
@@ -86,6 +86,17 @@ public class MenuActivity extends AppCompatActivity {
                             startActivity(i);
                         }
                     });
+
+        // Fix crash when user taps outside of box
+        a.setOnCancelListener(
+                new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface a) {
+                        ((ViewGroup) prompt.getParent()).removeView(prompt);
+                        a.cancel();
+                    }
+                }
+        );
 
         final TextView textSize = (TextView) prompt.findViewById(R.id.setting_size);
         final TextView textDiff = (TextView) prompt.findViewById(R.id.setting_difficulty);
