@@ -93,6 +93,9 @@ public class PuzzleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_puzzle);
 
+        if( savedInstanceState != null) {
+            secondsElapsed = savedInstanceState.getInt("timeElapsed");
+        }
 
         mCells = new TextView[puzzleController.getSize()][puzzleController.getSize()];
 
@@ -202,6 +205,10 @@ public class PuzzleActivity extends AppCompatActivity {
                                 String hrString;
                                 if (gameController.isChallenge()) {
                                     secondsElapsed++;
+                                    if((gameController.getChallengeDifficulty() - secondsElapsed) == 0) {
+                                        showChallengeLoseDialog();
+                                        timerThread.interrupt();
+                                    }
                                     sec = (gameController.getChallengeDifficulty() - secondsElapsed) % 60;
                                     min = (gameController.getChallengeDifficulty() - secondsElapsed) / 60;
                                     hr = min / 60;
@@ -300,6 +307,7 @@ public class PuzzleActivity extends AppCompatActivity {
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putInt("timeElapsed", secondsElapsed);
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstantState()");
 
@@ -720,6 +728,55 @@ public class PuzzleActivity extends AppCompatActivity {
 
 
     }
+
+    public void showChallengeLoseDialog() {
+        LayoutInflater li = LayoutInflater.from(this);
+        View v = li.inflate(R.layout.game_win, null);
+        AlertDialog.Builder a = new AlertDialog.Builder(this);
+
+        TextView title = v.findViewById(R.id.endTitleText);
+        TextView endMessage = v.findViewById(R.id.endMessageText);
+        //TextView endWordDifficultyText = v.findViewById(R.id.endWordDifficultyText);
+
+        a.setView(v);
+        LinearLayout linearLayout = findViewById(R.id.puzzle_win);
+        a
+                .setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            dialog.cancel();
+                            finish();
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+        final AlertDialog dialog = a.create();
+
+        title.setText("Oh No!");
+        endMessage.setText("You have run out of time.");
+        for(int i=1; i<vocabLibController.getGameVocabListSize(); i++) {
+            if(vocabLibController.isVocabDifficult(vocabLibController.getGameVocabIndex(i))){
+                TextView t = new TextView(this);
+                t.setText(vocabLibController.getGameVocab(i,1));
+                linearLayout.addView(t);
+                vocabLibController.setVocabDifficult(vocabLibController.getGameVocabIndex(i), false);
+            }
+        }
+        dialog.show();
+
+        Button menu = v.findViewById(R.id.puzzle_win_menu);
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vocabLibController.newGameVocabLib();
+                dialog.dismiss();
+                finish();
+            }
+        });
+    }
+
     public void undoActivate(){
         Button undoButton = (Button) findViewById(R.id.puzzle_Undo);
         undoButton.setVisibility(View.VISIBLE);

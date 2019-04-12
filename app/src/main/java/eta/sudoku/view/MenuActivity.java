@@ -173,7 +173,7 @@ public class MenuActivity extends AppCompatActivity {
         buttonChallengeEasy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textChallenge.setText("EASY");
+                textChallenge.setText("2 hours to complete the puzzle.");
                 challengeDifficulty = easyTime;
             }
         });
@@ -181,7 +181,7 @@ public class MenuActivity extends AppCompatActivity {
         buttonChallangeMed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textChallenge.setText("MEDIUM");
+                textChallenge.setText("1 hour to complete the puzzle.");
                 challengeDifficulty = medTime;
             }
         });
@@ -189,7 +189,7 @@ public class MenuActivity extends AppCompatActivity {
         buttonChallengeHard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textChallenge.setText("HARD");
+                textChallenge.setText("Only 30 minutes to complete the puzzle!");
                 challengeDifficulty = hardTime;
             }
         });

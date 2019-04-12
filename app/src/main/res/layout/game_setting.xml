@@ -140,7 +140,6 @@
             android:id="@+id/challenge_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="EASY"
             android:textSize="18sp" />
 
     </LinearLayout>
