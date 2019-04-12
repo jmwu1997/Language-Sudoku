@@ -19,8 +19,8 @@ public class GameController {
     public GameController(){
 
     }
-    public void newGame(Puzzle puzzle, boolean isListen){
-        mGame = new Game(puzzle, isListen);
+    public void newGame(Puzzle puzzle, boolean isListen, boolean isChallenge, int challengeDifficulty){
+        mGame = new Game(puzzle, isListen, isChallenge, challengeDifficulty);
     }
     public void swapLang(){
         int temp = mGame.getSelectLang();
@@ -49,6 +49,12 @@ public class GameController {
 
     public void setSelectedIndex(int wordInd) {
         mGame.setSelectedIndex(wordInd);
+    }
+
+    public boolean isChallenge() { return mGame.isChallenge(); }
+
+    public int getChallengeDifficulty() {
+        return mGame.getChallengeDifficulty();
     }
 
     public void fillCell(int row, int col){

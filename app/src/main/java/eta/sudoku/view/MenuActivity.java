@@ -32,6 +32,14 @@ public class MenuActivity extends AppCompatActivity {
     private static final PuzzleController puzzleController = PuzzleController.getInstance();
     private int size = 9;
     private int difficulty = 0;
+
+    // 0 = easy challenge, 1 = medium challenge, 2 = hard challenge
+    private int challengeDifficulty = 0;
+    // Challenge mode time values (in seconds)
+    int easyTime = 7200; // 2hrs
+    int medTime = 3600; // 1hr
+    int hardTime = 1800; // 30min
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +53,7 @@ public class MenuActivity extends AppCompatActivity {
         final View prompt = li.inflate(R.layout.game_setting, null);
 
         final Switch listenSwitch = (Switch) prompt.findViewById(R.id.setting_listen);
+        final Switch challengeSwitch = (Switch) prompt.findViewById(R.id.challenge_switch);
 
         //Settings pop up
         final AlertDialog.Builder a = new AlertDialog.Builder(this);
@@ -79,7 +88,7 @@ public class MenuActivity extends AppCompatActivity {
                             Intent i = new Intent(MenuActivity.this, SelectorActivity.class);
                             vocabLibController.newGameVocabLib();
                             puzzleController.newPuzzle(size, difficulty);
-                            gameController.newGame(puzzleController.getPuzzle(), listenSwitch.isChecked());
+                            gameController.newGame(puzzleController.getPuzzle(), listenSwitch.isChecked(), challengeSwitch.isChecked(), challengeDifficulty);
                             //i.putExtra(EXTRA_SUDOKU_SIZE, size);
                             //i.putExtra(EXTRA_SUDOKU_DIFFICULTY, difficulty);
                             //i.putExtra(EXTRA_SUDOKU_IS_LISTEN, listenSwitch.isChecked());
@@ -100,6 +109,7 @@ public class MenuActivity extends AppCompatActivity {
 
         final TextView textSize = (TextView) prompt.findViewById(R.id.setting_size);
         final TextView textDiff = (TextView) prompt.findViewById(R.id.setting_difficulty);
+        final TextView textChallenge = (TextView) prompt.findViewById(R.id.challenge_text);
 
 
         Button buttonSize9 = (Button) prompt.findViewById(R.id.setting_size_9);
@@ -156,6 +166,31 @@ public class MenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 textDiff.setText("HARD");
                 difficulty = 2;
+            }
+        });
+
+        Button buttonChallengeEasy = (Button) prompt.findViewById(R.id.setting_challenge_easy);
+        buttonChallengeEasy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textChallenge.setText("EASY");
+                challengeDifficulty = easyTime;
+            }
+        });
+        Button buttonChallangeMed = (Button) prompt.findViewById(R.id.setting_challenge_med);
+        buttonChallangeMed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textChallenge.setText("MEDIUM");
+                challengeDifficulty = medTime;
+            }
+        });
+        Button buttonChallengeHard = (Button) prompt.findViewById(R.id.setting_challenge_hard);
+        buttonChallengeHard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textChallenge.setText("HARD");
+                challengeDifficulty = hardTime;
             }
         });
 

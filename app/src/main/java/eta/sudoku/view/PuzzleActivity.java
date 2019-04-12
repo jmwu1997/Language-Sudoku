@@ -70,7 +70,8 @@ public class PuzzleActivity extends AppCompatActivity {
     private Toast mToast ;
 
     // for keeping track of time
-    Thread thread;
+    Thread timerThread;
+    int challengeTime = 0;
     int secondsElapsed = 0;
     int hr = 0;
     int min = 0;
@@ -186,13 +187,12 @@ public class PuzzleActivity extends AppCompatActivity {
 
         // Keep track of time and update timeText
         final TextView timerText = findViewById(R.id.timerText);
-
-        thread = new Thread() {
+        timerThread = new Thread() {
 
             @Override
             public void run() {
                 try {
-                    while (!thread.isInterrupted()) {
+                    while (!timerThread.isInterrupted()) {
                         Thread.sleep(1000);
                         runOnUiThread(new Runnable() {
                             @Override
@@ -200,10 +200,19 @@ public class PuzzleActivity extends AppCompatActivity {
                                 String secString;
                                 String minString;
                                 String hrString;
-                                secondsElapsed++;
-                                sec = secondsElapsed % 60;
-                                min = secondsElapsed / 60;
-                                hr = min / 60;
+                                if (gameController.isChallenge()) {
+                                    secondsElapsed++;
+                                    sec = (gameController.getChallengeDifficulty() - secondsElapsed) % 60;
+                                    min = (gameController.getChallengeDifficulty() - secondsElapsed) / 60;
+                                    hr = min / 60;
+                                }
+                                else {
+                                    secondsElapsed++;
+                                    sec = secondsElapsed % 60;
+                                    min = secondsElapsed / 60;
+                                    hr = min / 60;
+                                }
+
                                 if (sec < 10) {
                                     secString = "0" + Integer.toString(sec);
                                 }
@@ -232,7 +241,7 @@ public class PuzzleActivity extends AppCompatActivity {
             }
         };
 
-        thread.start();
+        timerThread.start();
     }
 
 
