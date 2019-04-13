@@ -189,6 +189,14 @@ public class PuzzleActivity extends AppCompatActivity {
                         .show();
             }
         });
+        //for debugging only
+        /*
+        mMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNumber();
+            }
+        });*/
     }
 
 
@@ -755,4 +763,34 @@ public class PuzzleActivity extends AppCompatActivity {
         Button redoButton = (Button) findViewById(R.id.puzzle_Redo);
         redoButton.setVisibility(View.INVISIBLE);
     }
+    //for debugging
+    /*
+    public void showNumber(){
+        Resources r = ctx.getResources();
+        int[][] prefilledPuzzle = puzzleController.getPrefilledPuzzle();
+        int[][] filledPuzzle = puzzleController.getFilledPuzzle();
+        for (int i = 0; i < puzzleController.getSize(); i++) {
+
+            for (int j = 0; j < puzzleController.getSize(); j++) {
+                final int row = i;
+                final int col = j;
+                if (prefilledPuzzle[i][j] > 0) {
+                    if (filledPuzzle[i][j] == 0) {
+                        mCells[row][col].setTextColor(Color.BLACK);
+
+                            mCells[row][col].setText(Integer.toString(prefilledPuzzle[i][j]));
+
+
+                    } else {
+
+                        //error
+                    }
+                } else if (prefilledPuzzle[i][j] == 0 ) {
+                    mCells[row][col].setTextColor(Color.BLUE);
+                    mCells[row][col].setText(Integer.toString(prefilledPuzzle[i][j]));
+                }
+                checkDuplicateWithoutWarning(i,j);//resets cells with red background
+            }
+        }
+    }*/
 }
