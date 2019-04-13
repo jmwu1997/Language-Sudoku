@@ -203,7 +203,7 @@ public class VocabStorage {
         }
         String tfile=filepath;
         filepath=Environment.getExternalStorageState()+File.separator+"Download";
-        saveList(cvs,lib.getName());
+        saveList(cvs,controller.getName()+".cvs");
         filepath=tfile;
     }
     public String[] importableLists(){
@@ -234,7 +234,7 @@ public class VocabStorage {
         int size= Integer.parseInt(els[1]);
         String language=els[0];
         setLanguage(language);
-        vlib.setName(list);
+        VocabLibraryController.getInstance().setName(list.split("(.cvs)$")[0]);
         Vocab v= new Vocab();
         for(int i=2;i<size+2;i++){
             v.setWord(0,els[i]);
