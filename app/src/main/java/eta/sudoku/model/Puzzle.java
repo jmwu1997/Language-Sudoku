@@ -113,13 +113,6 @@ public class Puzzle implements Serializable{
     }
 
 
-    public void setCurrentPuzzle(int[][] currentPuzzle) {
-        mCurrentPuzzle = currentPuzzle;
-    }
-
-    public void newFilledPuzzle(){
-        mFilledPuzzle = new int[mSize][mSize];
-    }
     // TODO: Can be more efficient? (positions generated might overlap)
 
     public void genRandomPuzzle() {//generate puzzle from random difficulty with bounds defined in this class
