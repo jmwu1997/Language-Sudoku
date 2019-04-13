@@ -861,6 +861,7 @@ public class PuzzleActivity extends AppCompatActivity {
             }
         });
     }
+
     public void undoActivate(){
         Button undoButton = (Button) findViewById(R.id.puzzle_Undo);
         undoButton.setVisibility(View.VISIBLE);
