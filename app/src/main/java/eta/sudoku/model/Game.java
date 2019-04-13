@@ -86,7 +86,9 @@ public class Game {
     public boolean isRedoHistoryEmpty(){
         return mRedoHistory.isEmpty();
     }
-
+    public void newUndoHistory(){
+        mUndoHistory = new Stack<>();
+    }
     public void newRedoHistory(){
         mRedoHistory = new Stack<>();
     }

@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.BatchUpdateException;
+import java.util.Random;
 import java.util.Stack;
 
 import eta.sudoku.R;
@@ -164,7 +165,13 @@ public class PuzzleActivity extends AppCompatActivity {
             mSwitchButton.setVisibility(View.INVISIBLE);
         }
 
-
+        Button mResetButton = (Button) findViewById(R.id.puzzle_reset);
+        mResetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetDialog();
+            }
+        });
         Button mMenuButton = (Button) findViewById(R.id.puzzle_menu);
         mMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -508,15 +515,86 @@ public class PuzzleActivity extends AppCompatActivity {
         if(gameController.isUndoHistoryEmpty()) undoDeactivate();
     }
     public void fillPosition(int row, int col) {
-        if(gameController.isUndoHistoryEmpty()) undoActivate();
-        redoDeactivate();
-        if(gameController.getSelectedIndex() != -1) {
+
+        if(gameController.getSelectedIndex() != -1) {//makes sure there has been some input at least
+            if(gameController.isUndoHistoryEmpty()) undoActivate();
+            redoDeactivate();
             gameController.fillCell(row, col);
             mCells[row][col].setText(vocabLibController.getGameVocab(gameController.getSelectedIndex(), gameController.getSelectLang()));
         }
 
     }
+    public void resetDialog(){
+        //dialog
+        LayoutInflater li = LayoutInflater.from(this);
+        View v = li.inflate(R.layout.reset_dialog, null);
+        AlertDialog.Builder a = new AlertDialog.Builder(this);
+        a.setView(v);
 
+        a
+                .setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            dialog.cancel();
+                            finish();
+                            return true;
+                        }
+                        return false;
+                    }
+                })
+                .setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                reset();
+                            }
+                        })
+                .setNegativeButton("No",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+
+                            }
+                        });
+        final AlertDialog dialog = a.create();
+
+        dialog.show();
+    }
+    public void reset(){
+        gameController.reset();
+        Resources r = ctx.getResources();
+        int[][] prefilledPuzzle = puzzleController.getPrefilledPuzzle();
+        int[][] filledPuzzle = puzzleController.getFilledPuzzle();
+        for (int i = 0; i < puzzleController.getSize(); i++) {
+
+            for (int j = 0; j < puzzleController.getSize(); j++) {
+                final int row = i;
+                final int col = j;
+                if (prefilledPuzzle[i][j] > 0) {
+                    if (filledPuzzle[i][j] == 0) {
+                        mCells[row][col].setTextColor(Color.BLACK);
+                        if(!gameController.isListenMode()) {
+                            mCells[row][col].setText(vocabLibController.getGameVocab(prefilledPuzzle[i][j], gameController.getPuzzleLang()));
+                        }else{
+                            mCells[row][col].setText(Integer.toString(prefilledPuzzle[i][j]));
+                        }
+
+                    } else {
+
+                        //error
+                    }
+                } else if (prefilledPuzzle[i][j] == 0 ) {
+                    mCells[row][col].setTextColor(Color.BLUE);
+                    mCells[row][col].setText(vocabLibController.getGameVocab(prefilledPuzzle[i][j], gameController.getPuzzleLang()));
+                }
+                checkDuplicateWithoutWarning(i,j);//resets cells with red background
+            }
+        }
+        undoDeactivate();
+        redoDeactivate();
+    }
     public void submit() {
         if (gameController.isSolved()) {
            showWinDialog();
