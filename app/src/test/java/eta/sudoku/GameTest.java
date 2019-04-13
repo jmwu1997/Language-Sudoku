@@ -31,7 +31,7 @@ public class GameTest {
             {5, 3, 1, 4, 6, 8, 2, 7, 9}
     };
     Puzzle mpuzzle = new Puzzle(puz,9,0);
-    Game gameTest = new Game(mpuzzle,true);
+    Game gameTest = new Game(mpuzzle,true,true,1);
 
     @Test
     // check listening mode
@@ -76,7 +76,7 @@ public class GameTest {
 
     @Test
     // check incorrect count
-    public void test() {
+    public void incorrectTest() {
         //word 2 with no incorrect count
         assertEquals(0,gameTest.getIncorrectCount(2));
 
@@ -86,5 +86,20 @@ public class GameTest {
 
         //check word 2 with 2 incorrect count
         assertEquals(2,gameTest.getIncorrectCount(2));
+    }
+
+    @Test
+    // check difficulty
+    public void difficultTest() {
+       assertEquals(1,gameTest.getChallengeDifficulty());
+       assertTrue(gameTest.isChallenge());
+    }
+
+    @Test
+    // check undo/redo
+    public void EmptyTest() {
+        assertTrue(gameTest.isRedoHistoryEmpty());
+        assertTrue(gameTest.isRedoHistoryEmpty());
+
     }
 }
