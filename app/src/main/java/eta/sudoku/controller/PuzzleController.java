@@ -41,7 +41,12 @@ public class PuzzleController {
         return mPuzzle.getSize();
     }
 
-
+    public void resetCurrentPuzzle(){
+        mPuzzle.setCurrentPuzzle(mPuzzle.getPrefilledPuzzle());
+    }
+    public void resetFilledPuzzle(){
+        mPuzzle.newFilledPuzzle();
+    }
     public int[][] getPrefilledPuzzle(){
         return mPuzzle.getPrefilledPuzzle();
     }
