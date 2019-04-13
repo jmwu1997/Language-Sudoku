@@ -144,6 +144,9 @@ public class GameController {
         return mGame.isRedoHistoryEmpty();
     }
     public void reset(){
-
+        puzzleController.resetCurrentPuzzle();
+        puzzleController.resetFilledPuzzle();
+        mGame.newUndoHistory();
+        mGame.newRedoHistory();
     }
 }
