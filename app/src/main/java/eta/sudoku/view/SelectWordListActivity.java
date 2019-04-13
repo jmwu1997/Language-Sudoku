@@ -1,5 +1,6 @@
 package eta.sudoku.view;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -36,7 +37,7 @@ public class SelectWordListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if(storageController.getLanguage()==null){
+        if (storageController.getLanguage() == null) {
             startActivity(new Intent(SelectWordListActivity.this, SelectLanguageActivity.class));//GO TO MENU
         }
 
@@ -54,64 +55,77 @@ public class SelectWordListActivity extends AppCompatActivity {
         //show all vocab from overall vocab library
         wordlists = storageController.getWordLists();
 
-        if(wordlists==null||wordlists.length<1){
+        if (wordlists == null || wordlists.length < 1) {
             wordlists = storageController.getWordLists();
         }
         wordlists = storageController.getWordLists();
-        if(wordlists!=null){
-        for(int i=0;i<wordlists.length;i++) {
-            Log.d("lang", wordlists[i]);
-        }
+        if (wordlists != null) {
+            for (int i = 0; i < wordlists.length; i++) {
+                Log.d("lang", wordlists[i]);
+            }
 
-        for(int i=0; i<wordlists.length; i++) {
-            final int ind = i;
-            final LinearLayout wordLayout = new LinearLayout(SelectWordListActivity.this);
-            LinearLayout.LayoutParams wordLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            wordLayoutParam.setMargins(30, 20, 30, 15);
+            for (int i = 0; i < wordlists.length; i++) {
+                final int ind = i;
+                final LinearLayout wordLayout = new LinearLayout(SelectWordListActivity.this);
+                LinearLayout.LayoutParams wordLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                wordLayoutParam.setMargins(30, 20, 30, 15);
 
-            wordLayout.setBackgroundColor(Color.WHITE);
+                wordLayout.setBackgroundColor(Color.WHITE);
 
-            wordLayout.setOrientation(LinearLayout.VERTICAL);
-            wordLayout.setOutlineProvider(ViewOutlineProvider.BOUNDS);
-            wordLayout.setLayoutParams(wordLayoutParam);
-            wordLayout.setElevation(4);
-            layout.addView(wordLayout);
+                wordLayout.setOrientation(LinearLayout.VERTICAL);
+                wordLayout.setOutlineProvider(ViewOutlineProvider.BOUNDS);
+                wordLayout.setLayoutParams(wordLayoutParam);
+                wordLayout.setElevation(4);
+                layout.addView(wordLayout);
 
-            ViewGroup.LayoutParams langParam = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                ViewGroup.LayoutParams langParam = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            TextView language = new TextView(SelectWordListActivity.this);
-            language.setText(wordlists[ind]);
-            language.setLayoutParams(langParam);
-            language.setTextSize(23);
-            ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(langParam);
-            marginLayoutParams.setMarginStart(30);
-            language.setLayoutParams(marginLayoutParams);
-            wordLayout.addView(language);
-            wordLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                TextView language = new TextView(SelectWordListActivity.this);
+                language.setText(wordlists[ind]);
+                language.setLayoutParams(langParam);
+                language.setTextSize(23);
+                ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(langParam);
+                marginLayoutParams.setMarginStart(30);
+                language.setLayoutParams(marginLayoutParams);
+                wordLayout.addView(language);
+                wordLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 //                    storageController.deleteList("Library");
 //                    storageController.deleteList("testing");
-                    VocabLibrary list = storageController.loadList(wordlists[ind]);
-                    vocabLibController.setName(wordlists[ind]);
-                    vocabLibController.setFullVocabLib(list);
-                    Intent i = new Intent(SelectWordListActivity.this, VocabFullActivity.class);
-                    startActivity(i);
-                }
-            });
-        }
-
-
+                        VocabLibrary list = storageController.loadList(wordlists[ind]);
+                        vocabLibController.setName(wordlists[ind]);
+                        vocabLibController.setFullVocabLib(list);
+                        Intent i = new Intent(SelectWordListActivity.this, VocabFullActivity.class);
+                        startActivity(i);
+                    }
+                });
+            }
 
 
         }
-
-
-
+//START IMPORT LIST THING
+        Intent i = new Intent(SelectWordListActivity.this, ImportListActivity.class);
+        startActivityForResult(i, ImportListActivity.IMPORT_REQUEST_CODE);
     }
+
     @Override
     public void onBackPressed() {
         finish();
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) return;
+        if (requestCode == ImportListActivity.IMPORT_REQUEST_CODE) {
+            switch (resultCode) {
+                case Activity.RESULT_OK:
+                    this.onCreate(null);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
