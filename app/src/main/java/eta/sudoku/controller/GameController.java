@@ -143,4 +143,7 @@ public class GameController {
     public boolean isRedoHistoryEmpty(){
         return mGame.isRedoHistoryEmpty();
     }
+    public void reset(){
+
+    }
 }
