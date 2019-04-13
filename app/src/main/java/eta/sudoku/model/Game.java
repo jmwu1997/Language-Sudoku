@@ -15,13 +15,17 @@ public class Game {
     private boolean isListenMode;
     private Stack<PuzzleInput> mRedoHistory = new Stack<>();
     private Stack<PuzzleInput> mUndoHistory = new Stack<>();
+    private int challengeDifficulty;
+    private boolean isChallengeMode;
 
-    public Game(Puzzle puzzle, boolean isListen){
+    public Game(Puzzle puzzle, boolean isListen, boolean isChallenge, int challengeDifficulty_){
         selectLang = 1;
         puzzleLang = 0;
         selectedIndex = -1;
         incorrectCount = new int[puzzle.getSize()];
         isListenMode = isListen;
+        challengeDifficulty = challengeDifficulty_;
+        isChallengeMode = isChallenge;
     }
 
     public int getSelectLang() {
@@ -42,6 +46,12 @@ public class Game {
 
     public int getSelectedIndex() {
         return selectedIndex;
+    }
+
+    public boolean isChallenge() { return isChallengeMode;}
+
+    public int getChallengeDifficulty() {
+        return challengeDifficulty;
     }
 
     public void setSelectedIndex(int wordIndex) {
@@ -86,9 +96,7 @@ public class Game {
     public boolean isRedoHistoryEmpty(){
         return mRedoHistory.isEmpty();
     }
-    public void newUndoHistory(){
-        mUndoHistory = new Stack<>();
-    }
+
     public void newRedoHistory(){
         mRedoHistory = new Stack<>();
     }

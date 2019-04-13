@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="26dp"
-        android:text="Settings"/>
+        android:text="Settings"
+        android:textSize="26dp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,9 +35,7 @@
         android:layout_height="wrap_content"
         android:text="9x9"
             android:id="@+id/setting_size_9"/>
-        <android.support.v4.widget.Space
-            android:layout_width="20dp"
-            android:layout_height="0dp" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -94,6 +93,7 @@
             android:text="HARD"
             android:id="@+id/setting_dif_hard"/>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -111,5 +111,59 @@
             android:layout_marginEnd="50dp"
             />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Challenge Mode"
+            android:textSize="18sp" />
+
+        <Switch
+            android:id="@+id/challenge_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="50dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/challenge_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/setting_challenge_easy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EASY" />
+
+        <Button
+            android:id="@+id/setting_challenge_med"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MEDIUM" />
+
+        <Button
+            android:id="@+id/setting_challenge_hard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HARD" />
     </LinearLayout>
 </LinearLayout>
