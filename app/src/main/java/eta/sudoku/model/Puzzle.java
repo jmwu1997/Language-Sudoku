@@ -114,7 +114,10 @@ public class Puzzle implements Serializable{
 
 
     public void setCurrentPuzzle(int[][] currentPuzzle) {
-        mCurrentPuzzle = currentPuzzle;
+        for(int i=0; i<mSize; i++) {
+            //copy by value
+            this.mCurrentPuzzle[i] = currentPuzzle[i].clone();
+        }
     }
 
     public void newFilledPuzzle(){
