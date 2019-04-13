@@ -143,10 +143,4 @@ public class GameController {
     public boolean isRedoHistoryEmpty(){
         return mGame.isRedoHistoryEmpty();
     }
-    public void reset(){
-        puzzleController.resetCurrentPuzzle();
-        puzzleController.resetFilledPuzzle();
-        mGame.newUndoHistory();
-        mGame.newRedoHistory();
-    }
 }

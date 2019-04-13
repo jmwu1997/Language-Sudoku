@@ -135,13 +135,6 @@
             android:text="00:00" />
 
         <Button
-            android:id="@+id/puzzle_reset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:text="reset" />
-        <Button
             android:id="@+id/puzzle_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
