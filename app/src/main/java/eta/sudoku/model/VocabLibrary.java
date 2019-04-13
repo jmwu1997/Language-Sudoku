@@ -8,6 +8,7 @@ public class VocabLibrary extends ArrayList<Vocab>{
     //private ArrayList<Vocab> mVocabList;
     double difficultWeight = 3;
     double normalWeight = 1;
+    private String name= "New List";
     public VocabLibrary(){
         //mVocabList = new ArrayList<>(1);
         this.add(new Vocab());
@@ -49,8 +50,12 @@ public class VocabLibrary extends ArrayList<Vocab>{
         }
 
 
-
         return result;
     }
-
+    public String getName(){
+        return this.name;
+}
+    public void setName(String name){
+        this.name=name;
+    }
 }

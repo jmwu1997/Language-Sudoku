@@ -63,6 +63,10 @@ public class VocabLibraryController {
     public int getOverallVocabLibSize(){
         return mOverallVocabLib.size();
     }
+    public String getOverallVocabName(){
+        return mOverallVocabLib.getName();
+    }
+
     public String getOverallVocab(int index, int lang){
         return mOverallVocabLib.get(index).getWord(lang);
     }
