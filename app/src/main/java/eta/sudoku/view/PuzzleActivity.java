@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.BatchUpdateException;
+import java.util.Random;
 import java.util.Stack;
 
 import eta.sudoku.R;
@@ -573,7 +574,6 @@ public class PuzzleActivity extends AppCompatActivity {
             selector.addView(mSelButton);
         }
     }
-
     public void redo(){
         if(gameController.isUndoHistoryEmpty()) undoActivate();
         int[] redo = gameController.redo();
