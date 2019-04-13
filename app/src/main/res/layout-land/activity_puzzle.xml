@@ -50,11 +50,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:orientation="horizontal">
-                <Button
-                    android:id="@+id/puzzle_Undo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Undo" />
 
                 <Button
                     android:id="@+id/puzzle_Delete"
@@ -73,17 +68,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/button_switch" />
-                <Button
-                    android:id="@+id/puzzle_Redo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Redo" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/puzzle_Redo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Redo" />
+
+                <Button
+                    android:id="@+id/puzzle_Undo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Undo" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <GridLayout
@@ -91,17 +99,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="0dp"
+                    android:columnCount="3"
                     android:orientation="horizontal"
                     android:padding="0dp"
-                    android:rowCount="3"
-                    android:columnCount="3"
-                    ></GridLayout>
+                    android:rowCount="3"></GridLayout>
             </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/timerText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="00:00" />
 
                 <Button
                     android:id="@+id/puzzle_menu"
