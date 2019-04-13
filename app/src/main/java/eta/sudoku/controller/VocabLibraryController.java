@@ -10,15 +10,21 @@ import eta.sudoku.model.VocabLibrary;
 
 public class VocabLibraryController {
     private static final VocabLibraryController ourInstance = new VocabLibraryController();
-
-
+    private VocabLibrary mLanglib = new VocabLibrary();
     private VocabLibrary mOverallVocabLib = new VocabLibrary();
     private VocabLibrary mSelectedVocabs = new VocabLibrary();
     private ArrayList<VocabLibrary> mVocabWeeks = new ArrayList<>();
+    private String name;
     public VocabLibraryController() {
 
 
 
+    }
+    public void setName(String name){
+        this.name=name;
+    }
+    public String getName(){
+        return this.name;
     }
     public void newGameVocabLib(){
         mSelectedVocabs = new VocabLibrary();
@@ -63,6 +69,10 @@ public class VocabLibraryController {
     public int getOverallVocabLibSize(){
         return mOverallVocabLib.size();
     }
+    public String getOverallVocabName(){
+        return mOverallVocabLib.getName();
+    }
+
     public String getOverallVocab(int index, int lang){
         return mOverallVocabLib.get(index).getWord(lang);
     }
@@ -99,5 +109,13 @@ public class VocabLibraryController {
 
     public void addVocabIntoWeek(int week, Vocab v){
         mVocabWeeks.get(week).add(v);
+    }
+
+    public VocabLibrary getmLanglib() {
+        return mLanglib;
+    }
+
+    public void setmLanglib(VocabLibrary mLanglib) {
+        this.mLanglib = mLanglib;
     }
 }
