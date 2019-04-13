@@ -186,7 +186,5 @@ public class PuzzleTest {
         assertEquals(1,puzzleTest.getCurrentCell(3,3));
         assertEquals(4,puzzleTest.getPrefilledCell(3,3));
 
-
-
     }
 }
