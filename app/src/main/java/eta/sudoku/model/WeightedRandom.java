@@ -2,11 +2,14 @@
 
 package eta.sudoku.model;
 
+import android.util.Log;
+
 import java.util.NavigableMap;
 import java.util.Random;
 import java.util.TreeMap;
 
 public class WeightedRandom<E> {
+    private static final String TAG = "WeightedRandom";
     private final NavigableMap<Double, E> map = new TreeMap<Double, E>();
     private final Random random;
     private double total = 0;
@@ -42,6 +45,9 @@ public class WeightedRandom<E> {
     }
     public E next() {
         double value = random.nextDouble() * total;
+        //Log.d(TAG, "random.nextDouble() * total: " + Double.toString(value));
+        // possible fix for when value is somehow higher than largest key
+        value = Math.floor(value);
         return map.higherEntry(value).getValue();
     }
 }
