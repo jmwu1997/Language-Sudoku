@@ -163,10 +163,8 @@ public class PuzzleActivity extends AppCompatActivity {
                     switchLang();
                 }
             });
-            if (gameController.isListenMode()) {
-                playSound();
-            }
         }else{
+            playSound();
             mSwitchButton.setVisibility(View.INVISIBLE);
         }
 
@@ -479,7 +477,9 @@ public class PuzzleActivity extends AppCompatActivity {
                         mCell.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                showHint(row, col);
+                                if(!gameController.isListenMode()) {
+                                    showHint(row, col);
+                                }
 
                             }
                         });
