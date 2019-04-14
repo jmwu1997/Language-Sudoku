@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -182,7 +183,7 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        Button buttonChallengeEasy = (Button) prompt.findViewById(R.id.setting_challenge_easy);
+        final Button buttonChallengeEasy = (Button) prompt.findViewById(R.id.setting_challenge_easy);
         buttonChallengeEasy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -190,7 +191,7 @@ public class MenuActivity extends AppCompatActivity {
                 challengeDifficulty = easyTime;
             }
         });
-        Button buttonChallangeMed = (Button) prompt.findViewById(R.id.setting_challenge_med);
+        final Button buttonChallangeMed = (Button) prompt.findViewById(R.id.setting_challenge_med);
         buttonChallangeMed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,13 +199,31 @@ public class MenuActivity extends AppCompatActivity {
                 challengeDifficulty = medTime;
             }
         });
-        Button buttonChallengeHard = (Button) prompt.findViewById(R.id.setting_challenge_hard);
+        final Button buttonChallengeHard = (Button) prompt.findViewById(R.id.setting_challenge_hard);
         buttonChallengeHard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 textChallenge.setText("Only 30 minutes to complete the puzzle!");
                 challengeDifficulty = hardTime;
             }
+        });
+        challengeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(!isChecked) {
+                    buttonChallengeEasy.setVisibility(View.GONE);
+                    buttonChallangeMed.setVisibility(View.GONE);
+                    buttonChallengeHard.setVisibility(View.GONE);
+                    textChallenge.setText("");
+                }
+                else {
+                    buttonChallengeEasy.setVisibility(View.VISIBLE);
+                    buttonChallangeMed.setVisibility(View.VISIBLE);
+                    buttonChallengeHard.setVisibility(View.VISIBLE);
+                }
+            }
+
         });
 
         // if orientation changed and settings dialog was opened, reopen it with default settings
