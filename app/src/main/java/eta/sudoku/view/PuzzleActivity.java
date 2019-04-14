@@ -841,14 +841,6 @@ public class PuzzleActivity extends AppCompatActivity {
 
         title.setText("Oh No!");
         endMessage.setText("You have run out of time.");
-        for(int i=1; i<vocabLibController.getGameVocabListSize(); i++) {
-            if(vocabLibController.isVocabDifficult(vocabLibController.getGameVocabIndex(i))){
-                TextView t = new TextView(this);
-                t.setText(vocabLibController.getGameVocab(i,1));
-                linearLayout.addView(t);
-                vocabLibController.setVocabDifficult(vocabLibController.getGameVocabIndex(i), false);
-            }
-        }
         dialog.show();
 
         Button menu = v.findViewById(R.id.puzzle_win_menu);
