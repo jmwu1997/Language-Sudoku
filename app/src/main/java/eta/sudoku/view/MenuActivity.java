@@ -38,7 +38,7 @@ public class MenuActivity extends AppCompatActivity {
     // Challenge mode time values (in seconds)
     int easyTime = 7200; // 2hrs
     int medTime = 3600; // 1hr
-    int hardTime = 5; // 30min
+    int hardTime = 1800; // 30min
 
     // To keep dialog open after orientation change
     // NOTE: settings will reset
