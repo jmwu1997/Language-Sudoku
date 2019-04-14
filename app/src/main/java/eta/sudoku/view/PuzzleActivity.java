@@ -775,7 +775,7 @@ public class PuzzleActivity extends AppCompatActivity {
         View v = li.inflate(R.layout.game_win, null);
         AlertDialog.Builder a = new AlertDialog.Builder(this);
         a.setView(v);
-        LinearLayout linearLayout = findViewById(R.id.puzzle_win);
+        LinearLayout linearLayout = v.findViewById(R.id.puzzle_win);
         a
                 .setOnKeyListener(new DialogInterface.OnKeyListener() {
                     @Override
@@ -821,10 +821,10 @@ public class PuzzleActivity extends AppCompatActivity {
 
         TextView title = v.findViewById(R.id.endTitleText);
         TextView endMessage = v.findViewById(R.id.endMessageText);
-        //TextView endWordDifficultyText = v.findViewById(R.id.endWordDifficultyText);
+        TextView endWordDifficultyText = v.findViewById(R.id.endWordDifficultyText);
 
         a.setView(v);
-        LinearLayout linearLayout = findViewById(R.id.puzzle_win);
+        LinearLayout linearLayout = v.findViewById(R.id.puzzle_win);
         a
                 .setOnKeyListener(new DialogInterface.OnKeyListener() {
                     @Override
@@ -841,6 +841,16 @@ public class PuzzleActivity extends AppCompatActivity {
 
         title.setText("Oh No!");
         endMessage.setText("You have run out of time.");
+        endWordDifficultyText.setText("These words seems quite difficult for you:");
+
+        for(int i=1; i<vocabLibController.getGameVocabListSize(); i++) {
+            if(!vocabLibController.isVocabDifficult(vocabLibController.getGameVocabIndex(i))){
+                TextView t = new TextView(this);
+                t.setText(vocabLibController.getGameVocab(i,1));
+                linearLayout.addView(t);
+                vocabLibController.setVocabDifficult(vocabLibController.getGameVocabIndex(i), true);
+            }
+        }
         dialog.show();
 
         Button menu = v.findViewById(R.id.puzzle_win_menu);
