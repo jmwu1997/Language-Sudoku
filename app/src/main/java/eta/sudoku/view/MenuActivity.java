@@ -84,7 +84,8 @@ public class MenuActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ((ViewGroup) prompt.getParent()).removeView(prompt);
+                                // This is done in setOnCancelListener()
+                                //((ViewGroup) prompt.getParent()).removeView(prompt);
                                 isSettingsOpen = false;
                                 dialog.cancel();
 
