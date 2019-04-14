@@ -1,11 +1,12 @@
 <resources>
-    <string name="app_name">Sudoku(Product Name)</string>
+    <string name="app_name">Sudoku Eta</string>
     <string name="button_delete">Delete</string>
     <string name="button_submit">Submit</string>
     <string name="button_switch">Switch</string>
     <string name="button_start_game">Start Game</string>
-    <string name="button_vocab">Vocabulary</string>
+    <string name="button_vocab">Word List</string>
     <string name="button_menu">Menu</string>
+    <string name="button_language">Select Language</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
@@ -16,9 +17,9 @@
     <string name="menu_alert_title">Back to Menu</string>
     <string name="menu_alert_pos">Sure</string>
     <string name="menu_alert_neg">Cancel</string>
-    <string name="title_activity_full_vocab">Full Vocabulary List</string>
+    <string name="title_activity_full_vocab">Current list</string>
     <string name="vocab_full">Full List</string>
-    <string name="vocab_week">Week-By-Week List</string>
+    <string name="vocab_week">Select Word List</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

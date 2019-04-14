@@ -1,6 +1,7 @@
 package eta.sudoku;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import eta.sudoku.model.VocabLibrary;
 
 public class SudokuApplication extends Application {
     private static final SudokuApplication ourInstance = new SudokuApplication();
+    private static Context context;
     private int[][] mPuzzle9 = {
             {6, 8, 2, 9, 4, 7, 5, 1, 3},
             {3, 1, 4, 6, 2, 5, 7, 9, 8},
@@ -93,6 +95,15 @@ public class SudokuApplication extends Application {
     public SudokuApplication(){
 
 
+    }
+
+    public void onCreate() {
+        super.onCreate();
+        SudokuApplication.context = getApplicationContext();
+    }
+
+    public static Context getAppContext() {
+        return SudokuApplication.context;
     }
 
     public int[][] getPuzzle(int size) {

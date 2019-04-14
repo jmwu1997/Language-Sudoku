@@ -43,8 +43,8 @@ public class SelectWordListActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wordlists);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.wordlist_layout);
 
@@ -57,6 +57,40 @@ public class SelectWordListActivity extends AppCompatActivity {
 
         if (wordlists == null || wordlists.length < 1) {
             wordlists = storageController.getWordLists();
+        }
+
+        {
+            final LinearLayout wordLayout = new LinearLayout(SelectWordListActivity.this);
+            LinearLayout.LayoutParams wordLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            wordLayoutParam.setMargins(30, 20, 30, 15);
+
+            wordLayout.setBackgroundColor(Color.WHITE);
+
+            wordLayout.setOrientation(LinearLayout.VERTICAL);
+            wordLayout.setOutlineProvider(ViewOutlineProvider.BOUNDS);
+            wordLayout.setLayoutParams(wordLayoutParam);
+            wordLayout.setElevation(4);
+            layout.addView(wordLayout);
+
+            ViewGroup.LayoutParams langParam = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            TextView language = new TextView(SelectWordListActivity.this);
+            language.setText("Import word list");
+            language.setLayoutParams(langParam);
+            language.setTextSize(23);
+            ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(langParam);
+            marginLayoutParams.setMarginStart(30);
+            language.setLayoutParams(marginLayoutParams);
+            wordLayout.addView(language);
+            wordLayout.setOnClickListener(new View.OnClickListener() {
+                                              @Override
+                                              public void onClick(View v) {
+//                    storageController.deleteList("Library");
+//                    storageController.deleteList("testing");
+                                                  Intent i = new Intent(SelectWordListActivity.this, ImportListActivity.class);
+                                                  startActivityForResult(i, ImportListActivity.IMPORT_REQUEST_CODE);
+                                              }
+                                          });
         }
         wordlists = storageController.getWordLists();
         if (wordlists != null) {
@@ -79,8 +113,18 @@ public class SelectWordListActivity extends AppCompatActivity {
                 layout.addView(wordLayout);
 
                 ViewGroup.LayoutParams langParam = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                String nam=VocabLibraryController.getInstance().getName();
+                if(wordlists[i].equals(nam)){
+                    wordLayout.setBackgroundColor(Color.CYAN);
+                    Log.d("WLNAME",wordlists[i]+":"+VocabLibraryController.getInstance().getName() );
+
+                }else{
+                    wordLayout.setBackgroundColor(Color.WHITE);
+
+                }
 
                 TextView language = new TextView(SelectWordListActivity.this);
+
                 language.setText(wordlists[ind]);
                 language.setLayoutParams(langParam);
                 language.setTextSize(23);
@@ -96,8 +140,7 @@ public class SelectWordListActivity extends AppCompatActivity {
                         VocabLibrary list = storageController.loadList(wordlists[ind]);
                         vocabLibController.setName(wordlists[ind]);
                         vocabLibController.setFullVocabLib(list);
-                        Intent i = new Intent(SelectWordListActivity.this, VocabFullActivity.class);
-                        startActivity(i);
+                        onBackPressed();
                     }
                 });
             }
@@ -105,8 +148,7 @@ public class SelectWordListActivity extends AppCompatActivity {
 
         }
 //START IMPORT LIST THING
-        Intent i = new Intent(SelectWordListActivity.this, ImportListActivity.class);
-        startActivityForResult(i, ImportListActivity.IMPORT_REQUEST_CODE);
+
     }
 
     @Override
@@ -121,7 +163,7 @@ public class SelectWordListActivity extends AppCompatActivity {
         if (requestCode == ImportListActivity.IMPORT_REQUEST_CODE) {
             switch (resultCode) {
                 case Activity.RESULT_OK:
-                    this.onCreate(null);
+                    this.onBackPressed();
                     break;
                 default:
                     break;

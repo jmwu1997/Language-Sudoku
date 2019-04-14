@@ -1,5 +1,7 @@
 package eta.sudoku.view;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -20,6 +22,7 @@ import eta.sudoku.controller.GameController;
 import eta.sudoku.controller.PuzzleController;
 import eta.sudoku.controller.VocabLibraryController;
 import eta.sudoku.model.Game;
+import eta.sudoku.model.VocabStorage;
 
 public class MenuActivity extends AppCompatActivity {
     private static final String TAG = "MenuActivity";
@@ -31,6 +34,7 @@ public class MenuActivity extends AppCompatActivity {
     private static final VocabLibraryController vocabLibController = VocabLibraryController.getInstance();
     private static final GameController gameController = GameController.getInstance();
     private static final PuzzleController puzzleController = PuzzleController.getInstance();
+    private static final VocabStorage storageCont = VocabStorage.getInstance();
     private int size = 9;
     private int difficulty = 0;
 
@@ -53,7 +57,7 @@ public class MenuActivity extends AppCompatActivity {
         if( savedInstanceState != null) {
             isSettingsOpen = savedInstanceState.getBoolean("isSettingsOpen");
         }
-
+        storageCont.checkPermission(this);
         //initialize full vocab lib
         vocabLibController.newFullVocabLib();
 
@@ -63,7 +67,7 @@ public class MenuActivity extends AppCompatActivity {
 
         final Switch listenSwitch = (Switch) prompt.findViewById(R.id.setting_listen);
         final Switch challengeSwitch = (Switch) prompt.findViewById(R.id.challenge_switch);
-
+        vocabLibController.setName("Library");
         //Settings pop up
         final AlertDialog.Builder a = new AlertDialog.Builder(this);
         a.setView(prompt);
@@ -234,7 +238,7 @@ public class MenuActivity extends AppCompatActivity {
         //menu controller
         Button mGameStart = (Button) findViewById(R.id.menu_game_start);
         Button mVocab = (Button) findViewById(R.id.menu_vocab);
-
+        Button mLanguage = (Button) findViewById(R.id.menu_language);
 
         mGameStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -251,6 +255,13 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MenuActivity.this, VocabActivity.class);
+                startActivity(i);
+            }
+        });
+        mLanguage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MenuActivity.this, SelectLanguageActivity.class);
                 startActivity(i);
             }
         });
