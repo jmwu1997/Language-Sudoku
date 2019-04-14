@@ -40,10 +40,18 @@ public class MenuActivity extends AppCompatActivity {
     int medTime = 3600; // 1hr
     int hardTime = 1800; // 30min
 
+    // To keep dialog open after orientation change
+    // NOTE: settings will reset
+    boolean isSettingsOpen = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        if( savedInstanceState != null) {
+            isSettingsOpen = savedInstanceState.getBoolean("isSettingsOpen");
+        }
 
         //initialize full vocab lib
         vocabLibController.newFullVocabLib();
@@ -65,6 +73,7 @@ public class MenuActivity extends AppCompatActivity {
                     public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
                         if (keyCode == KeyEvent.KEYCODE_BACK) {
                             ((ViewGroup) prompt.getParent()).removeView(prompt);
+                            isSettingsOpen = false;
                             dialog.cancel();
                             return true;
                         }
@@ -76,6 +85,7 @@ public class MenuActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 ((ViewGroup) prompt.getParent()).removeView(prompt);
+                                isSettingsOpen = false;
                                 dialog.cancel();
 
                             }
@@ -85,6 +95,7 @@ public class MenuActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             ((ViewGroup) prompt.getParent()).removeView(prompt);
+                            isSettingsOpen = false;
                             Intent i = new Intent(MenuActivity.this, SelectorActivity.class);
                             vocabLibController.newGameVocabLib();
                             puzzleController.newPuzzle(size, difficulty);
@@ -102,6 +113,7 @@ public class MenuActivity extends AppCompatActivity {
                     @Override
                     public void onCancel(DialogInterface a) {
                         ((ViewGroup) prompt.getParent()).removeView(prompt);
+                        isSettingsOpen = false;
                         a.cancel();
                     }
                 }
@@ -194,6 +206,11 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
+        // if orientation changed and settings dialog was opened, reopen it with default settings
+        if(isSettingsOpen) {
+            AlertDialog dialog = a.create();
+            dialog.show();
+        }
         //menu controller
         Button mGameStart = (Button) findViewById(R.id.menu_game_start);
         Button mVocab = (Button) findViewById(R.id.menu_vocab);
@@ -204,6 +221,7 @@ public class MenuActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 AlertDialog dialog = a.create();
+                isSettingsOpen = true;
                 dialog.show();
 
             }
@@ -216,6 +234,14 @@ public class MenuActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putBoolean("isSettingsOpen", isSettingsOpen);
+        super.onSaveInstanceState(savedInstanceState);
+        Log.i(TAG, "onSaveInstantState()");
+
     }
 
     @Override
