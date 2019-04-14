@@ -23,6 +23,7 @@ import eta.sudoku.SudokuApplication;
 import eta.sudoku.controller.VocabLibraryController;
 import eta.sudoku.model.Vocab;
 import eta.sudoku.model.VocabLibrary;
+import eta.sudoku.model.VocabStorage;
 
 public class VocabFullActivity extends AppCompatActivity {
     private static final VocabLibraryController vocabLibController = VocabLibraryController.getInstance();
@@ -37,10 +38,6 @@ public class VocabFullActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.fullVocab_layout);
-
-
-
-
 
         for(int i=1; i<vocabLibController.getOverallVocabLibSize(); i++) {
             final int ind = i;
@@ -151,6 +148,12 @@ public class VocabFullActivity extends AppCompatActivity {
                 return true;
                 default:
                     return super.onOptionsItemSelected(item);
+            case R.id.fullVocab_export:
+                if(vocabLibController.getName().isEmpty()){
+                    vocabLibController.setName("Library");
+                }
+                VocabStorage.getInstance().exportList(vocabLibController.getOverallVocabLib());
+                return true;
         }
     }
 }

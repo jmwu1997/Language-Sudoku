@@ -5,18 +5,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add English"/>
+        android:text="New List Name"/>
     <EditText
-        android:id="@+id/add_eng"
+        android:id="@+id/add_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add Chinese"/>
-    <EditText
-        android:id="@+id/add_chn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
 </LinearLayout>

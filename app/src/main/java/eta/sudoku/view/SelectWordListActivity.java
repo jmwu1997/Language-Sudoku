@@ -1,22 +1,28 @@
 package eta.sudoku.view;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import eta.sudoku.R;
 import eta.sudoku.controller.GameController;
 import eta.sudoku.controller.PuzzleController;
 import eta.sudoku.controller.VocabLibraryController;
+import eta.sudoku.model.Vocab;
 import eta.sudoku.model.VocabLibrary;
 import eta.sudoku.model.VocabStorage;
 
@@ -59,39 +65,6 @@ public class SelectWordListActivity extends AppCompatActivity {
             wordlists = storageController.getWordLists();
         }
 
-        {
-            final LinearLayout wordLayout = new LinearLayout(SelectWordListActivity.this);
-            LinearLayout.LayoutParams wordLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            wordLayoutParam.setMargins(30, 20, 30, 15);
-
-            wordLayout.setBackgroundColor(Color.WHITE);
-
-            wordLayout.setOrientation(LinearLayout.VERTICAL);
-            wordLayout.setOutlineProvider(ViewOutlineProvider.BOUNDS);
-            wordLayout.setLayoutParams(wordLayoutParam);
-            wordLayout.setElevation(4);
-            layout.addView(wordLayout);
-
-            ViewGroup.LayoutParams langParam = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-            TextView language = new TextView(SelectWordListActivity.this);
-            language.setText("Import word list");
-            language.setLayoutParams(langParam);
-            language.setTextSize(23);
-            ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(langParam);
-            marginLayoutParams.setMarginStart(30);
-            language.setLayoutParams(marginLayoutParams);
-            wordLayout.addView(language);
-            wordLayout.setOnClickListener(new View.OnClickListener() {
-                                              @Override
-                                              public void onClick(View v) {
-//                    storageController.deleteList("Library");
-//                    storageController.deleteList("testing");
-                                                  Intent i = new Intent(SelectWordListActivity.this, ImportListActivity.class);
-                                                  startActivityForResult(i, ImportListActivity.IMPORT_REQUEST_CODE);
-                                              }
-                                          });
-        }
         wordlists = storageController.getWordLists();
         if (wordlists != null) {
             for (int i = 0; i < wordlists.length; i++) {

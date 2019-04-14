@@ -8,4 +8,10 @@
         android:title="Add Word"
         app:actionViewClass="android.support.v7.widget.ActionMenuView"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/fullVocab_export"
+        android:orderInCategory="100"
+        android:title="Export List"
+        app:actionViewClass="android.support.v7.widget.ActionMenuView"
+        app:showAsAction="never" />
 </menu>

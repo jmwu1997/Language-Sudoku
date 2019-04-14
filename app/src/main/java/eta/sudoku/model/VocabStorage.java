@@ -226,6 +226,11 @@ public class VocabStorage {
     }
 
     public void exportList(VocabLibrary lib){
+        if(filepath==null) {
+        String[] langs=ourInstance.getLanguages();
+        langs=ourInstance.getLanguages();
+        ourInstance.setLanguage(langs[0]);
+        }
         VocabLibraryController controller= VocabLibraryController.getInstance();
         int size = controller.getOverallVocabLibSize();
         String[] splitPath=filepath.split(File.separator);
