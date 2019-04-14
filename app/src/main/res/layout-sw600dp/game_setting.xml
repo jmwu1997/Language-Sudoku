@@ -152,18 +152,21 @@
             android:id="@+id/setting_challenge_easy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="EASY" />
+            android:text="EASY"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/setting_challenge_med"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MEDIUM" />
+            android:text="MEDIUM"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/setting_challenge_hard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HARD" />
+            android:text="HARD"
+            android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>
