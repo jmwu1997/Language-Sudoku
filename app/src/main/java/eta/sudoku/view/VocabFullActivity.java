@@ -115,7 +115,7 @@ public class VocabFullActivity extends AppCompatActivity {
                                 Vocab v = new Vocab(newWords);
                                 v.setIndex(libSize);
                                 vocabLibController.addFullVocab(v);
-
+                                VocabStorage.getInstance().saveList(vocabLibController.getOverallVocabLib(),vocabLibController.getName());
                                 //Refresh Activity
                                 finish();
                                 startActivity(getIntent());

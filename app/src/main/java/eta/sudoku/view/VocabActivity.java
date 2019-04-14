@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.concurrent.TimeUnit;
+
 import eta.sudoku.R;
 import eta.sudoku.controller.VocabLibraryController;
 import eta.sudoku.model.VocabLibrary;
@@ -79,7 +81,9 @@ public class VocabActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 VocabLibrary newlist = new VocabLibrary();
                                 VocabStorage.getInstance().saveList(newlist, listname.getText().toString());
-                                VocabStorage.getInstance().loadList(listname.getText().toString());
+                                VocabLibraryController.getInstance().setFullVocabLib( VocabStorage.getInstance().loadList(listname.getText().toString()));
+                                VocabLibraryController.getInstance().setName(listname.getText().toString());
+
                                 //Refresh Activity
                                 finish();
                                 startActivity(getIntent());

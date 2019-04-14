@@ -164,12 +164,17 @@ public class VocabStorage {
 
     public void saveList(Object object, String listname){
         try{
+            if(filepath==null) {
+                String[] langs=ourInstance.getLanguages();
+                langs=ourInstance.getLanguages();
+                ourInstance.setLanguage(langs[0]);
+            }
             FileOutputStream fileOut = new FileOutputStream(filepath+listname);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(object);
             objectOut.close();
             fileOut.close();
-
+            Log.d("SAVE","list saved");
         } catch(Exception ex){
             ex.printStackTrace();
         }
@@ -182,6 +187,7 @@ public class VocabStorage {
             VocabLibrary lib = (VocabLibrary) objectIn.readObject();
             objectIn.close();
             fileIn.close();
+            Log.d("LOAD",listname+" loaded");
             return lib;
         } catch (Exception ex) {
             ex.printStackTrace();
