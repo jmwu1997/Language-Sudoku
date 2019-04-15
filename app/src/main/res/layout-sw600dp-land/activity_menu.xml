@@ -46,5 +46,14 @@
             android:elegantTextHeight="false"
             android:text="@string/button_vocab"
             android:textSize="18sp" />
+        <Button
+            android:id="@+id/menu_language"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:elegantTextHeight="false"
+            android:text="@string/button_language"
+            android:textSize="18sp" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

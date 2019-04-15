@@ -9,17 +9,29 @@
     tools:context=".view.VocabActivity">
 
         <Button
-        android:id="@+id/vocab_full_vocab"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/vocab_full"/>
+            android:id="@+id/vocab_full_vocab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/vocab_full"/>
         <Button
             android:id="@+id/vocab_week_vocab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/vocab_week"/>
+        <Button
+            android:id="@+id/vocab_new_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Create New List"/>
+        <Button
+            android:id="@+id/vocab_import"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Import Word List"/>
 
 
 </LinearLayout>

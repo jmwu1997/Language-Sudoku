@@ -38,8 +38,8 @@ public class SelectLanguageActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_langs);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.languages_layout);
 
@@ -56,8 +56,10 @@ public class SelectLanguageActivity extends AppCompatActivity {
         for(int i=0;i<languages.length;i++) {
             Log.d("lang", languages[i]);
         }
+        String nam=storageController.getLanguage();
+            Log.d("lang","curr lang"+nam);
 
-        for(int i=0; i<languages.length; i++) {
+            for(int i=0; i<languages.length; i++) {
             final int ind = i;
             final LinearLayout wordLayout = new LinearLayout(SelectLanguageActivity.this);
             LinearLayout.LayoutParams wordLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -72,7 +74,14 @@ public class SelectLanguageActivity extends AppCompatActivity {
             layout.addView(wordLayout);
 
             ViewGroup.LayoutParams langParam = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            if(languages[i].equals(nam)){
+                wordLayout.setBackgroundColor(Color.CYAN);
 
+
+            }else{
+                wordLayout.setBackgroundColor(Color.WHITE);
+
+            }
             TextView language = new TextView(SelectLanguageActivity.this);
             language.setText(languages[ind]);
             language.setLayoutParams(langParam);

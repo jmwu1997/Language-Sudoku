@@ -1,22 +1,28 @@
 package eta.sudoku.view;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import eta.sudoku.R;
 import eta.sudoku.controller.GameController;
 import eta.sudoku.controller.PuzzleController;
 import eta.sudoku.controller.VocabLibraryController;
+import eta.sudoku.model.Vocab;
 import eta.sudoku.model.VocabLibrary;
 import eta.sudoku.model.VocabStorage;
 
@@ -43,8 +49,8 @@ public class SelectWordListActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wordlists);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.wordlist_layout);
 
@@ -58,6 +64,7 @@ public class SelectWordListActivity extends AppCompatActivity {
         if (wordlists == null || wordlists.length < 1) {
             wordlists = storageController.getWordLists();
         }
+
         wordlists = storageController.getWordLists();
         if (wordlists != null) {
             for (int i = 0; i < wordlists.length; i++) {
@@ -79,8 +86,18 @@ public class SelectWordListActivity extends AppCompatActivity {
                 layout.addView(wordLayout);
 
                 ViewGroup.LayoutParams langParam = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                String nam=VocabLibraryController.getInstance().getName();
+                if(wordlists[i].equals(nam)){
+                    wordLayout.setBackgroundColor(Color.CYAN);
+                    Log.d("WLNAME",wordlists[i]+":"+VocabLibraryController.getInstance().getName() );
+
+                }else{
+                    wordLayout.setBackgroundColor(Color.WHITE);
+
+                }
 
                 TextView language = new TextView(SelectWordListActivity.this);
+
                 language.setText(wordlists[ind]);
                 language.setLayoutParams(langParam);
                 language.setTextSize(23);
@@ -96,8 +113,7 @@ public class SelectWordListActivity extends AppCompatActivity {
                         VocabLibrary list = storageController.loadList(wordlists[ind]);
                         vocabLibController.setName(wordlists[ind]);
                         vocabLibController.setFullVocabLib(list);
-                        Intent i = new Intent(SelectWordListActivity.this, VocabFullActivity.class);
-                        startActivity(i);
+                        onBackPressed();
                     }
                 });
             }
@@ -105,8 +121,7 @@ public class SelectWordListActivity extends AppCompatActivity {
 
         }
 //START IMPORT LIST THING
-        Intent i = new Intent(SelectWordListActivity.this, ImportListActivity.class);
-        startActivityForResult(i, ImportListActivity.IMPORT_REQUEST_CODE);
+
     }
 
     @Override
@@ -121,7 +136,7 @@ public class SelectWordListActivity extends AppCompatActivity {
         if (requestCode == ImportListActivity.IMPORT_REQUEST_CODE) {
             switch (resultCode) {
                 case Activity.RESULT_OK:
-                    this.onCreate(null);
+                    this.onBackPressed();
                     break;
                 default:
                     break;
