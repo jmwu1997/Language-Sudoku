@@ -1,5 +1,11 @@
 # CMPT276-1191E1-Eta
 
+### Contributor
+Michael Zhang</br>
+Jia Ming Wu</br>
+Jeffery Yuen</br>
+Gregory Dewar</br>
+
 ### Initial Goal
 As a student, I want to be able to learn Chinese by playing a Sudoku style game. I want to get familiar with the words by playing this game.
 Example: The game will have two modes, students can choose the mode they like to play the game. It can help the student to get familiar with the languages they want.
